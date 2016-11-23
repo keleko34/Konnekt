@@ -1,0 +1,51 @@
+{
+  "name": "Konnekt",
+  "version": "0.0.0",
+  "description": "A library that allows to deploy component based bindable apps",
+  "keywords": [
+    "library",
+    "components",
+    "spa",
+    "deployable"
+  ],
+  "author": {
+    "name": "Keleko34",
+    "email": "gregory.guidero@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Gregory Guidero"
+    }
+  ],
+  "main": "index",
+  "license": {
+    "type": "MIT",
+    "url": "http://en.wikipedia.org/wiki/MIT_License"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/keleko34/Konnekt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/keleko34/Konnekt/issues"
+  },
+  "devDependencies": {
+    "K_Tasks": "^0.4.7"
+  },
+  "scripts": {
+    "installer": "npm i git+https://github.com/keleko34/gulp.git -g && npm i && bower i",
+    "i": "npm i git+https://github.com/keleko34/gulp.git -g && npm i && bower i",
+    "build": "gulp build",
+    "server": "gulp server"
+  },
+  "maintainers": [
+    {
+      "name": "keleko34",
+      "email": "gregory.guidero@gmail.com"
+    }
+  ],
+  "directories": {},
+  "dependencies": {
+    "KObservableViewmodel": "^0.4.0"
+  }
+}
