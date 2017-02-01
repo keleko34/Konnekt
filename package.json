@@ -1,5 +1,5 @@
 {
-  "name": "Konnekt",
+  "name": "konnekt",
   "version": "0.0.0",
   "description": "A library that allows to deploy component based bindable apps",
   "keywords": [
@@ -30,7 +30,7 @@
     "url": "https://github.com/keleko34/Konnekt/issues"
   },
   "devDependencies": {
-    "K_Tasks": "^0.4.7"
+    "K_Tasks": "^0.5.0"
   },
   "scripts": {
     "installer": "npm i git+https://github.com/keleko34/gulp.git -g && npm i && bower i",
@@ -45,7 +45,5 @@
     }
   ],
   "directories": {},
-  "dependencies": {
-    "KObservableViewmodel": "^0.4.0"
-  }
+  "dependencies": {}
 }
