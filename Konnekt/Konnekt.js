@@ -3,7 +3,7 @@
 
 K_Components = {};
 
-define(['konnektdt','konnektmp','kbatchloader'],function(CreateData,CreateMapping,CreateLoader){
+define(['konnektdt','konnektmp','konnektl'],function(CreateData,CreateMapping,CreateLoader){
 
   function CreateKonnekt()
   {
@@ -14,9 +14,6 @@ define(['konnektdt','konnektmp','kbatchloader'],function(CreateData,CreateMappin
       _viewmodels = {},
       _query = getQuery(),
       _ignoreList = ['id','filters','class','sessionStorage','localStorage','store','component'];
-
-    CreateLoader.call(); //rework lib to act in a new way
-
 
     /* This method will Create page, Create Viewmodel, attach binds, check children, load files, rinse, repeat */
     function Konnekt(node,params,pre,post)
@@ -62,7 +59,7 @@ define(['konnektdt','konnektmp','kbatchloader'],function(CreateData,CreateMappin
     {
       return window.location.search.replace('?','')
       .split('&')
-      .filter(function(v){return (v.length !== 0;);})
+      .filter(function(v){return (v.length !== 0);})
       .reduce(function(o,v){
         o[v.split('=')[0]] = v.split('=')[1];
         return o;
