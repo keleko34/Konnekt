@@ -31,7 +31,7 @@
   },
   "devDependencies": {
     "K_Tasks": "^0.6.3",
-    "konnektrt": "file://konnektrt"
+    "konnektrt": "^0.1.8"
   },
   "scripts": {
     "installer": "npm i git+https://github.com/keleko34/gulp.git -g && npm i && bower i",

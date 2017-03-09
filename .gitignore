@@ -37,8 +37,8 @@ jspm_packages
 .node_repl_history
 
 # other git libraries
-KB/*
-KonnektDT/*
-KonnektL/*
-KonnektMP/*
-KonnektRT/*
+# KB/*
+# KonnektDT/*
+# KonnektL/*
+# KonnektMP/*
+# KonnektRT/*
