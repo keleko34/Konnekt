@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Testing</title>
+    <script type="text/javascript" src="requirejs"></script>
+  </head>
+    <body>
+      <test yay="something"></test>
+      <script type="text/javascript">
+        require(['Konnekt'],function(CreateKonnekt){
+          var konnektjs = CreateKonnekt();
+          konnektjs(document.querySelector('test'));
+          console.log(konnektjs);
+        });
+      </script>
+    </body>
+</html>

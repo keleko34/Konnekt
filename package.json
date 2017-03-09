@@ -30,7 +30,8 @@
     "url": "https://github.com/keleko34/Konnekt/issues"
   },
   "devDependencies": {
-    "K_Tasks": "^0.6.0"
+    "K_Tasks": "^0.6.3",
+    "konnektrt": "file://konnektrt"
   },
   "scripts": {
     "installer": "npm i git+https://github.com/keleko34/gulp.git -g && npm i && bower i",

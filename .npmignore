@@ -5,3 +5,11 @@ test
 examples
 *.sock
 .gulp
+app
+
+# other git libraries
+KB/*
+KonnektDT/*
+KonnektL/*
+KonnektMP/*
+KonnektRT/*
