@@ -136,9 +136,12 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         return obsv;
       }
 
-      function mapTargets(maps,vm)
+      function mapTargets(target,maps,vm)
       {
-        console.log(maps,vm);
+        target.kb_viewmodel = vm;
+
+        console.log(Object.keys(vm),vm.yay);
+
       }
 
       function getInnerComponents()
@@ -150,7 +153,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       {
         __mappedAttrs = _mapper(node);
         node.replaceWith(__mappedAttrs.wrapper);
-        mapTargets(__mappedAttrs.maps,createViewmodel(name,_viewmodels[name],params,pre,post));
+        mapTargets(__mappedAttrs.wrapper,__mappedAttrs.maps,createViewmodel(name,_viewmodels[name],params,pre,post));
         getInnerComponents(__mappedAttrs.wrapper);
       }
 
