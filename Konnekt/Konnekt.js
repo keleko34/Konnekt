@@ -1,12 +1,11 @@
 /* Build */
 /* End Build */
-
-K_Components = {};
-
-define(['KonnektDT','KonnektMP','KonnektL'],function(CreateData,CreateMapping,CreateLoader){
+define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,CreateMapping){
 
   function CreateKonnekt()
   {
+    if(!window.K_Components) window.K_Components = {};
+
     var _Loader = CreateLoader().onLoad(onComponentLoad),
         _mixed = CreateData(),
         _mapper = CreateMapping(),
@@ -55,6 +54,7 @@ define(['KonnektDT','KonnektMP','KonnektL'],function(CreateData,CreateMapping,Cr
       function createViewmodel(name,component,params,pre,post)
       {
         var obsv = _mixed({},name);
+        obsv.ignoreCreate('__proto__');
         obsv.__proto__ = component.prototype;
 
         /* Pre attachments, core methods */

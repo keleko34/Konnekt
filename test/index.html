@@ -2,16 +2,16 @@
 <html>
   <head>
     <title>Testing</title>
-    <script type="text/javascript" src="requirejs"></script>
+    <!--<script type="text/javascript" src="requirejs"></script>-->
+    <script type="text/javascript" src="Build/Konnekt.js"></script>
   </head>
     <body>
       <test yay="something"></test>
       <script type="text/javascript">
-        require(['Konnekt'],function(CreateKonnekt){
-          var konnektjs = CreateKonnekt();
+        //require(['Konnekt'],function(Konnekt){
+          var konnektjs = Konnekt();
           konnektjs(document.querySelector('test'));
-          console.log(konnektjs);
-        });
+        //});
       </script>
     </body>
 </html>
