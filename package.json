@@ -30,12 +30,16 @@
     "url": "https://github.com/keleko34/Konnekt/issues"
   },
   "devDependencies": {
-    "K_Tasks": "^0.6.3",
-    "konnektrt": "^0.1.8"
+    "K_Tasks": "^0.6.3"
   },
   "scripts": {
-    "installer": "npm i git+https://github.com/keleko34/gulp.git -g && npm i && bower i",
-    "i": "npm i git+https://github.com/keleko34/gulp.git -g && npm i && bower i",
+    "installer": "npm run Check_Repo_KonnektDT && npm i git+https://github.com/keleko34/gulp.git -g && npm i && bower i",
+    "i": "npm i git+https://github.com/keleko34/gulp.git -g && npm i && bower i && npm run download_package",
+    "Check_Repo_KonnektDT": "cd KonnektDT && cd .. && npm run Check_Repo_KonnektMP || git clone https://github.com/keleko34/KonnektDT.git && cd KonnektDT && cd .. && npm run Check_Repo_KonnektMP",
+    "Check_Repo_KonnektMP": "cd KonnektMP && cd .. && npm run Check_Repo_KonnektL || git clone https://github.com/keleko34/KonnektMP.git && cd KonnektMP && cd .. && npm run Check_Repo_KonnektL",
+    "Check_Repo_KonnektL": "cd KonnektL && cd .. && npm run Check_Repo_KonnektRT || git clone https://github.com/keleko34/KonnektL.git && cd KonnektL && cd .. && npm run Check_Repo_KonnektRT",
+    "Check_Repo_KonnektRT": "cd KonnektRT && npm link && cd .. && npm run Check_Repo_KB || git clone https://github.com/keleko34/KonnektRT.git && cd KonnektRT && npm link && cd .. && npm link konnektrt && npm run Check_Repo_KB",
+    "Check_Repo_KB": "cd KB && cd .. || git clone https://github.com/keleko34/KB.git --branch konnektjs && cd KB && cd ..",
     "build": "gulp build",
     "server": "gulp server"
   },
