@@ -55,7 +55,11 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       {
         var obsv = _mixed({},name);
         obsv.ignoreCreate('__proto__');
-        obsv.__proto__ = component.prototype;
+
+        for(var x=0,keys=Object.keys(component.prototype),len=keys.length;x<len;x++)
+        {
+          obsv.__proto__[keys[x]] = component.prototype[keys[x]];
+        }
 
         /* Pre attachments, core methods */
         for(var x=0,keys=Object.keys(pre),len=keys.length;x<len;x++)
@@ -133,15 +137,115 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         {
             _model.set((obsv.id || name),obsv);
         }
+
         return obsv;
       }
 
       function mapTargets(target,maps,vm)
       {
         target.kb_viewmodel = vm;
+        console.log(maps);
+        for(var x=0,len=maps.length;x<len;x++)
+        {
+          if(maps[x].type !== 'for' && maps[x].type !== 'component')
+          {
 
-        console.log(Object.keys(vm),vm.yay);
+          }
+        }
 
+      }
+
+      function getValue(bindTexts,vm)
+      {
+        var val = "",
+            _bind = {},
+            _currKey = "";
+        for(var x=0,len=bindTexts.length;x<len;x++)
+        {
+          _bind = bindTexts[x];
+          if(typeof _bind === 'string')
+          {
+            val += _bind;
+          }
+          else
+          {
+            _currKey = _bind.key;
+            _bind.value =  (_bind.filters.reduce(function(v,k){
+              return (typeof vm.filters[k] === 'function' ? vm.filters[k](v) : v);
+            },vm.getLayer(_currKey)[_currKey.split('.').pop()]));
+            val += _bind.value;
+          }
+        }
+        return val;
+      }
+
+      function mapVM(map,bindTexts,vm)
+      {
+        for(var x=0,len=bindTexts.length;x<len;x++)
+        {
+          if(typeof bindTexts[x] !== 'string')
+          {
+
+          }
+        }
+      }
+
+      function handleMaps(vm,maps)
+      {
+          for(var x=0,len=maps.length;x<len;x++)
+          {
+            (function(c){
+              switch(maps[c].type)
+              {
+                case 'text':
+                  maps[c].parent.addAttrUpdateListener('html',function(e){
+                    if(maps[c].element.parentElement === undefined)
+                    {
+                      maps.splice(c,1);
+                      return;
+                    }
+
+                    if(maps[c].element.childNodes.length === 1 && maps[c].bindTexts.length === 1)
+                    {
+                      /* set vm */
+                      vm.getLayer(e.key)[e.key.split('.').pop()] = e.value;
+                    }
+                  });
+
+                  /* set text and listen data */
+
+                  maps[c].target[maps[c].listener] = getValue(maps[c].bindTexts,vm);
+
+                break;
+                case 'attribute':
+                  /* if the attribute wanting to take for binding happens to be an event, replace with standard for mapping */
+                  if(maps[c].listener.indexOf('on') === 0)
+                  {
+                    maps[c].element.setAttribute(maps[c].listener.replace('on',''),maps[c].element.getAttribute(maps[c].listener));
+                    maps[c].element.removeAttribute(maps[c].listener);
+                    maps[c].listener = maps[c].listener.replace('on','');
+
+                    /* set event and listen data */
+
+                  }
+                  maps[c].element.addAttrUpdateListener(maps[c].listener,function(e){
+                    if(maps[c].bindTexts.length === 1)
+                    {
+                      /* set vm */
+                    }
+                  });
+
+                  /* set attr and listen data */
+                break;
+                case 'component':
+                  /* just set value, no listen for data, future case propogate value binding down */
+                break;
+                case 'for':
+                  /* complicated for mapping */
+                break;
+              }
+            }(x))
+          }
       }
 
       function getInnerComponents()
