@@ -41,7 +41,8 @@
     "Check_Repo_KonnektRT": "cd KonnektRT && npm link && cd .. && npm run Check_Repo_KB || git clone https://github.com/keleko34/KonnektRT.git && cd KonnektRT && npm link && cd .. && npm link konnektrt && npm run Check_Repo_KB",
     "Check_Repo_KB": "cd KB && npm link && cd .. && npm link KB || git clone https://github.com/keleko34/KB.git --branch konnektjs && cd KB && npm link && cd .. && npm link KB",
     "build": "gulp build",
-    "server": "gulp server"
+    "server": "gulp server",
+    "postinstall": "npm run installer"
   },
   "maintainers": [
     {
