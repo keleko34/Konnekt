@@ -5,23 +5,44 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
   function CreateKonnekt()
   {
     if(!window.K_Components) window.K_Components = {};
-
+    
+    /* main loader for loading files */
     var _Loader = CreateLoader().onLoad(onComponentLoad),
+        
+        /* Our mixed observable data library */
         _mixed = CreateData(),
+        
+        /* mapping library, for mapping new component: new _mapper(componentNode) */
         _mapper = CreateMapping(),
+        
+        /* this is a main model, data sets will be stored here for sharing between components and other libraries through this.store = true attribute */
         _model = _mixed({},"Model"),
+        
+        /* the current loaded viewmodels */
         _viewmodels = {},
+        
+        /* this will be used later for current loaded cms components */
         _cms = {},
+        
+        /* url query attached to web addres: ?env=dev etc */
         _query = getQuery(),
+        
+        /* important ignore list for when creating a viewmodel, thes attributes are not used for binding */
         _ignoreList = ['id','filters','class','sessionStorage','localStorage','store','component'],
+        
+        /* used for onload events, when a component has not been loaded from the server a request for load is made and the current script is placed in the waitlist until it has been loaded from the server to continue operation */
         _waitList = {};
 
     /* This method will Create page, Create Viewmodel, attach binds, check children, load files, rinse, repeat */
     function Konnekt(node,params,pre,post)
     {
+      /* name of the component */
       var __name = node.tagName.toLowerCase(),
+          
+          /* the mapped binds */
           __mappedAttrs;
-
+      
+      /* params are extra information passed to the viewmodel constructor, example: componentNode */
       if(params === undefined) params = [];
 
       /* Pre -- all about built in data this will be allocated later to seperate file */
@@ -44,26 +65,32 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
 
       /* post all about post set data and pointers */
       if(post === undefined) post = {};
-
-      post.innerhtml = node.innerHTML;
+      
+      /* if the component contained any innerHTML this gets placed into a post bindable */
+      post.innerHTML = node.innerHTML.toString();
+      
+      /* we do not copy id's or classes as these can screw up the bind watchers */
       for(var x=0,len=node.attributes.length;x<len;x++)
       {
         if(['id','class'].indexOf(node.attributes[x].name) === -1) post[node.attributes[x].name] = node.attributes[x].value;
       }
-
+      
+      /* The main viewmodel constructor */
       function createViewmodel(name,component,params,pre,post)
       {
+        /* creates blank observable data set */
         var obsv = _mixed({},name);
-        obsv.ignoreCreate('__proto__');
-
+        
+        /* if there are any prototypes on this component they are added to the Data sets prototype */
         for(var x=0,keys=Object.keys(component.prototype),len=keys.length;x<len;x++)
         {
           obsv.__proto__[keys[x]] = component.prototype[keys[x]];
         }
 
-        /* Pre attachments, core methods */
+        /* Attach Pre properties, or pre designed attachments for every Data set */
         for(var x=0,keys=Object.keys(pre),len=keys.length;x<len;x++)
         {
+            /* if pre is observable we add as a pointer directing back to the original source, this will come in handy with 'for' bindings when loop creating components */
             if(obsv.isObservable(pre,keys[x]))
             {
                 obsv.addPointer(pre,keys[x]);
@@ -73,12 +100,14 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
                 obsv.add(keys[x],pre[keys[x]]);
             }
         }
-
+        
+        /* when then apply the component constructor to the data set in order to add the 'this' properties from it and pass in the params */
         component.apply(obsv,params);
 
         /* Post attachments, overwritables, for data or pointers */
         for(var x=0,keys=Object.keys(post),len=keys.length;x<len;x++)
         {
+          /* if post is observable we add as a pointer directing back to the original source, this will come in handy with 'for' bindings when loop creating components */
             if(obsv.isObservable(post,keys[x]))
             {
               if(obsv[keys[x]] !== undefined) obsv.remove(keys[x]);
@@ -91,10 +120,12 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         }
 
 
-        /* Apply session storage if set */
+        /* Apply session storage if set, this allows for storing this vm in session storage, only those values that are enumerable */
         if(obsv.sessionStorage)
         {
             var storage = sessionStorage.getItem((obsv.id || name));
+            
+            /* load storage into the data set if it is set */
             if(storage)
             {
                 storage = JSON.parse(storage);
@@ -103,19 +134,25 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
                     obsv.set(keys[x],storage[keys[x]]);
                 }
             }
+          
+            /* set the storage object with the defaults */
             else
             {
                 sessionStorage.setItem((obsv.id || name),obsv.stringify());
             }
+          
+            /* if any data updates then the storage will be updated along with it */
             obsv.addChildDataUpdateListener('*',function(){
                 sessionStorage.setItem((obsv.id || name),obsv.stringify());
             });
         }
 
-        /* Apply local storage if set */
+        /* Apply local storage if set, similiar to session Storage except this persists even after browser is closed */
         if(obsv.localStorage)
         {
             var storage = localStorage.getItem((obsv.id || name));
+          
+            /* load storage into the data set if it is set */
             if(storage)
             {
                 storage = JSON.parse(storage);
@@ -124,139 +161,72 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
                     obsv.set(keys[x],storage[keys[x]]);
                 }
             }
+          
+            /* set the storage object with the defaults */
             else
             {
                 localStorage.setItem((obsv.id || name),obsv.stringify());
             }
+          
+            /* if any data updates then the storage will be updated along with it */
             obsv.addChildDataUpdateListener('*',function(){
                 localStorage.setItem((obsv.id || name),obsv.stringify());
             });
         }
-
+        
         if(obsv.store)
         {
+            /* adds a pointer in model to this viewmodel, look into using id as an id from component: <test id="storeid"></test> */
             _model.set((obsv.id || name),obsv);
         }
 
         return obsv;
       }
-
+      
+      /* in charge of connecting the viewmodel up to the allocated maps */
       function mapTargets(target,maps,vm)
       {
+        /* attaches viewmodel to wrapper */
         target.kb_viewmodel = vm;
-        console.log(maps);
-        for(var x=0,len=maps.length;x<len;x++)
-        {
-          if(maps[x].type !== 'for' && maps[x].type !== 'component')
-          {
+        
+        /* loops through maps: {key:[map,map],key2:[map,map]} */
+        Object.keys(maps).forEach(function(key){
+          maps[key].forEach(function(map){
+            switch(map.type)
+            {
+              case 'for':
+                /* connects viewmodel and then loop creates components for converting and deletes original map*/
+                map.connect(vm)//.loop().delete();
+              break;
+              case 'component':
+                /* connects viewmodel updates value and then deletes map as it won't be used again */
+                map.connect(vm).deleteMap();
+              break;
+              default:
+                /* standard data connection and value set */
+                map.connect(vm);
+              break;
+            }
+          })
+        });
+      }
 
+      function getInnerComponents(node)
+      {
+        var nodes = node.querySelectorAll('*');
+        for(var x=0,len=nodes.length;x<len;x++)
+        {
+          if(nodes[x] instanceof HTMLUnknownElement)
+          {
+            Konnekt(nodes[x]);
           }
         }
-
-      }
-
-      function getValue(bindTexts,vm)
-      {
-        var val = "",
-            _bind = {},
-            _currKey = "";
-        for(var x=0,len=bindTexts.length;x<len;x++)
-        {
-          _bind = bindTexts[x];
-          if(typeof _bind === 'string')
-          {
-            val += _bind;
-          }
-          else
-          {
-            _currKey = _bind.key;
-            _bind.value =  (_bind.filters.reduce(function(v,k){
-              return (typeof vm.filters[k] === 'function' ? vm.filters[k](v) : v);
-            },vm.getLayer(_currKey)[_currKey.split('.').pop()]));
-            val += _bind.value;
-          }
-        }
-        return val;
-      }
-
-      function mapVM(map,bindTexts,vm)
-      {
-        for(var x=0,len=bindTexts.length;x<len;x++)
-        {
-          if(typeof bindTexts[x] !== 'string')
-          {
-
-          }
-        }
-      }
-
-      function handleMaps(vm,maps)
-      {
-          for(var x=0,len=maps.length;x<len;x++)
-          {
-            (function(c){
-              switch(maps[c].type)
-              {
-                case 'text':
-                  maps[c].parent.addAttrUpdateListener('html',function(e){
-                    if(maps[c].element.parentElement === undefined)
-                    {
-                      maps.splice(c,1);
-                      return;
-                    }
-
-                    if(maps[c].element.childNodes.length === 1 && maps[c].bindTexts.length === 1)
-                    {
-                      /* set vm */
-                      vm.getLayer(e.key)[e.key.split('.').pop()] = e.value;
-                    }
-                  });
-
-                  /* set text and listen data */
-
-                  maps[c].target[maps[c].listener] = getValue(maps[c].bindTexts,vm);
-
-                break;
-                case 'attribute':
-                  /* if the attribute wanting to take for binding happens to be an event, replace with standard for mapping */
-                  if(maps[c].listener.indexOf('on') === 0)
-                  {
-                    maps[c].element.setAttribute(maps[c].listener.replace('on',''),maps[c].element.getAttribute(maps[c].listener));
-                    maps[c].element.removeAttribute(maps[c].listener);
-                    maps[c].listener = maps[c].listener.replace('on','');
-
-                    /* set event and listen data */
-
-                  }
-                  maps[c].element.addAttrUpdateListener(maps[c].listener,function(e){
-                    if(maps[c].bindTexts.length === 1)
-                    {
-                      /* set vm */
-                    }
-                  });
-
-                  /* set attr and listen data */
-                break;
-                case 'component':
-                  /* just set value, no listen for data, future case propogate value binding down */
-                break;
-                case 'for':
-                  /* complicated for mapping */
-                break;
-              }
-            }(x))
-          }
-      }
-
-      function getInnerComponents()
-      {
-
       }
 
       function init(name,node)
       {
-        __mappedAttrs = _mapper(node);
-        node.replaceWith(__mappedAttrs.wrapper);
+        __mappedAttrs = new _mapper(node);
+        node.replaceWith(__mappedAttrs.fragment);
         mapTargets(__mappedAttrs.wrapper,__mappedAttrs.maps,createViewmodel(name,_viewmodels[name],params,pre,post));
         getInnerComponents(__mappedAttrs.wrapper);
       }
@@ -299,7 +269,13 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
     function onComponentLoad(name,component)
     {
       var template = "<style>"+component.prototype.k_css+"</style>"+component.prototype.k_html;
-      Konnekt.register(name,component,template,component.prototype.cms)
+      Konnekt.register(name,component,template,component.prototype.cms);
+      
+      /*_mapper.getUnkowns(template).forEach(function(u){
+        _Loader(u);
+      });*/
+      
+      
       Konnekt.loadWaitList(name)(name,component);
       Konnekt.loadWaitList(name,function(){});
     }
