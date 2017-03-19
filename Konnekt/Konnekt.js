@@ -40,7 +40,15 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       var __name = node.tagName.toLowerCase(),
           
           /* the mapped binds */
-          __mappedAttrs;
+          __mappedAttrs,
+          
+          /* we can get a list of all possibe events from the HTMLElement prototype */
+          __events = Object.keys(HTMLElement.prototype)
+          .filter(function(prop){
+            /* we filter for 'on' properties as these are all events */
+            return (prop.indexOf('on') === 0);
+          }),
+          __postData = Object.keys(node.k_post || {})
       
       /* params are extra information passed to the viewmodel constructor, example: componentNode */
       if(params === undefined) params = [];
@@ -73,6 +81,18 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       for(var x=0,len=node.attributes.length;x<len;x++)
       {
         if(['id','class'].indexOf(node.attributes[x].name) === -1) post[node.attributes[x].name] = node.attributes[x].value;
+      }
+      
+      /* add all events to post for binding to inner component */
+      for(var x=0,len=__events.length;x<len;x++)
+      {
+        if(node[__events[x]]) post[__events[x]] = node[__events[x]];
+      }
+      
+      /* add any data attached to k_post  property */
+      for(var x=0,len=__postData.length;x<len;x++)
+      {
+        post[__postData[x]] = node.k_post[__postData[x]];
       }
       
       /* The main viewmodel constructor */
@@ -268,7 +288,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
 
     function onComponentLoad(name,component)
     {
-      var template = "<style>"+component.prototype.k_css+"</style>"+component.prototype.k_html;
+      var template = "<style>"+unescape(component.prototype.k_css)+"</style>"+unescape(component.prototype.k_html);
       Konnekt.register(name,component,template,component.prototype.cms);
       
       /*_mapper.getUnkowns(template).forEach(function(u){
