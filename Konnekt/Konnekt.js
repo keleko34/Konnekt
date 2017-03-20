@@ -216,7 +216,22 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
             {
               case 'for':
                 /* connects viewmodel and then loop creates components for converting and deletes original map*/
-                map.connect(vm)//.loop().deleteMap();
+                map.connect(vm)
+                if(!_mapper.isRegistered(map.component))
+                {
+                    Konnekt.loadWaitList(map.component,function(n,c){
+                      map.loop(function(node){
+                        init(map.component,node);
+                      });
+                    });
+                    _Loader(map.component);
+                }
+                else
+                {
+                  map.loop(function(node){
+                        init(map.component,node);
+                      });
+                }
               break;
               case 'component':
                 /* connects viewmodel updates value and then deletes map as it won't be used again */
