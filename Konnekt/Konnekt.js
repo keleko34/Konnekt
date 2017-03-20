@@ -216,7 +216,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
             {
               case 'for':
                 /* connects viewmodel and then loop creates components for converting and deletes original map*/
-                map.connect(vm)//.loop().delete();
+                map.connect(vm)//.loop().deleteMap();
               break;
               case 'component':
                 /* connects viewmodel updates value and then deletes map as it won't be used again */
