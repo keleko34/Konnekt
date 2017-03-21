@@ -1,11 +1,12 @@
 function test()
 {
   this.yay = "yay";
-  this.myevent = function(e){
-    console.log("yay for reals!");
-  };
-  
-  this.something = "really something"
+  this.items = [
+    {user_name:"jerry"},
+    {user_name:"tom"},
+    {user_name:"cooldude"},
+    {user_name:"something something something"}
+  ];
 }
 
 test.prototype.test = function(){

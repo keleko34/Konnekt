@@ -1,11 +1,7 @@
 function tester()
 {
-  this.testerVal = "";
-}
-
-tester.prototype.tester = function(){
-
+  this.user_name = "Default";
 };
 
-tester.prototype.k_html = "<div class='{{yay}}'>{{innerHTML}}</div>";
-tester.prototype.k_css = ".tester {background:#000;color:#FFF;}";
+tester.prototype.k_html = "<div>{{user_name}}</div>";
+tester.prototype.k_css = ".tester {  background:#000;  color:#FFF;}";

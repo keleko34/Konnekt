@@ -1,16 +1,17 @@
 function test()
 {
-  this.onclickyay = function(e){
-    console.log("yay");
-  };
+  this.yay = "yay";
+  this.items = [
+    {user_name:"jerry"},
+    {user_name:"tom"},
+    {user_name:"cooldude"},
+    {user_name:"something something something"}
+  ];
 }
 
 test.prototype.test = function(){
 
 };
 
-
-test.prototype.yay = "yay";
-
-test.prototype.k_html = "<div class='test' something = 'something'>  <div onclick='{{onclickyay}}'>{{yay}}</div>  <tester yay='{{yay}}'>Some inner Text</tester></div>";
+test.prototype.k_html = "<div class='test' something = 'something'>  <div>{{yay}}</div>  <div class='testers'>{{for items loop tester}}</div></div>";
 test.prototype.k_css = ".test {  background:#000;  color:#FFF;}";

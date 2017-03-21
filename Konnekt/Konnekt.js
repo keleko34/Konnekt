@@ -34,7 +34,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         _waitList = {};
 
     /* This method will Create page, Create Viewmodel, attach binds, check children, load files, rinse, repeat */
-    function Konnekt(node,params,pre,post)
+    function Konnekt(node,params,predt,postdt)
     {
       /* name of the component */
       var __name = node.tagName.toLowerCase(),
@@ -48,13 +48,17 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
             /* we filter for 'on' properties as these are all events */
             return (prop.indexOf('on') === 0);
           }),
-          __postData = Object.keys(node.k_post || {})
+          
+          /* Pre -- all about built in data this will be allocated later to seperate file */ /* Note** we may need to take another look at this as mixed pointers are being double processed */
+          pre = {},
+          
+          /* post all about post set data and pointers */ /* Note** we may need to take another look at this as mixed pointers are being double processed */
+          post = {};
       
       /* params are extra information passed to the viewmodel constructor, example: componentNode */
       if(params === undefined) params = [];
-
-      /* Pre -- all about built in data this will be allocated later to seperate file */
-      if(pre === undefined) pre = {};
+      
+      if(predt) passKeys(predt,pre);
 
       /* base core filters usable in all components */
       if(!pre.filters) Object.defineProperty(pre,'filters',setDescriptor({}));
@@ -70,17 +74,15 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
 
       /* if this component can have children components of the same type, to prevent recursion */
       if(!pre.multiple) Object.defineProperty(pre,'multiple',setDescriptor(false,true));
-
-      /* post all about post set data and pointers */
-      if(post === undefined) post = {};
+      
+      if(postdt) passKeys(postdt,post);
       
       /* if the component contained any innerHTML this gets placed into a post bindable */
       post.innerHTML = node.innerHTML.toString();
       
-      /* we do not copy id's or classes as these can screw up the bind watchers */
       for(var x=0,len=node.attributes.length;x<len;x++)
       {
-        if(['id','class'].indexOf(node.attributes[x].name) === -1) post[node.attributes[x].name] = node.attributes[x].value;
+        post[node.attributes[x].name] = node.attributes[x].value;
       }
       
       /* add all events to post for binding to inner component */
@@ -90,10 +92,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       }
       
       /* add any data attached to k_post  property */
-      for(var x=0,len=__postData.length;x<len;x++)
-      {
-        post[__postData[x]] = node.k_post[__postData[x]];
-      }
+      if(node.k_post) passKeys(node.k_post,post);
       
       /* The main viewmodel constructor */
       function createViewmodel(name,component,params,pre,post)
@@ -110,15 +109,15 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         /* Attach Pre properties, or pre designed attachments for every Data set */
         for(var x=0,keys=Object.keys(pre),len=keys.length;x<len;x++)
         {
-            /* if pre is observable we add as a pointer directing back to the original source, this will come in handy with 'for' bindings when loop creating components */
-            if(obsv.isObservable(pre,keys[x]))
-            {
-                obsv.addPointer(pre,keys[x]);
-            }
-            else
-            {
-                obsv.add(keys[x],pre[keys[x]]);
-            }
+          obsv.set(keys[x],pre[keys[x]]);
+        }
+        
+        if(pre.pointers)
+        {
+          for(var x=0,keys=Object.keys(pre.pointers),len=keys.length;x<len;x++)
+          {
+            obsv.addPointer(pre.pointers[keys[x]],keys[x]);
+          }
         }
         
         /* when then apply the component constructor to the data set in order to add the 'this' properties from it and pass in the params */
@@ -127,18 +126,16 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         /* Post attachments, overwritables, for data or pointers */
         for(var x=0,keys=Object.keys(post),len=keys.length;x<len;x++)
         {
-          /* if post is observable we add as a pointer directing back to the original source, this will come in handy with 'for' bindings when loop creating components */
-            if(obsv.isObservable(post,keys[x]))
-            {
-              if(obsv[keys[x]] !== undefined) obsv.remove(keys[x]);
-              obsv.addPointer(post,keys[x]);
-            }
-            else
-            {
-              obsv.set(keys[x],post[keys[x]]);
-            }
+          obsv.set(keys[x],post[keys[x]]);
         }
 
+        if(post.pointers)
+        {
+          for(var x=0,keys=Object.keys(post.pointers),len=keys.length;x<len;x++)
+          {
+            obsv.addPointer(post.pointers[keys[x]],keys[x]);
+          }
+        }
 
         /* Apply session storage if set, this allows for storing this vm in session storage, only those values that are enumerable */
         if(obsv.sessionStorage)
@@ -221,7 +218,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
                 {
                     Konnekt.loadWaitList(map.component,function(n,c){
                       map.loop(function(node){
-                        init(map.component,node);
+                        Konnekt(node);
                       });
                     });
                     _Loader(map.component);
@@ -229,7 +226,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
                 else
                 {
                   map.loop(function(node){
-                        init(map.component,node);
+                        Konnekt(node);
                       });
                 }
               break;
@@ -261,7 +258,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       function init(name,node)
       {
         __mappedAttrs = new _mapper(node);
-        node.replaceWith(__mappedAttrs.fragment);
+        node.parentElement.replaceChild(__mappedAttrs.fragment,node);
         mapTargets(__mappedAttrs.wrapper,__mappedAttrs.maps,createViewmodel(name,_viewmodels[name],params,pre,post));
         getInnerComponents(__mappedAttrs.wrapper);
       }
@@ -278,6 +275,29 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         init(__name,node);
       }
 
+    }
+    
+    function passKeys(obj,obj2)
+    {
+      var keys = Object.keys(obj);
+      
+      if(!obj2.pointers) obj2.pointers = {};
+      
+      for(var x=0,len=keys.length;x<len;x++)
+      {
+        if(obj.isObservable(keys[x]))
+        {
+          obj2.pointers[keys[x]] = obj;
+        }
+        else if(obj[keys[x]].isMixed())
+        {
+          obj2.pointers[keys[x]] = obj[keys[x]].__kbImmediateParent;
+        }
+        else
+        {
+          obj2[keys[x]] = obj[keys[x]];
+        }
+      }
     }
 
     function setDescriptor(value,writable,redefinable)
