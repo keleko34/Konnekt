@@ -59,7 +59,9 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       if(params === undefined) params = [];
       
       if(predt) passKeys(predt,pre);
-
+      
+      if(!pre.id) Object.defineProperty(pre,'id',setDescriptor((__name+"-"+Date.now())));
+      
       /* base core filters usable in all components */
       if(!pre.filters) Object.defineProperty(pre,'filters',setDescriptor({}));
 
@@ -120,7 +122,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
           }
         }
         
-        /* when then apply the component constructor to the data set in order to add the 'this' properties from it and pass in the params */
+        /* we then apply the component constructor to the data set in order to add the 'this' properties from it and pass in the params */
         component.apply(obsv,params);
 
         /* Post attachments, overwritables, for data or pointers */
@@ -259,6 +261,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       {
         __mappedAttrs = new _mapper(node);
         node.parentElement.replaceChild(__mappedAttrs.fragment,node);
+        params.unshift(__mappedAttrs.wrapper);
         mapTargets(__mappedAttrs.wrapper,__mappedAttrs.maps,createViewmodel(name,_viewmodels[name],params,pre,post));
         getInnerComponents(__mappedAttrs.wrapper);
       }
