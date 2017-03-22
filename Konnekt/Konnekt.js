@@ -412,12 +412,18 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         {
           if(node.tagName.toLowerCase() === 'script')
           {
-            if(node.src.indexOf('/component') === 0)
+            node.src = node.src.substring(0,node.src.indexOf('?'));
+            var href = window.location.href.substring(0,window.location.href.indexOf('?')),
+                base = node.src.replace(href,'');
+            if(base.indexOf('component') === 0)
             {
               if(!_query.env) _query.env = 'prod';
               if(_query.env === 'dev') _query.env = 'qa';
-              var name = node.src.substring('/component'.length,node.src.length);
-              node.src = '/components/'+ name+'/build/'+_query.env+'/'+name+(_query.debug ? '.min' : '')+'.js';
+              
+              var name = base.substring('component/'.length,node.src.length)
+              .replace(/[\/\s]/g,'');
+              
+              node.src = href+'components/'+ name+'/build/'+_query.env+'/'+name+(!_query.debug || _query.env === 'prod' ? '.min' : '')+'.js';
               arguments[0] = node;
             }
           }
@@ -432,6 +438,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
           _baserouter = null;
         }
       }
+      return Konnekt;
     }
 
     return Konnekt;
