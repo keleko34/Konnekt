@@ -412,18 +412,16 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         {
           if(node.tagName.toLowerCase() === 'script')
           {
-            node.src = node.src.substring(0,node.src.indexOf('?'));
-            var href = window.location.href.substring(0,window.location.href.indexOf('?')),
-                base = node.src.replace(href,'');
-            if(base.indexOf('component') === 0)
+            node.src = node.src.substring(0,(node.src.indexOf('?') !== -1 ? node.src.indexOf('?') : node.src.length));
+            var match = node.src.match(/(.*?component\/)/);
+            if(match)
             {
               if(!_query.env) _query.env = 'prod';
               if(_query.env === 'dev') _query.env = 'qa';
               
-              var name = base.substring('component/'.length,node.src.length)
-              .replace(/[\/\s]/g,'');
+              var name = node.src.replace(match[0],'').replace(/[\/\s]/g,'');
               
-              node.src = href+'components/'+ name+'/build/'+_query.env+'/'+name+(!_query.debug || _query.env === 'prod' ? '.min' : '')+'.js';
+              node.src = match[0].replace('component/','components/') + name+'/build/'+_query.env+'/'+name+(!_query.debug || _query.env === 'prod' ? '.min' : '')+'.js';
               arguments[0] = node;
             }
           }
