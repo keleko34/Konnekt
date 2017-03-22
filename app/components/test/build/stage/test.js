@@ -1,6 +1,7 @@
 function test()
 {
   this.yay = "yay";
+  this.val = "";
   this.items = [
     {user_name:"jerry"},
     {user_name:"tom"},
@@ -13,5 +14,5 @@ test.prototype.test = function(){
 
 };
 
-test.prototype.k_html = "<div class='test' something = 'something'>  <div>{{yay}}</div>  <div class='testers'>{{for items loop tester}}</div></div>";
+test.prototype.k_html = "<div class='test' something = 'something'>  <div>{{yay}}</div>  <input type='text' value='{{val}}' />  <div class='testers'>{{for items loop tester}}</div></div>";
 test.prototype.k_css = ".test {  background:#000;  color:#FFF;}";
