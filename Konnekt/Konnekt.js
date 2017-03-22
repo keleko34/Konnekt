@@ -60,22 +60,26 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       
       if(predt) passKeys(predt,pre);
       
-      if(!pre.id) Object.defineProperty(pre,'id',setDescriptor((__name+"-"+Date.now())));
+      Object.defineProperty(pre,'id',setDescriptor(pre.id || (__name+"-"+Date.now()),true));
       
       /* base core filters usable in all components */
-      if(!pre.filters) Object.defineProperty(pre,'filters',setDescriptor({}));
+      Object.defineProperty(pre,'filters',setDescriptor(pre.filters || {}));
 
       /* whether to attempt to store data in sessionStorage */
-      if(!pre.sessionStorage) Object.defineProperty(pre,'sessionStorage',setDescriptor(false,true));
+      if(typeof pre.sessionStorage === 'string') pre.sessionStorage = (pre.sessionStorage === 'true');
+      Object.defineProperty(pre,'sessionStorage',setDescriptor((pre.sessionStorage !== undefined ? pre.sessionStorage : false),true));
 
       /* whether to attempt to store data in localStorage */
-      if(!pre.localStorage) Object.defineProperty(pre,'localStorage',setDescriptor(false,true));
+      if(typeof pre.localStorage === 'string') pre.localStorage = (pre.localStorage === 'true');
+      Object.defineProperty(pre,'localStorage',setDescriptor((pre.localStorage !== undefined ? pre.localStorage : false),true));
 
       /* whether to attempt to store data in the model */
-      if(!pre.store) Object.defineProperty(pre,'store',setDescriptor(false,true));
+      if(typeof pre.store === 'string') pre.store = (pre.store === 'true');
+      Object.defineProperty(pre,'store',setDescriptor((pre.store !== undefined ? pre.store : false),true));
 
       /* if this component can have children components of the same type, to prevent recursion */
-      if(!pre.multiple) Object.defineProperty(pre,'multiple',setDescriptor(false,true));
+      if(typeof pre.multiple === 'string') pre.multiple = (pre.multiple === 'true');
+      Object.defineProperty(pre,'multiple',setDescriptor((pre.multiple !== undefined ? pre.multiple : false),true));
       
       if(postdt) passKeys(postdt,post);
       
@@ -223,7 +227,11 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
                         Konnekt(node);
                       });
                     });
-                    _Loader(map.component);
+                    if(!Konnekt.loadWaitList(map.component).loading)
+                    {
+                      Konnekt.loadWaitList(map.component).loading = true;
+                      _Loader(map.component);
+                    }
                 }
                 else
                 {
@@ -259,11 +267,34 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
 
       function init(name,node)
       {
+        /* Create node template and map the inner nodes of the template */
         __mappedAttrs = new _mapper(node);
+        
+        /* define component tree for multiples later */
+        Object.defineProperty(__mappedAttrs.wrapper,'__kbcomponenttree',setDescriptor(node.kb_mapper ? node.kb_mapper.__kbcomponenttree : []));
+        
+        /* replace original node with new templated node */
         node.parentElement.replaceChild(__mappedAttrs.fragment,node);
+        
+        /* add new nodes to params for passing to viewmodels */
         params.unshift(__mappedAttrs.wrapper);
+        
+        /* map targets connects the viewmodel data to the dom and vice versa */
         mapTargets(__mappedAttrs.wrapper,__mappedAttrs.maps,createViewmodel(name,_viewmodels[name],params,pre,post));
-        getInnerComponents(__mappedAttrs.wrapper);
+        
+        /* check for multiples */
+        if(__mappedAttrs.wrapper.__kbcomponenttree.indexOf(name) === -1 || __mappedAttrs.wrapper.kb_viewmodel.multiple)
+        {
+          /* add to component tree and search for inner unkown components */
+          __mappedAttrs.wrapper.__kbcomponenttree.push(name);
+          getInnerComponents(__mappedAttrs.wrapper);
+        }
+        else
+        {
+          console.error("Warning!! You are attempting to make a recursive component %o, recursive components can lead to memory stack overflows unless properly handled, Please check your components html for use of this component, if You want this to be a recursive component please set `this.multiple = true;`",name);
+          console.error("Recursive Component %o on %o",__mappedAttrs.wrapper,__mappedAttrs.wrapper.parentElement);
+          __mappedAttrs.wrapper.parentElement.removeChild(__mappedAttrs.wrapper);
+        }
       }
 
       if(!_mapper.isRegistered(__name))
@@ -271,7 +302,11 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         Konnekt.loadWaitList(__name,function(n,c){
           init(__name,node);
         });
-        _Loader(__name);
+        if(!Konnekt.loadWaitList(__name).loading) 
+        {
+          Konnekt.loadWaitList(__name).loading = true;
+          _Loader(__name);
+        }
       }
       else
       {
@@ -334,8 +369,10 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       });*/
       
       
-      Konnekt.loadWaitList(name)(name,component);
-      Konnekt.loadWaitList(name,function(){});
+      Konnekt.loadWaitList(name).forEach(function(onload){
+        onload(name,component);
+      });
+      Konnekt.loadWaitList(name,'clear');
     }
 
     /* Registers name to a component */
@@ -350,7 +387,16 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
     /* register for a component to load and be registered */
     Konnekt.loadWaitList = function(name,v){
       if(typeof v === 'undefined' && name) return _waitList[name];
-      if(name) _waitList[name] = (typeof v === 'function' ? v : _waitList[name]);
+      if(name)
+      {
+        if(_waitList[name] === undefined || v === 'clear')
+        {
+          var loaded = (_waitList[name] === undefined ? false : !!_waitList[name].loading);
+          _waitList[name] = [];
+          _waitList[name].loading = loaded;
+        }
+        if(typeof v === 'function') _waitList[name].push(v);
+      }
       return Konnekt;
     }
 
