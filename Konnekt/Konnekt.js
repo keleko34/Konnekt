@@ -31,7 +31,9 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         _ignoreList = ['id','filters','class','sessionStorage','localStorage','store','component'],
         
         /* used for onload events, when a component has not been loaded from the server a request for load is made and the current script is placed in the waitlist until it has been loaded from the server to continue operation */
-        _waitList = {};
+        _waitList = {},
+
+        _baserouter;
 
     /* This method will Create page, Create Viewmodel, attach binds, check children, load files, rinse, repeat */
     function Konnekt(node,params,predt,postdt)
@@ -385,7 +387,8 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
     }
 
     /* register for a component to load and be registered */
-    Konnekt.loadWaitList = function(name,v){
+    Konnekt.loadWaitList = function(name,v)
+    {
       if(typeof v === 'undefined' && name) return _waitList[name];
       if(name)
       {
@@ -398,6 +401,37 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         if(typeof v === 'function') _waitList[name].push(v);
       }
       return Konnekt;
+    }
+
+    Konnekt.localRouting = function(isRouting)
+    {
+      if(isRouting)
+      {
+        _baserouter = Node.prototype.appendChild;
+        Node.prototype.appendChild = function(node)
+        {
+          if(node.tagName.toLowerCase() === 'script')
+          {
+            if(node.src.indexOf('/component') === 0)
+            {
+              if(!_query.env) _query.env = 'prod';
+              if(_query.env === 'dev') _query.env = 'qa';
+              var name = node.src.substring('/component'.length,node.src.length);
+              node.src = '/components/'+ name+'/build/'+_query.env+'/'+name+(_query.debug ? '.min' : '')+'.js';
+              arguments[0] = node;
+            }
+          }
+          return _baserouter.apply(this,arguments);
+        }
+      }
+      else
+      {
+        if(_baserouter)
+        {
+          Node.prototype.appendChild = _baserouter;
+          _baserouter = null;
+        }
+      }
     }
 
     return Konnekt;
