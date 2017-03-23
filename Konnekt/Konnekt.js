@@ -62,26 +62,26 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       
       if(predt) passKeys(predt,pre);
       
-      Object.defineProperty(pre,'id',setDescriptor(pre.id || (__name+"-"+Date.now()),true));
+      Object.defineProperty(pre,'id',setDescriptor(pre.id || (__name+"-"+Date.now()),true,false,true));
       
       /* base core filters usable in all components */
-      Object.defineProperty(pre,'filters',setDescriptor(pre.filters || {}));
+      Object.defineProperty(pre,'filters',setDescriptor(pre.filters || {},false,false,true));
 
       /* whether to attempt to store data in sessionStorage */
       if(typeof pre.sessionStorage === 'string') pre.sessionStorage = (pre.sessionStorage === 'true');
-      Object.defineProperty(pre,'sessionStorage',setDescriptor((pre.sessionStorage !== undefined ? pre.sessionStorage : false),true));
+      Object.defineProperty(pre,'sessionStorage',setDescriptor((pre.sessionStorage !== undefined ? pre.sessionStorage : false),true,false,true));
 
       /* whether to attempt to store data in localStorage */
       if(typeof pre.localStorage === 'string') pre.localStorage = (pre.localStorage === 'true');
-      Object.defineProperty(pre,'localStorage',setDescriptor((pre.localStorage !== undefined ? pre.localStorage : false),true));
+      Object.defineProperty(pre,'localStorage',setDescriptor((pre.localStorage !== undefined ? pre.localStorage : false),true,false,true));
 
       /* whether to attempt to store data in the model */
       if(typeof pre.store === 'string') pre.store = (pre.store === 'true');
-      Object.defineProperty(pre,'store',setDescriptor((pre.store !== undefined ? pre.store : false),true));
+      Object.defineProperty(pre,'store',setDescriptor((pre.store !== undefined ? pre.store : false),true,false,true));
 
       /* if this component can have children components of the same type, to prevent recursion */
       if(typeof pre.multiple === 'string') pre.multiple = (pre.multiple === 'true');
-      Object.defineProperty(pre,'multiple',setDescriptor((pre.multiple !== undefined ? pre.multiple : false),true));
+      Object.defineProperty(pre,'multiple',setDescriptor((pre.multiple !== undefined ? pre.multiple : false),true,false,true));
       
       if(postdt) passKeys(postdt,post);
       
@@ -340,12 +340,12 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       }
     }
 
-    function setDescriptor(value,writable,redefinable)
+    function setDescriptor(value,writable,redefinable,enumerable)
     {
       return {
           value:value,
           writable:!!writable,
-          enumerable:false,
+          enumerable:!!enumerable,
           configurable:!!redefinable
       }
     }
