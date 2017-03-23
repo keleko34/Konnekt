@@ -15,6 +15,11 @@ function test()
   {
     self.yay = self.val;
   }
+  
+  this.onFinish = function(node)
+  {
+    console.log(node.innerHTML);
+  }
 }
 
 test.prototype.test = function(){

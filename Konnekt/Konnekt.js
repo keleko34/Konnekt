@@ -67,6 +67,10 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       /* base core filters usable in all components */
       
       Object.defineProperty(pre,'filters',setDescriptor(pre.filters || {},false,false,true));
+      
+      
+      if(typeof pre.onFinish !== 'function') pre.onFinish = function(){};
+      Object.defineProperty(pre,'onFinish',setDescriptor(pre.onFinish,true,false,true));
 
       /* whether to attempt to store data in sessionStorage */
       if(typeof pre.sessionStorage === 'string') pre.sessionStorage = (pre.sessionStorage === 'true');
@@ -282,6 +286,8 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
             }
           })
         });
+        
+        mappedAttrs.wrapper.kb_viewmodel.onFinish.call(mappedAttrs.wrapper.kb_viewmodel,mappedAttrs.wrapper);
       }
 
       function getInnerComponents(node)
