@@ -65,6 +65,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       Object.defineProperty(pre,'id',setDescriptor(pre.id || (__name+"-"+Date.now()),true,false,true));
       
       /* base core filters usable in all components */
+      
       Object.defineProperty(pre,'filters',setDescriptor(pre.filters || {},false,false,true));
 
       /* whether to attempt to store data in sessionStorage */
@@ -136,13 +137,20 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         {
           obsv.set(keys[x],post[keys[x]]);
         }
-
+        
+        /* post pointers */
         if(post.pointers)
         {
           for(var x=0,keys=Object.keys(post.pointers),len=keys.length;x<len;x++)
           {
             obsv.addPointer(post.pointers[keys[x]],keys[x]);
           }
+        }
+        
+        /* map filters as binded to vm */
+        for(var x=0,keys=Object.keys(obsv.filters),len=keys.length;x<len;x++)
+        {
+          obsv.filters[keys[x]] = obsv.filters[keys[x]].bind(obsv);
         }
 
         /* Apply session storage if set, this allows for storing this vm in session storage, only those values that are enumerable */
@@ -335,7 +343,24 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         }
         else
         {
-          obj2[keys[x]] = obj[keys[x]];
+          if(Object.prototype.isObject(obj[keys[x]]))
+          {
+            for(var i=0,keysI=Object.keys(obj[keys[x]]),lenI=keysI.length;i<len;i++)
+            {
+              obj2[keys[x]][keysI[i]] = obj[keys[x]][keysI[i]];
+            }
+          }
+          else if(Object.prototype.isArray(obj[keys[x]]))
+          {
+            for(var i=0,lenI=obj[keys[x]].length;i<len;i++)
+            {
+              obj2[keys[x]][i] = obj[keys[x]][i];
+            }
+          }
+          else
+          {
+            obj2[keys[x]] = obj[keys[x]];
+          }
         }
       }
     }
