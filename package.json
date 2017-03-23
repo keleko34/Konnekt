@@ -1,6 +1,6 @@
 {
   "name": "konnekt",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A library that allows to deploy component based bindable apps",
   "keywords": [
     "library",
@@ -46,7 +46,7 @@
     "Check_Repo_KonnektRT": "cd KonnektRT && npm link && cd .. && npm link konnektrt --production npm run Check_Repo_KB || git clone https://github.com/keleko34/KonnektRT.git && cd KonnektRT && npm link && cd .. && npm link konnektrt --production && npm run Check_Repo_KB",
     "Check_Repo_KB": "cd KB && npm link && cd .. && npm link KB --production && npm run Check_Repo_K_Tasks || git clone https://github.com/keleko34/KB.git --branch konnektjs && cd KB && npm link && cd .. && npm link KB --production && npm run Check_Repo_K_Tasks",
     "Check_Repo_K_Tasks": "git clone https://github.com/keleko34/K_Tasks.git && npm i K_Tasks",
-    "status":"cd KonnektDT && git status && cd ../KonnektMP && git status && cd ../KonnektL && git status && cd ../KonnektRT && git status && cd ../KB && git status && cd ../K_Tasks && git status"
+    "status": "cd KonnektDT && git status && cd ../KonnektMP && git status && cd ../KonnektL && git status && cd ../KonnektRT && git status && cd ../KB && git status && cd ../K_Tasks && git status"
   },
   "maintainers": [
     {
