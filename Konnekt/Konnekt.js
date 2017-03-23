@@ -421,7 +421,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
               
               var name = node.src.replace(match[0],'').replace(/[\/\s]/g,'');
               
-              node.src = match[0].replace('component/','components/') + name+'/build/'+_query.env+'/'+name+(!_query.debug || _query.env === 'prod' ? '.min' : '')+'.js';
+              node.src = '/components/' + name+'/build/'+_query.env+'/'+name+(!_query.debug || _query.env === 'prod' ? '.min' : '')+'.js';
               arguments[0] = node;
             }
           }
