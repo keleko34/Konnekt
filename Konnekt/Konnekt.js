@@ -27,8 +27,8 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         /* url query attached to web addres: ?env=dev etc */
         _query = getQuery(),
         
-        /* important ignore list for when creating a viewmodel, thes attributes are not used for binding */
-        _ignoreList = ['id','filters','class','sessionStorage','localStorage','store','component'],
+        /* important ignore list for when creating a viewmodel, these attributes are not used for binding */
+        _ignoreList = ['id','filters','class','sessionStorage','localStorage','store','component','multiple'],
         
         /* used for onload events, when a component has not been loaded from the server a request for load is made and the current script is placed in the waitlist until it has been loaded from the server to continue operation */
         _waitList = {},
@@ -62,7 +62,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       
       if(predt) passKeys(predt,pre);
       
-      Object.defineProperty(pre,'id',setDescriptor(pre.id || (__name+"-"+Date.now()),true,false,true));
+      Object.defineProperty(pre,'mid',setDescriptor(pre.id || (__name+"-"+Date.now()),true,false,true));
       
       /* base core filters usable in all components */
       
@@ -118,7 +118,14 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         /* Attach Pre properties, or pre designed attachments for every Data set */
         for(var x=0,keys=Object.keys(pre),len=keys.length;x<len;x++)
         {
-          obsv.set(keys[x],pre[keys[x]]);
+          if(_ignoreList.indexOf(keys[x]) !== -1)
+          {
+            Object.defineProperty(obsv,keys[x],setDescriptor(pre[keys[x]],(keys[x] !== 'filters')));
+          }
+          else
+          {
+            obsv.set(keys[x],pre[keys[x]]); 
+          }
         }
         
         if(pre.pointers)
@@ -135,7 +142,14 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         /* Post attachments, overwritables, for data or pointers */
         for(var x=0,keys=Object.keys(post),len=keys.length;x<len;x++)
         {
-          obsv.set(keys[x],post[keys[x]]);
+          if(_ignoreList.indexOf(keys[x]) !== -1)
+          {
+            Object.defineProperty(obsv,keys[x],setDescriptor(post[keys[x]],(keys[x] !== 'filters')));
+          }
+          else
+          {
+            obsv.set(keys[x],post[keys[x]]);
+          }
         }
         
         /* post pointers */
