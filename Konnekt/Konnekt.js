@@ -62,7 +62,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       
       if(predt) passKeys(predt,pre);
       
-      Object.defineProperty(pre,'mid',setDescriptor(pre.id || (__name+"-"+Date.now()),true,false,true));
+      Object.defineProperty(pre,'local',setDescriptor(pre.local || (__name+"-"+Date.now()),true,false,true));
       
       /* base core filters usable in all components */
       
@@ -231,10 +231,17 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       }
       
       /* in charge of connecting the viewmodel up to the allocated maps */
-      function mapTargets(target,maps,vm)
+      function mapTargets(target,mappedAttrs,vm)
       {
         /* attaches viewmodel to wrapper */
         target.kb_viewmodel = vm;
+        
+        mappedAttrs.wrapper.innerHTML = __mappedAttrs.template.replace(new RegExp('('+_mapper.startChars()+'local'+_mapper.endChars()+')','g'),vm.local);
+        
+        /* map nodes with their bindings */
+        var maps = mappedAttrs.maps = mappedAttrs.map(mappedAttrs.wrapper);
+
+        mappedAttrs.wrapper.kb_maps = maps;
         
         /* loops through maps: {key:[map,map],key2:[map,map]} */
         Object.keys(maps).forEach(function(key){
@@ -292,7 +299,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       function init(name,node)
       {
         /* Create node template and map the inner nodes of the template */
-        __mappedAttrs = new _mapper(node);
+        __mappedAttrs = new _mapper(node,true);
         
         /* define component tree for multiples later */
         Object.defineProperty(__mappedAttrs.wrapper,'__kbcomponenttree',setDescriptor(node.kb_mapper ? node.kb_mapper.__kbcomponenttree : []));
@@ -304,13 +311,14 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         params.unshift(__mappedAttrs.wrapper);
         
         /* map targets connects the viewmodel data to the dom and vice versa */
-        mapTargets(__mappedAttrs.wrapper,__mappedAttrs.maps,createViewmodel(name,_viewmodels[name],params,pre,post));
+        mapTargets(__mappedAttrs.wrapper,__mappedAttrs,createViewmodel(name,_viewmodels[name],params,pre,post));
         
         /* check for multiples */
         if(__mappedAttrs.wrapper.__kbcomponenttree.indexOf(name) === -1 || __mappedAttrs.wrapper.kb_viewmodel.multiple)
         {
           /* add to component tree and search for inner unkown components */
           __mappedAttrs.wrapper.__kbcomponenttree.push(name);
+          __mappedAttrs.wrapper.classList.add(__mappedAttrs.wrapper.kb_viewmodel.local);
           getInnerComponents(__mappedAttrs.wrapper);
         }
         else

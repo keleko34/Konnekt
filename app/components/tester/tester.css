@@ -1,4 +1,4 @@
-.tester {
-  background:#000;
+.{{local}} .tester {
+  background:{{color}};
   color:#FFF;
 }
