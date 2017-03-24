@@ -91,7 +91,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       if(postdt) passKeys(postdt,post);
       
       /* if the component contained any innerHTML this gets placed into a post bindable */
-      post.innerHTML = node.innerHTML.toString();
+      post.innerHTML = node.childNodes;
       
       for(var x=0,len=node.attributes.length;x<len;x++)
       {

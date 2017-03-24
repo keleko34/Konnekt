@@ -11,7 +11,7 @@ function tester()
   }
 };
 
-tester.prototype.k_html = "<div class='tester'>{{user_name}}<button onclick='{{changebackground}}'>Change background</button></div>";
+tester.prototype.k_html = "<div class='tester'>  <div>{{user_name}}</div>  <button onclick='{{changebackground}}'>Change background</button>  <div>{{innerHTML}}</div></div>";
 tester.prototype.k_css = ".{{local}} .tester {  background:{{color}};  color:#FFF;}";
 return tester;
 }());
