@@ -308,7 +308,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         __mappedAttrs = new _mapper(node,true);
         
         /* define component tree for multiples later */
-        Object.defineProperty(__mappedAttrs.wrapper,'__kbcomponenttree',setDescriptor(node.kb_mapper ? node.kb_mapper.__kbcomponenttree : []));
+        Object.defineProperty(__mappedAttrs.wrapper,'__kbcomponenttree',setDescriptor(node.kb_mapper ? node.kb_mapper.__kbcomponenttree.slice() : []));
         
         /* replace original node with new templated node */
         node.parentElement.replaceChild(__mappedAttrs.fragment,node);
