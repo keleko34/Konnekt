@@ -463,7 +463,7 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         _baserouter = Node.prototype.appendChild;
         Node.prototype.appendChild = function(node)
         {
-          if(node.tagName.toLowerCase() === 'script')
+          if(node.nodeName.toLowerCase() === 'script')
           {
             node.src = node.src.substring(0,(node.src.indexOf('?') !== -1 ? node.src.indexOf('?') : node.src.length));
             var match = node.src.match(/(.*?component\/)/);
