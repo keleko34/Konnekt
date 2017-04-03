@@ -3,15 +3,16 @@
   <head>
     <title>Testing</title>
     <script type="text/javascript" src="requirejs"></script>
+    <script type="text/javascript">
+      var config = {
+        base:'test'
+      };
+      require(['Konnekt'],function(Konnekt){
+        var konnektjs = Konnekt(false,true);
+      });
+    </script>
     <!--<script type="text/javascript" src="Build/Konnekt.js"></script>-->
   </head>
     <body>
-      <test></test>
-      <script type="text/javascript">
-        require(['Konnekt'],function(Konnekt){
-          var konnektjs = Konnekt();
-          konnektjs(document.querySelector('test'));
-        });
-      </script>
     </body>
 </html>

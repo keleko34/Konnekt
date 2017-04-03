@@ -1,8 +1,8 @@
 /* Build */
 /* End Build */
-define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,CreateMapping){
+define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,CreateLoader,CreateMapping,CreateHashRouting){
 
-  function CreateKonnekt()
+  function CreateKonnekt(localRouter,hashroute)
   {
     if(!window.K_Components) window.K_Components = {};
     
@@ -14,6 +14,14 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
         
         /* mapping library, for mapping new component: new _mapper(componentNode) */
         _mapper = CreateMapping(),
+        
+        /* routes components based on the current url hash, config.base sets the default route of '/' */
+        _hashrouter = CreateHashRouting()
+        .base((config !== undefined && config.base !== undefined ? config.base : 'default'))
+        .watch(true)
+        .onChange(function(name){
+          Konnekt(document.querySelector(name));
+        }),
         
         /* this is a main model, data sets will be stored here for sharing between components and other libraries through this.store = true attribute */
         _model = _mixed({},"Model"),
@@ -491,6 +499,10 @@ define(['KonnektDT','KonnektL','KonnektMP'],function(CreateData,CreateLoader,Cre
       }
       return Konnekt;
     }
+    
+    if(localRouter) Konnekt.localRouting(localRouter);
+    /* initilize default route */
+    if(hashroute) _hashrouter(window.location.hash.replace('#',''));
 
     return Konnekt;
   }
