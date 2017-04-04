@@ -2,6 +2,8 @@ function test()
 {
   var self = this;
   
+  this.multiple = true;
+  
   this.yay = "yay";
   this.val = "";
   this.items = [
