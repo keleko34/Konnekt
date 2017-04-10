@@ -1,0 +1,13 @@
+<!-- todolist Created by keleko34, the main list for the todo app -->
+<div class="todolist">
+  <div class="todolist__bar">
+    <div class="todolist__bar__status">{{complete}}/{{total}} completed</div>
+    <div class="todolist__bar__sort">{{for sorters loop sortitem}}</div>
+  </div>
+  <div class="todolist__add">
+    <img class="todolist__add__icon" src="assets/img/icons/edit.svg" />
+    <input class="todolist__add__input" type="text" placeholder="What needs to be done?" value="{{text}}" onkeyup="{{onAdd}}" />
+    <div class="todolist__add__error">{{error}}</div>
+  </div>
+  <div class="todolist__items">{{for items loop todolist_items}}</div>
+</div>

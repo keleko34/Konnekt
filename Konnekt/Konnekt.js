@@ -248,7 +248,7 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
         /* attaches viewmodel to wrapper */
         target.kb_viewmodel = vm;
         
-        mappedAttrs.wrapper.innerHTML = __mappedAttrs.template.replace(new RegExp('('+_mapper.startChars()+'local'+_mapper.endChars()+')','g'),vm.local);
+        mappedAttrs.wrapper.innerHTML = __mappedAttrs.template.replace(new RegExp('('+_mapper.start()+'local'+_mapper.end()+')','g'),vm.local);
         
         /* map nodes with their bindings */
         var maps = mappedAttrs.maps = mappedAttrs.map(mappedAttrs.wrapper);
@@ -279,13 +279,13 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
                 else
                 {
                   map.loop(function(node){
-                        Konnekt(node);
-                      });
+                    Konnekt(node);
+                  });
                 }
               break;
               case 'component':
                 /* connects viewmodel updates value and then deletes map as it won't be used again */
-                map.connect(vm).deleteMap();
+                map.connect(vm).unsync();
               break;
               default:
                 /* standard data connection and value set */
@@ -369,24 +369,24 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
       
       for(var x=0,len=keys.length;x<len;x++)
       {
-        if(obj.isObservable(keys[x]))
+        if(_mixed.prototype.isObservable(keys[x]))
         {
           obj2.pointers[keys[x]] = obj;
         }
-        else if(obj[keys[x]].isMixed())
+        else if(_mixed.prototype.isMixed(obj[keys[x]]).isMixed())
         {
           obj2.pointers[keys[x]] = obj[keys[x]].__kbImmediateParent;
         }
         else
         {
-          if(Object.prototype.isObject(obj[keys[x]]))
+          if(_mixed.prototype.isObject(obj[keys[x]]))
           {
             for(var i=0,keysI=Object.keys(obj[keys[x]]),lenI=keysI.length;i<len;i++)
             {
               obj2[keys[x]][keysI[i]] = obj[keys[x]][keysI[i]];
             }
           }
-          else if(Object.prototype.isArray(obj[keys[x]]))
+          else if(_mixed.prototype.isArray(obj[keys[x]]))
           {
             for(var i=0,lenI=obj[keys[x]].length;i<len;i++)
             {
