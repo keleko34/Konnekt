@@ -90,7 +90,7 @@ define(['KonnektDT','KonnektMP','KonnektRTF'],function(CreateData,CreateMapping,
       /* POST DATA Only */
 
       /* if the component contained any innerHTML this gets placed into a post bindable */
-      __post.innerHTML = node.childNodes;
+      __post.innerHTML = Array.prototype.slice.call(node.childNodes);
 
       for(var x=0,len=node.attributes.length;x<len;x++)
       {
@@ -150,7 +150,24 @@ define(['KonnektDT','KonnektMP','KonnektRTF'],function(CreateData,CreateMapping,
           }
         }
       }
-
+      
+      function loadLoopComponent(node,cb)
+      {
+        var name = node.tagName.toLowerCase();
+        if(!_mapper.isRegistered(name))
+        {
+          Konnekt.loadWaitList(name,function(n,c){
+            init(name,node);
+            if(cb) cb();
+          });
+        }
+        else
+        {
+          init(name,node);
+          if(cb) cb();
+        }
+      }
+      
       function mapTargets(node,maps,vm)
       {
         node.kb_viewmodel = vm;
@@ -158,39 +175,40 @@ define(['KonnektDT','KonnektMP','KonnektRTF'],function(CreateData,CreateMapping,
 
         /* map nodes with their bindings */
         node.kb_maps = maps.maps = maps.map(node);
-
+        
         for(var x=0,keys =Object.keys(node.kb_maps),len=keys.length;x<len;x++)
         {
           var _key = keys[x];
           for(var i=0,lenn=node.kb_maps[_key].length;i<lenn;i++)
           {
-            var map = node.kb_maps[_key][i];
-            switch(map.type)
-            {
-              case 'for':
-                map._data = vm;
-                if(!_mapper.isRegistered(map.component))
-                {
-                  Konnekt.loadWaitList(map.component,function(n,c){
-                    map.loop(function(node){
+            (function(map){
+              switch(map.type)
+              {
+                case 'for':
+                  map._data = vm;
+                  if(!_mapper.isRegistered(map.component))
+                  {
+                    Konnekt.loadWaitList(map.component,function(n,c){
+                      map.connect(vm,loadLoopComponent).loop(function(node){
+                        Konnekt(node);
+                      });
+                    });
+                  }
+                  else
+                  {
+                    map.connect(vm,loadLoopComponent).loop(function(node){
                       Konnekt(node);
                     });
-                  });
-                }
-                else
-                {
-                  map.loop(function(node){
-                    Konnekt(node);
-                  });
-                }
-              break;
-              case 'component':
-                map.connect(vm).unsync();
-              break;
-              default:
-                map.connect(vm);
-              break;
-            }
+                  }
+                break;
+                case 'component':
+                  map.connect(vm).unsync();
+                break;
+                default:
+                  map.connect(vm);
+                break;
+              }
+            }(node.kb_maps[_key][i]))
           }
         }
         vm.onFinish.call(vm,node);
@@ -238,7 +256,7 @@ define(['KonnektDT','KonnektMP','KonnektRTF'],function(CreateData,CreateMapping,
 
     function passKeys(obj,obj2)
     {
-      var keys = Object.keys(obj);
+      var keys = Object.keys(obj).filter(function(key){return (key !== 'pointers');});
 
       if(!obj2.pointers) obj2.pointers = {};
 
@@ -274,11 +292,20 @@ define(['KonnektDT','KonnektMP','KonnektRTF'],function(CreateData,CreateMapping,
           }
         }
       }
+      
+      if(obj.pointers)
+      {
+        keys = Object.keys(obj.pointers);
+        for(var x=0,len=keys.length;x<len;x++)
+        {
+          obj2.pointers[keys[x]] = obj.pointers[keys[x]];
+        }
+      }
     }
 
     /* The main viewmodel constructor */
-      function createViewmodel(name,component,params,pre,post)
-      {
+    function createViewmodel(name,component,params,pre,post)
+    {
         /* creates blank observable data set */
         var obsv = _mixed({},name);
 
@@ -408,12 +435,7 @@ define(['KonnektDT','KonnektMP','KonnektRTF'],function(CreateData,CreateMapping,
     {
       var template = "<style>"+unescape(component.prototype.k_css)+"</style>"+unescape(component.prototype.k_html);
       Konnekt.register(name,component,template,component.prototype.cms);
-
-      /*_mapper.getUnkowns(template).forEach(function(u){
-        _Loader(u);
-      });*/
-
-
+      
       Konnekt.loadWaitList(name).forEach(function(onload){
         onload(name,component);
       });

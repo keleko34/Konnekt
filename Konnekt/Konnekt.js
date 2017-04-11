@@ -2,7 +2,7 @@
 /* End Build */
 define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,CreateLoader,CreateMapping,CreateHashRouting){
 
-  function CreateKonnekt(localRouter,hashroute)
+  function CreateKonnekt()
   {
     if(!window.K_Components) window.K_Components = {};
     
@@ -99,7 +99,7 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
       if(postdt) passKeys(postdt,post);
       
       /* if the component contained any innerHTML this gets placed into a post bindable */
-      post.innerHTML = node.childNodes;
+      post.innerHTML = Array.prototype.slice.call(node.childNodes);
       
       for(var x=0,len=node.attributes.length;x<len;x++)
       {
@@ -369,11 +369,11 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
       
       for(var x=0,len=keys.length;x<len;x++)
       {
-        if(_mixed.prototype.isObservable(keys[x]))
+        if(_mixed.prototype.isObservable(obj,keys[x]))
         {
           obj2.pointers[keys[x]] = obj;
         }
-        else if(_mixed.prototype.isMixed(obj[keys[x]]).isMixed())
+        else if(_mixed.prototype.isMixed(obj[keys[x]]))
         {
           obj2.pointers[keys[x]] = obj[keys[x]].__kbImmediateParent;
         }
@@ -500,9 +500,13 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
       return Konnekt;
     }
     
-    if(localRouter) Konnekt.localRouting(localRouter);
-    /* initilize default route */
-    if(hashroute) _hashrouter(window.location.hash.replace('#',''));
+    Konnekt.hashRouting = function(isHashed)
+    {
+      if(isHashed)
+      {
+         _hashrouter(window.location.hash.replace('#',''));
+      }
+    }
 
     return Konnekt;
   }
