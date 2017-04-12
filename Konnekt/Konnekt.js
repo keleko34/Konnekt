@@ -136,7 +136,14 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
           }
           else
           {
-            obsv.set(keys[x],pre[keys[x]]); 
+            if(pre.pointers)
+            {
+              if(pre.pointers[keys[x]] === undefined) obsv.set(keys[x],pre[keys[x]]);
+            }
+            else
+            {
+              obsv.set(keys[x],pre[keys[x]]);
+            }
           }
         }
         
@@ -144,7 +151,9 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
         {
           for(var x=0,keys=Object.keys(pre.pointers),len=keys.length;x<len;x++)
           {
-            obsv.addPointer(pre.pointers[keys[x]],keys[x]);
+            if(!obsv.pointers) Object.defineProperty(obsv,'pointers',setDescriptor({},false,true));
+            obsv.pointers[keys[x]] = pre.pointers[keys[x]];
+            obsv.addPreBasedPointer(obsv.pointers[keys[x]],keys[x]);
           }
         }
         
@@ -160,7 +169,14 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
           }
           else
           {
-            obsv.set(keys[x],post[keys[x]]);
+            if(post.pointers)
+            {
+              if(post.pointers[keys[x]] === undefined) obsv.set(keys[x],post[keys[x]]);
+            }
+            else
+            {
+              obsv.set(keys[x],post[keys[x]]);
+            }
           }
         }
         
@@ -169,7 +185,9 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
         {
           for(var x=0,keys=Object.keys(post.pointers),len=keys.length;x<len;x++)
           {
-            obsv.addPointer(post.pointers[keys[x]],keys[x]);
+            if(!obsv.pointers) Object.defineProperty(obsv,'pointers',setDescriptor({},false,true));
+            obsv.pointers[keys[x]] = post.pointers[keys[x]];
+            obsv.addPreBasedPointer(obsv.pointers[keys[x]],keys[x]);
           }
         }
         
@@ -365,17 +383,17 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
     {
       var keys = Object.keys(obj);
       
-      if(!obj2.pointers) obj2.pointers = {};
+      if(!obj2.pointers) Object.defineProperty(obj2,'pointers',{value:{},writable:true,enumerable:false,configurable:true});
       
       for(var x=0,len=keys.length;x<len;x++)
       {
         if(_mixed.prototype.isObservable(obj,keys[x]))
         {
-          obj2.pointers[keys[x]] = obj;
+          obj2.pointers[keys[x]] = {key:obj.__kbscopeString.split('.').pop(),point:obj.__kbImmediateParent};
         }
         else if(_mixed.prototype.isMixed(obj[keys[x]]))
         {
-          obj2.pointers[keys[x]] = obj[keys[x]].__kbImmediateParent;
+          obj2.pointers[keys[x]] = {key:obj[keys[x]].__kbImmediateParent.__kbscopeString.split('.').pop(),point:obj[keys[x]].__kbImmediateParent.__kbImmediateParent};
         }
         else
         {
