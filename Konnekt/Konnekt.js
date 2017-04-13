@@ -149,11 +149,11 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
         
         if(pre.pointers)
         {
+          if(!obsv.pointers) Object.defineProperty(obsv,'pointers',setDescriptor({},false,true));
           for(var x=0,keys=Object.keys(pre.pointers),len=keys.length;x<len;x++)
           {
-            if(!obsv.pointers) Object.defineProperty(obsv,'pointers',setDescriptor({},false,true));
             obsv.pointers[keys[x]] = pre.pointers[keys[x]];
-            obsv.addPreBasedPointer(obsv.pointers[keys[x]],keys[x]);
+            obsv.addPointer(obsv.pointers[keys[x]].point,obsv.pointers[keys[x]].key,keys[x]);
           }
         }
         
@@ -183,11 +183,11 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
         /* post pointers */
         if(post.pointers)
         {
+          if(!obsv.pointers) Object.defineProperty(obsv,'pointers',setDescriptor({},false,true));
           for(var x=0,keys=Object.keys(post.pointers),len=keys.length;x<len;x++)
           {
-            if(!obsv.pointers) Object.defineProperty(obsv,'pointers',setDescriptor({},false,true));
             obsv.pointers[keys[x]] = post.pointers[keys[x]];
-            obsv.addPreBasedPointer(obsv.pointers[keys[x]],keys[x]);
+            obsv.addPointer(obsv.pointers[keys[x]].point,obsv.pointers[keys[x]].key,keys[x]);
           }
         }
         
@@ -280,7 +280,7 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
             {
               case 'for':
                 /* connects viewmodel and then loop creates components for converting and deletes original map*/
-                map.connect(vm)
+                map.connect(vm);
                 if(!_mapper.isRegistered(map.component))
                 {
                     Konnekt.loadWaitList(map.component,function(n,c){

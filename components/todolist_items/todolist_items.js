@@ -56,7 +56,7 @@ function todolist_items(node)
   /* helps with checking the input when the value changes, will not be needed when input update is done */
   this.filters.placecheck = function(v)
   {
-    //node.querySelector('input').checked = v;
+    node.querySelector('input').checked = (typeof v === 'string' ? (v === 'true') : !!v);
     return v;
   }
 
