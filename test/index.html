@@ -5,10 +5,10 @@
     <script type="text/javascript" src="requirejs"></script>
     <script type="text/javascript">
       var config = {
-        base:'test'
+        base:'todoapp'
       };
       require(['Konnekt'],function(Konnekt){
-        var konnektjs = Konnekt(true,true);
+        var konnektjs = Konnekt().hashRouting(true);
       });
     </script>
     <!--<script type="text/javascript" src="Build/Konnekt.js"></script>-->

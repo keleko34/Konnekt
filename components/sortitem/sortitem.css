@@ -1,0 +1,13 @@
+/*********************************
+ *  sortitem
+ *  Created by keleko34
+ *  a button used for sorting the list
+ ********************************/
+
+.{{local}} .sortitem {
+  cursor:pointer;
+}
+
+.{{local}} .sortitem--active {
+  color:#7db770;
+}

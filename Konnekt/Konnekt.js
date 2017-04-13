@@ -2,7 +2,7 @@
 /* End Build */
 define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,CreateLoader,CreateMapping,CreateHashRouting){
 
-  function CreateKonnekt(localRouter,hashroute)
+  function CreateKonnekt()
   {
     if(!window.K_Components) window.K_Components = {};
     
@@ -99,7 +99,7 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
       if(postdt) passKeys(postdt,post);
       
       /* if the component contained any innerHTML this gets placed into a post bindable */
-      post.innerHTML = node.childNodes;
+      post.innerHTML = Array.prototype.slice.call(node.childNodes);
       
       for(var x=0,len=node.attributes.length;x<len;x++)
       {
@@ -136,15 +136,24 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
           }
           else
           {
-            obsv.set(keys[x],pre[keys[x]]); 
+            if(pre.pointers)
+            {
+              if(pre.pointers[keys[x]] === undefined) obsv.set(keys[x],pre[keys[x]]);
+            }
+            else
+            {
+              obsv.set(keys[x],pre[keys[x]]);
+            }
           }
         }
         
         if(pre.pointers)
         {
+          if(!obsv.pointers) Object.defineProperty(obsv,'pointers',setDescriptor({},false,true));
           for(var x=0,keys=Object.keys(pre.pointers),len=keys.length;x<len;x++)
           {
-            obsv.addPointer(pre.pointers[keys[x]],keys[x]);
+            obsv.pointers[keys[x]] = pre.pointers[keys[x]];
+            obsv.addPointer(obsv.pointers[keys[x]].point,obsv.pointers[keys[x]].key,keys[x]);
           }
         }
         
@@ -160,16 +169,25 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
           }
           else
           {
-            obsv.set(keys[x],post[keys[x]]);
+            if(post.pointers)
+            {
+              if(post.pointers[keys[x]] === undefined) obsv.set(keys[x],post[keys[x]]);
+            }
+            else
+            {
+              obsv.set(keys[x],post[keys[x]]);
+            }
           }
         }
         
         /* post pointers */
         if(post.pointers)
         {
+          if(!obsv.pointers) Object.defineProperty(obsv,'pointers',setDescriptor({},false,true));
           for(var x=0,keys=Object.keys(post.pointers),len=keys.length;x<len;x++)
           {
-            obsv.addPointer(post.pointers[keys[x]],keys[x]);
+            obsv.pointers[keys[x]] = post.pointers[keys[x]];
+            obsv.addPointer(obsv.pointers[keys[x]].point,obsv.pointers[keys[x]].key,keys[x]);
           }
         }
         
@@ -248,7 +266,7 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
         /* attaches viewmodel to wrapper */
         target.kb_viewmodel = vm;
         
-        mappedAttrs.wrapper.innerHTML = __mappedAttrs.template.replace(new RegExp('('+_mapper.startChars()+'local'+_mapper.endChars()+')','g'),vm.local);
+        mappedAttrs.wrapper.innerHTML = __mappedAttrs.template.replace(new RegExp('('+_mapper.start()+'local'+_mapper.end()+')','g'),vm.local);
         
         /* map nodes with their bindings */
         var maps = mappedAttrs.maps = mappedAttrs.map(mappedAttrs.wrapper);
@@ -262,7 +280,7 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
             {
               case 'for':
                 /* connects viewmodel and then loop creates components for converting and deletes original map*/
-                map.connect(vm)
+                map.connect(vm);
                 if(!_mapper.isRegistered(map.component))
                 {
                     Konnekt.loadWaitList(map.component,function(n,c){
@@ -279,13 +297,13 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
                 else
                 {
                   map.loop(function(node){
-                        Konnekt(node);
-                      });
+                    Konnekt(node);
+                  });
                 }
               break;
               case 'component':
                 /* connects viewmodel updates value and then deletes map as it won't be used again */
-                map.connect(vm).deleteMap();
+                map.connect(vm).unsync();
               break;
               default:
                 /* standard data connection and value set */
@@ -365,28 +383,28 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
     {
       var keys = Object.keys(obj);
       
-      if(!obj2.pointers) obj2.pointers = {};
+      if(!obj2.pointers) Object.defineProperty(obj2,'pointers',{value:{},writable:true,enumerable:false,configurable:true});
       
       for(var x=0,len=keys.length;x<len;x++)
       {
-        if(obj.isObservable(keys[x]))
+        if(_mixed.prototype.isObservable(obj,keys[x]))
         {
-          obj2.pointers[keys[x]] = obj;
+          obj2.pointers[keys[x]] = {key:obj.__kbscopeString.split('.').pop(),point:obj.__kbImmediateParent};
         }
-        else if(obj[keys[x]].isMixed())
+        else if(_mixed.prototype.isMixed(obj[keys[x]]))
         {
-          obj2.pointers[keys[x]] = obj[keys[x]].__kbImmediateParent;
+          obj2.pointers[keys[x]] = {key:obj[keys[x]].__kbImmediateParent.__kbscopeString.split('.').pop(),point:obj[keys[x]].__kbImmediateParent.__kbImmediateParent};
         }
         else
         {
-          if(Object.prototype.isObject(obj[keys[x]]))
+          if(_mixed.prototype.isObject(obj[keys[x]]))
           {
             for(var i=0,keysI=Object.keys(obj[keys[x]]),lenI=keysI.length;i<len;i++)
             {
               obj2[keys[x]][keysI[i]] = obj[keys[x]][keysI[i]];
             }
           }
-          else if(Object.prototype.isArray(obj[keys[x]]))
+          else if(_mixed.prototype.isArray(obj[keys[x]]))
           {
             for(var i=0,lenI=obj[keys[x]].length;i<len;i++)
             {
@@ -500,9 +518,13 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
       return Konnekt;
     }
     
-    if(localRouter) Konnekt.localRouting(localRouter);
-    /* initilize default route */
-    if(hashroute) _hashrouter(window.location.hash.replace('#',''));
+    Konnekt.hashRouting = function(isHashed)
+    {
+      if(isHashed)
+      {
+         _hashrouter(window.location.hash.replace('#',''));
+      }
+    }
 
     return Konnekt;
   }
