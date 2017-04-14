@@ -69,7 +69,7 @@
   color: #B1A9A9;
 }
 
-.{{local}} .todolist__add__error {
+.{{>local}} .todolist__add__error {
   position: absolute;
   right: 15px;
   top: 8px;
