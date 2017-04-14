@@ -1,6 +1,6 @@
 /* Build */
 /* End Build */
-define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,CreateLoader,CreateMapping,CreateHashRouting){
+define(['KonnektDT','KonnektL','KB','KonnektMP','KonnektRTF'],function(CreateData,CreateLoader,kb,CreateMapping,CreateHashRouting){
 
   function CreateKonnekt()
   {
@@ -530,7 +530,16 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
     {
       if(isHashed)
       {
-         _hashrouter(window.location.hash.replace('#',''));
+        if(document.body === undefined)
+        {
+          document.addEventListener('DOMContentLoaded',function(){
+            _hashrouter(window.location.hash.replace('#',''));
+          });
+        }
+        else
+        {
+          _hashrouter(window.location.hash.replace('#',''));
+        }
       }
     }
 
