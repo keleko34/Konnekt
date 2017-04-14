@@ -8,6 +8,11 @@
 
 }
 
+.todolist__items {
+  overflow: auto;
+  height: 333px;
+}
+
 .todolist__bar {
   height: 25px;
   border-bottom: 2px solid #e9e9e9;

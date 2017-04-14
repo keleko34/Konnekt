@@ -13,7 +13,25 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
         _mixed = CreateData(),
         
         /* mapping library, for mapping new component: new _mapper(componentNode) */
-        _mapper = CreateMapping(),
+        _mapper = CreateMapping().addEventListener('loopitem',function(e){
+          var name = e.node.tagName.toLowerCase();
+          if(!Konnekt.isRegistered(name) && !e.node.kb_isLoading)
+          {
+            e.node.kb_isLoading = true;
+            Konnekt.loadWaitList(name,function(n,c){
+              Konnekt(e.node);
+            });
+            if(!Konnekt.loadWaitList(name).loading) 
+            {
+              Konnekt.loadWaitList(name).loading = true;
+              _Loader(name);
+            }
+          }
+          else
+          {
+            if(Konnekt.isRegistered(name)) Konnekt(e.node);
+          }
+        }),
         
         /* routes components based on the current url hash, config.base sets the default route of '/' */
         _hashrouter = CreateHashRouting()
@@ -280,26 +298,7 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
             {
               case 'for':
                 /* connects viewmodel and then loop creates components for converting and deletes original map*/
-                map.connect(vm);
-                if(!_mapper.isRegistered(map.component))
-                {
-                    Konnekt.loadWaitList(map.component,function(n,c){
-                      map.loop(function(node){
-                        Konnekt(node);
-                      });
-                    });
-                    if(!Konnekt.loadWaitList(map.component).loading)
-                    {
-                      Konnekt.loadWaitList(map.component).loading = true;
-                      _Loader(map.component);
-                    }
-                }
-                else
-                {
-                  map.loop(function(node){
-                    Konnekt(node);
-                  });
-                }
+                map.connect(vm).createloop();
               break;
               case 'component':
                 /* connects viewmodel updates value and then deletes map as it won't be used again */
@@ -361,7 +360,7 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
         }
       }
 
-      if(!_mapper.isRegistered(__name))
+      if(!Konnekt.isRegistered(__name) && !node.kb_isLoading)
       {
         Konnekt.loadWaitList(__name,function(n,c){
           init(__name,node);
@@ -374,9 +373,8 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
       }
       else
       {
-        init(__name,node);
+        if(Konnekt.isRegistered(__name)) init(__name,node);
       }
-
     }
     
     function passKeys(obj,obj2)
@@ -393,7 +391,7 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
         }
         else if(_mixed.prototype.isMixed(obj[keys[x]]))
         {
-          obj2.pointers[keys[x]] = {key:obj[keys[x]].__kbImmediateParent.__kbscopeString.split('.').pop(),point:obj[keys[x]].__kbImmediateParent.__kbImmediateParent};
+          obj2.pointers[keys[x]] = {key:obj[keys[x]].__kbscopeString.split('.').pop(),point:obj[keys[x]].__kbImmediateParent};
         }
         else
         {
@@ -463,6 +461,16 @@ define(['KonnektDT','KonnektL','KonnektMP','KonnektRTF'],function(CreateData,Cre
       _viewmodels[name] = vm;
       if(cms) _cms[name] = cms;
       return Konnekt;
+    }
+    
+    Konnekt.isRegistered = function(name)
+    {
+      return (_viewmodels[name] !== undefined && _mapper.isRegistered(name));
+    }
+    
+    Konnekt.registered = function()
+    {
+      return Object.keys(_viewmodels);
     }
 
     /* register for a component to load and be registered */

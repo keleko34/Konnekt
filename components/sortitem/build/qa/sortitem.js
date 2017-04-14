@@ -9,7 +9,7 @@ K_Components["sortitem"] = (function(){
 function sortitem()
 {
   var self = this;
-
+  
   /* ATTRIBUTES */
   this.title = "";
   this.active = false;

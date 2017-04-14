@@ -8,37 +8,37 @@ function todolist(node)
 {
   /* scope `this` for events to access data set */
   var self = this;
-
+  
   /* ATTRIBUTES */
-
+  
   /* where each added item is stored, when this changes based on items the html list of todolist_items will change */
   this.items = [];
-
+  
   /* the amount of completed tasks */
   this.complete = 0;
-
+  
   /* the total number of tasks */
   this.total = 0;
-
+  
   /* current input text */
   this.text = "";
-
+  
   /* ERRORS */
-
+  
   /* whether to show an error or not */
   this.isError = false;
-
+  
   /* the message for this error */
   this.error = "";
-
+  
   /* EVENTS */
-
+  
   /* each sort button fires this */
   this.onSort = function(sorter)
   {
     /* we want to distinguish the from the rest as they are always active */
     var sorts = ['Descending','Ascending'];
-
+    
     /* loop through sorters array */
     for(var x=0,len=self.sorters.length;x<len;x++)
     {
@@ -47,30 +47,30 @@ function todolist(node)
       {
         self.sorters[x].active = (self.sorters[x].title === sorter);
       }
-
+      
       /* if Descending or Ascending was clicked, check between them which is active */
       else if(sorts.indexOf(sorter) !== -1 && sorts.indexOf(self.sorters[x].title) !== -1)
       {
         self.sorters[x].active = (self.sorters[x].title === sorter);
       }
     }
-
+    
     /* this runs the main sorting method, You will find these attached to prototype at the bottom of the page, based on sorter text clicked */
     self[sorter](self.items);
   }
-
+  
   /* this input keyup fires this */
   this.onAdd = function(e)
   {
     /* keycode that was clicked */
     var keyCode = (e.which || e.keyCode),
-
+        
         /* a list of just the titles of the items */
         itemtitles = self.items.map(function(item){return item.title;});
-
+    
     /* reset error so it will no longer show */
     self.isError = false;
-
+    
     /* if the key pressed was 'enter' key */
     if(keyCode === 13)
     {
@@ -80,7 +80,7 @@ function todolist(node)
         self.isError = true;
         self.error = "This already exists!";
       }
-
+      
       /* if no error push new item into the items array */
       if(!self.isError)
       {
@@ -93,39 +93,39 @@ function todolist(node)
           onComplete:self.onComplete,
           onDelete:self.onDelete
         });
-
+        
         /* increment total */
         self.total += 1;
-
+        
         /* reset input */
         self.text = "";
       }
     }
   }
-
+  
   /* passed to each todolist_items component to fire when a checkbox is clicked */
   this.onComplete = function(v)
   {
     /* if checkbox is active we add one else we subtract one */
-    self.complete += (v ? 1 : -1);
+    self.complete += ((typeof v === 'string' ? (v === 'true') : !!v) ? 1 : -1);
   }
-
+  
   /* passed to each todolist_items component to fire when the trashcan is clicked */
   this.onDelete = function(title)
   {
     /* get the index of this item */
     var id = self.items.map(function(item){return item.title;}).indexOf(title);
-
+    
     /* if this item was completed, subtract complete */
-    if(self.items[id].complete) self.complete -= 1;
-
+    if((typeof self.items[id].complete === 'string' ? (self.items[id].complete === 'true') : !!self.items[id].complete)) self.complete -= 1;
+    
     /* delete the item from the array, splice also works, del is just shorter */
     self.items.del(id);
-
+    
     /* subtract from total # of todo tasks */
     self.total -= 1;
   }
-
+  
   /* the sorting items, array with data that is used to create the sortitems looped components, onSort method is passed to be used when user clicks each item */
   this.sorters = [
     {title:'All',active:true,onSort:this.onSort},
@@ -135,7 +135,7 @@ function todolist(node)
     {title:'Ascending',active:false,onSort:this.onSort},
     {title:'Descending',active:false,onSort:this.onSort}
   ];
-
+  
   /* a simple filter to change the css so that the error is not shown when !isError */
   this.filters.toDisplay = function(v)
   {
@@ -158,7 +158,7 @@ todolist.prototype.All = function(items)
 todolist.prototype.Ascending = function(items)
 {
   items.sort(function(a,b){
-    return (a.title > b.title ? -1 : 1);
+    return (a.title > b.title ? 1 : -1);
   });
 }
 
@@ -166,7 +166,7 @@ todolist.prototype.Ascending = function(items)
 todolist.prototype.Descending = function(items)
 {
   items.sort(function(a,b){
-    return (a.title > b.title ? 1 : -1);
+    return (a.title > b.title ? -1 : 1);
   });
 }
 
@@ -175,7 +175,7 @@ todolist.prototype.Todo = function(items)
 {
   for(var x=0,len=this.items.length;x<len;x++)
   {
-    this.items[x].hide = (!!this.items[x].complete);
+    this.items[x].hide = (!!(typeof this.items[x].complete === 'string' ? (this.items[x].complete === 'true') : !!this.items[x].complete));
   }
 }
 
@@ -184,7 +184,7 @@ todolist.prototype.Completed = function(items)
 {
   for(var x=0,len=this.items.length;x<len;x++)
   {
-    this.items[x].hide = (!this.items[x].complete);
+    this.items[x].hide = (!(typeof this.items[x].complete === 'string' ? (this.items[x].complete === 'true') : !!this.items[x].complete));
   }
 }
 
