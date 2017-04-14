@@ -4,10 +4,10 @@
  *  a button used for sorting the list
  ********************************/
 
-.{{local}} .sortitem {
+.{{loopid}} .sortitem {
   cursor:pointer;
 }
 
-.{{local}} .sortitem--active {
+.{{loopid}} .sortitem--active {
   color:#7db770;
 }
