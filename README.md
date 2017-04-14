@@ -3,20 +3,20 @@
 
 ## Table of Contents
 
-- [What is it?](#whatisit)
-- [Why you should use it?](#whyishoulduseit)
+- [What is it?](#what-is-it)
+- [Why you should use it?](#why-i-should-use-it)
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Getting started](#getting started)
-  - [File structure](#filestructure)
+  - [Getting started](#getting-started)
+  - [File structure](#file-structure)
   - [Basics](#basics)
-  - [Gulp tools](#gulp tools)
+  - [Gulp tools](#gulp-tools)
   - [Bindings](#bindings)
   - [Filters](#filters)
   - [Events](#events)
 - [Examples](#examples)
 - [Changelog](#changelog)
-- [How to contribute](#howtocontribute)
+- [How to contribute](#how-to-contribute)
 - [License](#license)
 
 
