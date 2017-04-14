@@ -1,6 +1,6 @@
 /* Build */
 /* End Build */
-define(['KonnektDT','KonnektL','KB','KonnektMP','KonnektRTF'],function(CreateData,CreateLoader,kb,CreateMapping,CreateHashRouting){
+define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateData,CreateLoader,kb,CreateMapping,CreateHashRouting){
 
   function CreateKonnekt()
   {
