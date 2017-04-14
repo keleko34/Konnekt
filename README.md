@@ -1,2 +1,108 @@
 # Konnekt
-A library that allows to deploy component based bindable apps
+> Multi layer component based binding framework
+
+## Table of Contents
+
+- [What is it?](#whatisit)
+- [Why you should use it?](#whyishoulduseit)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Getting started](#getting started)
+  - [File structure](#filestructure)
+  - [Basics](#basics)
+  - [Gulp tools](#gulp tools)
+  - [Bindings](#bindings)
+  - [Filters](#filters)
+  - [Events](#events)
+- [Examples](#examples)
+- [Changelog](#changelog)
+- [How to contribute](#howtocontribute)
+- [License](#license)
+
+
+## What is it?
+This is a framework that allows you to comprise an app based on modular components in an atom based approach using a simple(HTML, CSS, JS) component folder architecture.
+Each file is comprised in the given way:
+
+- HTML (the html for just that component)
+- CSS (the css just for that component)
+- JS (the data, methods, and events associated with that component)
+
+Each component is comprised in a way to allow for easy and friendly development by using an MVVM modular binding approach so components can be plug and play independent of everything else. This allows easy reusability throught the entire app.
+
+## Why you should use it?
+
+- ** Simple ** Provides many built in functionality that allows youto create an app quickly and efficiently
+- ** Modular ** By splitting up the app into components You can reuse them across the app and which saves you development time
+- ** Designer Friendly ** This framework has been created with designers in mind to allow easy and friendly development
+- ** Two Way Binding ** One of the few frameworks to have true two way binding with the dom
+
+## Installation
+
+This libray can be installed directly using [NPM](https://www.npmjs.com) or [Bower](https://bower.io/)
+
+- First step:
+
+  - `npm i konnekt --save`
+
+It is highly suggested to use the bundable [K_Tasks](https://www.npmjs.com/package/K_Tasks) library as well as this will simplify the development process using gulp automated tasks
+
+- Second step:
+
+  - `npm i K_Tasks --save-dev`
+
+## Usage
+These chapters are meant to be useful in learning more about how to work with the different powerful functionalities that konnekt provides
+
+### Getting started
+Creating a component is as simple as using the K_Tasks built in `create` command
+
+- First step:
+
+  - `gulp create`
+  - Follow in console prompts eg. (name, description, contributor)
+  
+using the konnekt library in your project is as simple as initiating it
+
+- Second step:
+
+ - Include script tag in html
+ - `var konnektjs = Konnekt();`
+ 
+There are two ways to get started using your components
+
+- First choice (using built in hashrouting)
+  - `var config={base:'NameOfTheComponentYouWantToLoadIntoBody'}`
+  - `konnektjs.hashRouting(true);`
+  - automatically replaces \<body> content with your desired component
+  
+- Second choice (using konnekt built in parser)
+  - Place component element in html `<mycomponent></mycomponent>`
+  - `konnektjs(document.querySelector(mycomponent));`
+  - the element will be replaced with your desired component, this can be used as much as you want
+
+** Now go make Your App! **
+
+### File structure
+The file structure of a konnekt app can be comprised of a single html entry point, your pre-installed libraries and a components folder to house all your components
+
+- components
+  - component
+    - build
+      - qa
+        - component.js
+        - component.min.js
+      - stage
+      - prod
+    - component.html
+    - component.css
+    - component.js
+- node_modules
+  - konnekt
+  - K_Tasks
+- index.html
+
+each component houses three main files, an **HTML**,**CSS**, and **JS** file, the build folder houses compiled files of your component to be loaded using different environments in a production scenario.
+
+### Basics
+All files of a component can be connected using binds, the basic bind syntax uses {{}} Bracket notation
