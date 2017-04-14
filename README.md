@@ -32,10 +32,10 @@ Each component is comprised in a way to allow for easy and friendly development 
 
 ## Why you should use it?
 
-- ** Simple ** Provides many built in functionality that allows youto create an app quickly and efficiently
-- ** Modular ** By splitting up the app into components You can reuse them across the app and which saves you development time
-- ** Designer Friendly ** This framework has been created with designers in mind to allow easy and friendly development
-- ** Two Way Binding ** One of the few frameworks to have true two way binding with the dom
+- **Simple** Provides many built in functionality that allows youto create an app quickly and efficiently
+- **Modular** By splitting up the app into components You can reuse them across the app and which saves you development time
+- **Designer Friendly** This framework has been created with designers in mind to allow easy and friendly development
+- **Two Way Binding** One of the few frameworks to have true two way binding with the dom
 
 ## Installation
 
@@ -57,31 +57,45 @@ These chapters are meant to be useful in learning more about how to work with th
 ### Getting started
 Creating a component is as simple as using the K_Tasks built in `create` command
 
-- First step:
+- First step: (using cmd prompt)
 
   - `gulp create`
   - Follow in console prompts eg. (name, description, contributor)
   
-using the konnekt library in your project is as simple as initiating it
+Using the konnekt library in your project is as simple as initiating it
 
-- Second step:
-
- - Include script tag in html
- - `var konnektjs = Konnekt();`
+```js
+<script src="/node_modules/konnekt/min/konnekt.min.js" type="text/javascript"></script>
+<script>
+  var konnektjs = Konnekt();
+</script>
+```
  
 There are two ways to get started using your components
 
 - First choice (using built in hashrouting)
-  - `var config={base:'NameOfTheComponentYouWantToLoadIntoBody'}`
-  - `konnektjs.hashRouting(true);`
-  - automatically replaces \<body> content with your desired component
+
+This automatically replaces \<body> content with your desired component
+
+```js
+var config={base:'NameOfTheComponentYouWantToLoadIntoBody'}
+konnektjs.hashRouting(true);
+```
   
 - Second choice (using konnekt built in parser)
-  - Place component element in html `<mycomponent></mycomponent>`
-  - `konnektjs(document.querySelector(mycomponent));`
-  - the element will be replaced with your desired component, this can be used as much as you want
 
-** Now go make Your App! **
+The element will be replaced with your desired component, this can be used as much as you want
+
+```js
+<body>
+  <mycomponent></mycomponent>
+  <script>
+    konnektjs(document.querySelector(mycomponent));
+  </script>
+</body>
+``` 
+
+**Now go make Your App!**
 
 ### File structure
 The file structure of a konnekt app can be comprised of a single html entry point, your pre-installed libraries and a components folder to house all your components
