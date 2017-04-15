@@ -123,7 +123,58 @@ The file structure of a konnekt app can be comprised of a single html entry poin
 ### Basics
 All files of a component can be connected using binds, the basic bind syntax uses {{}} Bracket notation
 
+##### HTML
 
+```html
+<div class="mycomponent" onclick="{{clickaction}}" attr="{{attrbinding}}">
+  <div class="innerdiv">{{textbinding | toUpperCase}}</div>
+</div>
+```
+
+##### CSS
+
+```css
+  .{{localidbinding}} .mycomponent {
+    background:{{backgroundstylebinding}}px
+  }
+  .innerdiv {
+    color:{{colorstylebinding}}
+  }
+```
+
+##### JS
+
+```js
+ function mycomponent(element)
+ {
+    /* closure */
+    var self = this;
+    
+    /* Your properties */
+    this.attrbinding = "test";
+    this.textbinding = "mytext";
+    this.backgroundstylebinding = "#000";
+    this.colorstylebinding = "#FFF";
+    
+    /* your filter for changing text before it appends to your element */
+    this.filters.toUpperCase = function(v)
+    {
+      return v.toUpperCase();
+    }
+    
+    /* your event bind */
+    this.clickaction = function(e)
+    {
+      self.someaction();
+    }
+ }
+ 
+ /* any extra methods on your prototype */
+ mycomponent.prototype.someaction = function()
+ {
+    this.colorstylebinding = "#F00";
+ }
+```
 
 
 
