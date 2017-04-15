@@ -1,6 +1,8 @@
 # Konnekt
 > Multi layer component based binding framework
 
+[![NPM version][npm-image][npm-url]
+
 ## Table of Contents
 
 - [What is it?](#what-is-it)
@@ -98,25 +100,32 @@ The element will be replaced with your desired component, this can be used as mu
 **Now go make Your App!**
 
 ### File structure
-The file structure of a konnekt app can be comprised of a single html entry point, your pre-installed libraries and a components folder to house all your components
+The file structure of a konnekt app can be comprised of a single html entry point, your pre-installed libraries and a components folder to house all your components. Each component houses three main files, an **HTML**,**CSS**, and **JS** file, the build folder houses compiled files of your component to be loaded using different environments in a production scenario.
 
-- components
-  - component
-    - build
-      - qa
-        - component.js
-        - component.min.js
-      - stage
-      - prod
-    - component.html
-    - component.css
-    - component.js
-- node_modules
-  - konnekt
-  - K_Tasks
-- index.html
-
-each component houses three main files, an **HTML**,**CSS**, and **JS** file, the build folder houses compiled files of your component to be loaded using different environments in a production scenario.
+```
+├── components/
+│   ├── component/
+│   │   ├── build/
+│   │   │   ├── qa
+│   │   │   │   ├── component.js
+│   │   │   │   ├── component.min.js
+│   │   │   ├── stage
+│   │   │   ├── prod
+│   │   ├── component.html
+│   │   ├── component.css
+│   │   ├── component.js
+├── node_modules/
+│   │   ├── konnekt
+│   │   ├── K_Tasks
+├── index.html
+```
 
 ### Basics
 All files of a component can be connected using binds, the basic bind syntax uses {{}} Bracket notation
+
+
+
+
+
+[npm-url]: https://www.npmjs.com/package/konnekt
+[npm-image]: https://img.shields.io/npm/v/konnekt.svg
