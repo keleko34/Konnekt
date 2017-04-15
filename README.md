@@ -1,7 +1,7 @@
 # Konnekt
 > Multi layer component based binding framework
 
-[![NPM version][npm-image][npm-url]
+[![NPM version][npm-image]][npm-url]
 
 ## Table of Contents
 
