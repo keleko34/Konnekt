@@ -15,8 +15,11 @@
   - [Basics](#basics)
   - [Gulp tools](#gulp-tools)
   - [Bindings](#bindings)
-  - [Filters](#filters)
-  - [Events](#events)
+    - [Standard Bind](#standard-bind)
+    - [Built in binds](#built-in-binds)
+    - [Filters](#filters)
+    - [Events](#events)
+    - [Passing](#passing)
   - [Viewmodel](#viewmodel)
 - [Examples](#examples)
 - [Changelog](#changelog)
@@ -234,7 +237,7 @@ Bindings in components can almost be placed anywhere, Any text in your css file 
 
 There are some pre built in methods that add great functionality to binds to go over.
 
-###### Standard Bind
+#### Standard Bind
 
 A standard bind is comprised of a {{}} notation with a name refrencing a data point in your js file, The js file we will call the viewmodel of your component. The following example is a standard binding:
 
@@ -295,12 +298,233 @@ Bind keys can also be bound to properties further down in a chain by using the `
     ];
   }
 ```
+<div id="pollution" style="display:none;"></div>
+A special note on binds, if a the bind does not have any other text or binds asociated it acts as a **two-way** bind, if the attr or text changes for that bind it will update the viewmodel data to reflect that change.
 
-###### Built in Binds
+Example:
+
+HTML
+```html
+  <div class="foo">{{foobind}}</div>
+```
+
+JS
+```js
+  function foo(node)
+  {
+    var self = this;
+    this.foobind = "bar";
+    
+    node.querySelector('.foo').onclick = function()
+    {
+      this.innerHTML = "something else";
+      console.log(self.foobind);
+    }
+  }
+```
+
+this changes the html of the foo div to `something else` and in doing so the bind property of `foobind` will console log the same, this will not work when the bind is polluted, an example of bind pollution is:
+
+```html
+  <div class="foo">some extra text {{foobind}}</div>
+```
+
+in this case You will be unable to change the html via your click event because your bind is polluted by other text.
+
+#### Built in Binds
 
 There are some built in binds that can be used throughout any component automatically, such examples are:
 
 - **innerHTML** A bind that inserts nodes passed
+
+FOO Component HTML
+```html
+  <div>
+    <div>{{innerHTML}}</div>
+  </div>
+```
+
+HTML *before*
+```html
+  <div>
+    <foo>
+      <div>bar</div>
+    </foo>
+  </div>
+```
+
+HTML *after*
+```html
+  <div>
+    <div class="Wrapper Wrapper__Foo">
+      <div>
+        <div><div>bar</div></div>
+      </div>
+    </div>
+  </div>
+```
+
+- **local** a unique identifier for that placed component
+
+Class styles are shared among all components of type foo, so if a style changed for one component, then all will change, `local` allows you to set a css rule as an individual instance to that component and not be shared to others
+
+FOO CSS
+```css
+  .{{local}} .fooclass {
+    background:#{{foocolor}}
+  }
+```
+
+HTML *before*
+```html
+  <div>
+    <foo></foo>
+  </div>
+```
+
+HTML *after*
+```html
+  <div>
+    <div class="Wrapper Wrapper__foo foo_17364393747">
+      <div class="fooclass">
+        <div<bar</div>
+      </div>
+    </div>
+  </div>
+```
+
+#### Filters
+
+Filters help change the way data looks before it is put into the html or data, filters are assigned to a bind after the `|` char by name.
+
+All binds can contain multiple filters by simply seperating them out using: `,` character like in a list
+
+Example: `{{bindname | foofilter,barfilter,(foovmfilter),[+storefilter]}}`
+
+**Pre built in filters (Coming Soon)**
+
+There are currently four types of filters:
+
+1. Standard dom filter syntax: 
+
+`{{bindname | foofilter}}`
+
+These filters are tied to Your vm on the `this.filters` object, these are methods that take in the value that is attempting to be set to the html and they must return the new value to be set after your done with it.
+
+```js
+function foo()
+{
+  this.filters = function foofilter(v)
+  {
+    return v.toLowerCase();
+  }
+}
+```
+
+2. Data based filter in the case of non polluted binds: *p.s. notice the '()' around the filter name*
+
+`{{bindname | (foovmfilter)}}`
+
+These filters are placed in the same `this.filters` object but will only apply to changes coming from the html to the data direction of a non polluted binding, see: [Two-way binds](#pollution)
+
+```js
+function foo()
+{
+  this.filters = function foovmfilter(v)
+  {
+    return v.toUppercase();
+  }
+}
+```
+
+3. Storage filters
+
+Storage filters are designed to store points of data so it is remembered later, these use three types of syntax for 3 types of storage:
+
+- **Model** `{{bindname | [~store.foo]}}` stores in the model for use among other components when pages changes
+
+- **Session** `{{bindname | [-store.foo]}}` stores in session so in case the page gets refreshed or user navigates way then back it is remembered
+
+- **Local** `{{bindname | [+store.foo]}}` stores in local so that even when the browser is closed and reopened the value is remembered
+
+Each of these three filters use the named string as their storage point, so keep this in mind when naming them.
+
+**note**
+
+inside filter methods `this` refers the vm data :)
+
+#### Events
+
+Events can also be used as binds inside a component, to use an event bind You must bind the method to the appropriate attribute.
+
+*A side note, the attribute in this case is not actually used as this is bad practice, Your binded method will be moved to the appropriate property on the element.*
+
+Example of an event bind:
+
+HTML
+```html
+  <div>
+    <div onclick="{{fooclick}}">{{status}}</div>
+  </div>
+```
+
+JS
+```js
+function foo()
+{
+  var self = this;
+  this.status = "none";
+  this.fooclick = function()
+  {
+    self.status = "clicked";
+  }
+}
+```
+
+**note**
+
+your event `this` like all events will refer to the element, if You want to interact with your vm data You must create a closure, in this case it is the example of `var self = this`
+
+#### Passing
+
+Passing values from a parent component to another is very easy in just setting the attributes on the base component element, as an example we have the element `foo` as so:
+
+HTML
+```html
+  <div onclick="{{fooclick}}">{{status}}</div>
+```
+
+JS
+```js
+  function foo()
+  {
+    this.status = "";
+    this.fooclick = function(){};
+  }
+```
+
+at this stage `status` and `onclick` are empty with nothing, to use these in a proper way we can pass to them from another component `bar`, current bind values can also be passed, but they do not act as binds and will not update the lower components if thiers is updated.
+HTML
+```html
+  <div>
+    <foo status="none" fooclick="{{barclick}}"></foo>
+  </div>
+```
+
+JS
+```js
+  function bar()
+  {
+    this.barclick = function()
+    {
+      alert("hello from foo");
+    }
+  }
+```
+
+### Viewmodel
+
+Viewmodel is th heart of a components connection from html to logic, it specifies the values and actions connected to th html and styling of a component instance.
 
 
 [npm-url]: https://www.npmjs.com/package/konnekt
