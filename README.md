@@ -524,7 +524,46 @@ JS
 
 ### Viewmodel
 
-Viewmodel is th heart of a components connection from html to logic, it specifies the values and actions connected to th html and styling of a component instance.
+Viewmodel is th heart of a components connection from html to logic, it specifies the values and actions connected to the html and styling of a component instance.
+
+A standard Component Viewmodel:
+
+```js
+function foo()
+{
+  /* Your bindable properties get added here */
+  this.prop = "foo";
+  
+  this.data = [];
+  
+  /* Filters also get added here onto the filters object */
+  this.filters.toUpperCase = function(v)
+  {
+    return v.toUpperCase();
+  }
+  
+  /* Event binds are also added to this section */
+  this.fooclick = function(e)
+  {
+    alert("clicked");
+  }
+}
+
+/* You can add extra interactive methods via prototypes */
+foo.prototypes.ajaxCall = function()
+{
+  var self = this;
+  ajaxcall().then(function(data){
+    this.set('data',data);
+  });
+}
+```
+
+**NOTE**
+
+A key importance to remember when working with the vm data is if You plan to support older browsers such as IE10,IE11 You must add data using `this.add` or `this.set` new data is not automatically seen on these browsers due to lack of support for [Proxies](http://caniuse.com/#feat=proxy).
+
+
 
 
 [npm-url]: https://www.npmjs.com/package/konnekt
