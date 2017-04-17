@@ -24,6 +24,7 @@
   - [Viewmodel](#viewmodel)
     - [Built in Properties](#built-in-proprties)
 - [Examples](#examples)
+- [Development](#development)
 - [Changelog](#changelog)
 - [How to contribute](#how-to-contribute)
 - [License](#license)
@@ -646,6 +647,37 @@ There are a few built in properties that have extra uses when dealing with Your 
 
 
 ## Examples
+
+You can view an example implementation of an app using all the different types of functionality from these apps:
+
+- [Todo App](https://github.com/keleko34/konnekt_todo_app_example)
+
+## Development
+
+If You would like to keep track of what is currently being developped on this framework, You can look at our [Trello](https://trello.com/b/X55aqPpM/konnektjs)
+
+## Changelog
+
+The changelog can be viewed here: [Changelog](https://github.com/keleko34/Konnekt/blob/master/History.md)
+
+## How to contribute
+
+If You would like to contributem here are the steps
+
+1. Clone Repo: [Konnekt Github Repo](https://github.com/keleko34/konnekt)
+
+2. Install dependencies and necessary git repos: `npm run installer`
+
+3. To build the dependencies: `gulp build` require_lib option
+
+4. to test: `gulp server -p 8080 -r test`
+
+5. Make a request for your changes :)
+
+
+## License
+
+You can view the license here: [License](https://github.com/keleko34/Konnekt/blob/master/LICENSE)
 
 
 
