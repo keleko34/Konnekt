@@ -2,6 +2,7 @@
 > Multi layer component based binding framework
 
 [![NPM version][npm-image]][npm-url]
+[![Gitter][gitter-image]][gitter-url]
 
 ## Table of Contents
 
@@ -686,3 +687,6 @@ You can view the license here: [License](https://github.com/keleko34/Konnekt/blo
 
 [npm-url]: https://www.npmjs.com/package/konnekt
 [npm-image]: https://img.shields.io/npm/v/konnekt.svg
+
+[gitter-url]: https://gitter.im/konnektjs/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+[gitter-image]: https://badges.gitter.im/konnektjs/Lobby.svg
