@@ -20,7 +20,9 @@
     - [Filters](#filters)
     - [Events](#events)
     - [Passing](#passing)
+    - [Loops](#loops)
   - [Viewmodel](#viewmodel)
+    - [Built in Properties](#built-in-proprties)
 - [Examples](#examples)
 - [Changelog](#changelog)
 - [How to contribute](#how-to-contribute)
@@ -522,6 +524,69 @@ JS
   }
 ```
 
+#### Loops
+
+Loop bindings allow iterating through data and creating a component for each iteration as in a list.
+
+The format is: `{{for key loop componentname}}` for each item in the key property loop create the component, each data set is passed to the component.
+
+The component:
+
+HTML (before)
+```html
+  <div>
+    <ul>{{for animals loop listitem}}</ul>
+  </div>
+```
+
+JS
+```js
+  function foo()
+  {
+    this.animals = [
+      {type:'cat',sound:'meow'},
+      {type:'dog',sound:'ruff'}
+    ];
+  }
+```
+
+Listitem component:
+
+HTML
+```html
+  <li>The {{type}} likes to {{sound}}</li>
+```
+
+JS
+```js
+  function listitem()
+  {
+    this.type = "";
+    this.sound = "";
+  }
+```
+
+End result:
+
+HTML (after)
+```html
+  <div>
+    <ul>
+      <div class="Wrapper Wrapper_listitem">
+        <li>The cat likes to meow</li>
+      </div>
+      <div class="Wrapper Wrapper_listitem">
+        <li>The dog likes to ruff</li>
+      </div>
+    </ul>
+  </div>
+```
+
+One of the great things about looped items is that the data acts as a pointer between the parent array list and the child data points, by changing `this.type` the reflected change is shown in the list. The sme applies for array changes, by simplying `array.sort`ing a list the order of Your elements will change.
+
+
+HTML
+
 ### Viewmodel
 
 Viewmodel is th heart of a components connection from html to logic, it specifies the values and actions connected to the html and styling of a component instance.
@@ -562,6 +627,27 @@ foo.prototypes.ajaxCall = function()
 **NOTE**
 
 A key importance to remember when working with the vm data is if You plan to support older browsers such as IE10,IE11 You must add data using `this.add` or `this.set` new data is not automatically seen on these browsers due to lack of support for [Proxies](http://caniuse.com/#feat=proxy).
+
+Many of the extra features for working with the viewmodel data can be found here [KonnektDT](https://github.com/keleko34/konnektdt)
+
+#### Built in Properties
+
+There are a few built in properties that have extra uses when dealing with Your components and data
+
+- **multiple(Boolean)** The multiple property allows you to use a component recursively
+
+- **onFinish(function)** the onFinish is a property you can set a method to for when the component has finished building and being mapped
+
+- **model(boolean)** the model property tells whether to store this entire vm in the model data set for use on other pages, this stores by `id` on the vm
+
+- **sessionStorage(boolean)** This property tells to attempt to store the entire vm in session storage, though only data is stored and not any methods.
+
+- **localStorage(boolean)** Similiar to sessionStorage but persists even when the browser is closed and reopened.
+
+
+## Examples
+
+
 
 
 
