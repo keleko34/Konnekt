@@ -1,6 +1,6 @@
 {
   "name": "konnekt",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "description": "A library that allows to deploy component based bindable apps",
   "keywords": [
     "library",
