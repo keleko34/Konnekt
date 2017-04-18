@@ -1,2 +1,12 @@
 # node_modules
 /node_modules/*
+/bower_components/*
+
+# git
+/K_Tasks/*
+/KB/*
+/KonnektDT/*
+/KonnektL/*
+/KonnektMP/*
+/KonnektRT/*
+/KonnektRTF/*
