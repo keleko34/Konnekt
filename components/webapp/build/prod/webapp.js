@@ -9,12 +9,12 @@ K_Components["webapp"] = (function(){
 function webapp()
 {
   /* ATTRIBUTES */
-
+  this.page = "";
 }
 
 /* PROTOTYPES */
 
-webapp.prototype.k_html = "<!-- webapp Created by keleko34, The main entry point for the konnekt web app -->";
+webapp.prototype.k_html = "<!-- webapp Created by keleko34, The main entry point for the konnekt web app --><div class='webapp'>  <navbar></navbar>  <div class='webapp__content'>      </div></div>";
 webapp.prototype.k_css = "/********************************* *  webapp *  Created by keleko34 *  The main entry point for the konnekt web app ********************************/.webapp {}";
 return webapp;
 }());

@@ -1,13 +1,13 @@
 /*********************************
- *  webapp
+ *  navbar
  *  Created by keleko34
- *  The main entry point for the konnekt web app
+ *  the header navbar for the site
  ********************************/
 
-function webapp()
+function navbar()
 {
   /* ATTRIBUTES */
-  this.page = "";
+
 }
 
 /* PROTOTYPES */

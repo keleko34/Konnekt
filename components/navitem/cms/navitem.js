@@ -1,13 +1,13 @@
 /*********************************
- *  webapp
+ *  navitem_cms
  *  Created by keleko34
- *  The main entry point for the konnekt web app
+ *  a single clickable navitem for the navbar
  ********************************/
 
-function webapp()
+function navitem()
 {
   /* ATTRIBUTES */
-  this.page = "";
+
 }
 
 /* PROTOTYPES */

@@ -1,13 +1,13 @@
 /*********************************
- *  webapp
+ *  logo
  *  Created by keleko34
- *  The main entry point for the konnekt web app
+ *  displays main logo
  ********************************/
 
-function webapp()
+function logo()
 {
   /* ATTRIBUTES */
-  this.page = "";
+
 }
 
 /* PROTOTYPES */
