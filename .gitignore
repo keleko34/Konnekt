@@ -1,12 +1,21 @@
 # node_modules
+node_modules
 /node_modules/*
+bower_components
 /bower_components/*
 
 # git
+K_Tasks
 /K_Tasks/*
+KB
 /KB/*
+KonnektDT
 /KonnektDT/*
+KonnektL
 /KonnektL/*
+KonnektMP
 /KonnektMP/*
+KonnektRT
 /KonnektRT/*
+KonnektRTF
 /KonnektRTF/*
