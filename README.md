@@ -2,7 +2,7 @@
 > Multi layer component based binding framework
 
 [![NPM version][npm-image]][npm-url]
-[![Gitter Chat][gitter-image]][gitter-url]
+[![Gitter][gitter-image]][gitter-url]
 
 ## Table of Contents
 

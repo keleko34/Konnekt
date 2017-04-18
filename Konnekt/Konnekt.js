@@ -278,13 +278,24 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         return obsv;
       }
       
+      function getInnerMapper(name)
+      {
+        return new RegExp('('+_mapper.start()+'>'+name+'(.*?)'+_mapper.end()+')','g');
+      }
+      
+      function innerMapperKeys()
+      {
+        return new RegExp('('+_mapper.start()+'>(.*?)'+_mapper.end()+')','g');
+      }
+      
       /* in charge of connecting the viewmodel up to the allocated maps */
       function mapTargets(target,mappedAttrs,vm)
       {
         /* attaches viewmodel to wrapper */
         target.kb_viewmodel = vm;
         
-        mappedAttrs.wrapper.innerHTML = __mappedAttrs.template.replace(new RegExp('('+_mapper.start()+'local'+_mapper.end()+')','g'),vm.local);
+        /* do a replace for simple initial replacements inside binds */
+        mappedAttrs.wrapper.innerHTML = _mapper.insert(mappedAttrs.template,vm);
         
         /* map nodes with their bindings */
         var maps = mappedAttrs.maps = mappedAttrs.map(mappedAttrs.wrapper);
@@ -349,7 +360,8 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         {
           /* add to component tree and search for inner unkown components */
           __mappedAttrs.wrapper.__kbcomponenttree.push(name);
-          __mappedAttrs.wrapper.classList.add(__mappedAttrs.wrapper.kb_viewmodel.local);
+          __mappedAttrs.wrapper.className += (" "+__mappedAttrs.wrapper.kb_viewmodel.local);
+          __mappedAttrs.wrapper.className += (!!__mappedAttrs.wrapper.kb_viewmodel.loopid ? " "+__mappedAttrs.wrapper.kb_viewmodel.loopid : "");
           getInnerComponents(__mappedAttrs.wrapper);
         }
         else
