@@ -12,7 +12,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         /* Our mixed observable data library */
         _mixed = CreateData(),
         
-        _config = config | {},
+        _config = config || {},
         
         /* mapping library, for mapping new component: new _mapper(componentNode) */
         _mapper = CreateMapping().addEventListener('loopitem',function(e){
