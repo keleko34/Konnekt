@@ -544,7 +544,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
     {
       if(isHashed)
       {
-        if(document.body === undefined)
+        if(!document.body)
         {
           document.addEventListener('DOMContentLoaded',function(){
             _hashrouter(window.location.hash.replace('#',''));
