@@ -4,10 +4,10 @@
     <title>Konnekt</title>
     <script type="text/javascript" src="assets/js/Konnekt.js"></script>
     <script type="text/javascript">
-      var config = {
-        base:'webapp'
-      };
-        Konnekt()
+        Konnekt({
+          base:'webapp',
+          prefix:'Konnekt/'
+        })
         .localRouting(true)
         .hashRouting(true);
     </script>
