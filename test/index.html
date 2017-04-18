@@ -4,11 +4,11 @@
     <title>Testing</title>
     <script type="text/javascript" src="requirejs"></script>
     <script type="text/javascript">
-      var config = {
-        base:'todoapp'
-      };
       require(['Konnekt'],function(Konnekt){
-        var konnektjs = Konnekt().hashRouting(true);
+        var konnektjs = Konnekt({
+          base:'todoapp'
+        })
+        .hashRouting(true);
       });
     </script>
     <!--<script type="text/javascript" src="Build/Konnekt.js"></script>-->

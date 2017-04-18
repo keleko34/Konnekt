@@ -2,7 +2,7 @@
 /* End Build */
 define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateData,CreateLoader,kb,CreateMapping,CreateHashRouting){
 
-  function CreateKonnekt()
+  function CreateKonnekt(config)
   {
     if(!window.K_Components) window.K_Components = {};
     
@@ -11,6 +11,8 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         
         /* Our mixed observable data library */
         _mixed = CreateData(),
+        
+        _config = config | {},
         
         /* mapping library, for mapping new component: new _mapper(componentNode) */
         _mapper = CreateMapping().addEventListener('loopitem',function(e){
@@ -35,7 +37,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         
         /* routes components based on the current url hash, config.base sets the default route of '/' */
         _hashrouter = CreateHashRouting()
-        .base((config !== undefined && config.base !== undefined ? config.base : 'default'))
+        .base((_config.base !== undefined ? _config.base : 'default'))
         .watch(true)
         .onChange(function(name){
           Konnekt(document.querySelector(name));
@@ -520,7 +522,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
               
               var name = node.src.replace(match[0],'').replace(/[\/\s]/g,'');
               
-              node.src = '/components/' + name+'/build/'+_query.env+'/'+name+(!_query.debug || _query.env === 'prod' ? '.min' : '')+'.js';
+              node.src = (_config.prefix !== undefined ? _config.prefix : '')+'/components/' + name+'/build/'+_query.env+'/'+name+(!_query.debug || _query.env === 'prod' ? '.min' : '')+'.js';
               arguments[0] = node;
             }
           }

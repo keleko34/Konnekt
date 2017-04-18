@@ -89,7 +89,10 @@ There are two ways to get started using your components
 This automatically replaces \<body> content with your desired component
 
 ```js
-var config={base:'NameOfTheComponentYouWantToLoadIntoBody'}
+var konnektjs = Konnekt({
+  base:'Name-Of-The-Component-You-Want-To-Load-Into-Body',
+  prefix:'prefix-for-url-if-using-local-routing'
+});
 konnektjs.hashRouting(true);
 ```
   
