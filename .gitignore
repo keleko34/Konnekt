@@ -1,11 +1,9 @@
 npm-debug.log
 
-# node_modules
-node_modules
-/node_modules/*
-!node_modules/konnekt
-bower_components
-/bower_components/*
+# modules
+node_modules/*
+!/node_modules/konnekt
+bower_components/*
 
 # git
 K_Tasks
