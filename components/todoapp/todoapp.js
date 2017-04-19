@@ -19,7 +19,7 @@ function todoapp()
   }
   
   this.listen('todoapp__todolist','complete',function(e){
-    if(!e.initial) this.flash(e); 
+    if(!e.initial) this.flash(e);
   });
 }
 
