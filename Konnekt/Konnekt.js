@@ -52,6 +52,12 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         /* this will be used later for current loaded cms components */
         _cms = {},
         
+        /* handles standard message event buses */
+        _messages = {},
+        
+        /* handles more specific node scoped event buses */
+        _scopemessages = {},
+        
         /* url query attached to web addres: ?env=dev etc */
         _query = getQuery(),
         
@@ -90,15 +96,27 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
       
       if(predt) passKeys(predt,pre);
       
-      Object.defineProperty(pre,'local',setDescriptor(pre.local || (__name+"-"+(Math.floor(Math.random() * Date.now()) + 1)),true,false,true));
+      Object.defineProperty(pre,'local',setDescriptor(pre.local || ("local_"+__name+"-"+(Math.floor(Math.random() * Date.now()) + 1)),true,false,true));
+      Object.defineProperty(pre,'id',setDescriptor(pre.id || ("id_"+__name+"-"+(Math.floor(Math.random() * Date.now()) + 1)),true,false,true));
       
       /* base core filters usable in all components */
-      
       Object.defineProperty(pre,'filters',setDescriptor(pre.filters || {},false,false,true));
       
       
       if(typeof pre.onFinish !== 'function') pre.onFinish = function(){};
       Object.defineProperty(pre,'onFinish',setDescriptor(pre.onFinish,true,false,true));
+      
+      /* add listen method */
+      if(typeof pre.listen !== 'function') pre.listen = listen;
+      Object.defineProperty(pre,'listen',setDescriptor(pre.listen,true,false,true));
+      
+      /* add unlisten method */
+      if(typeof pre.unlisten !== 'function') pre.unlisten = unlisten;
+      Object.defineProperty(pre,'unlisten',setDescriptor(pre.unlisten,true,false,true));
+      
+      /* add alert method */
+      if(typeof pre.alert !== 'function') pre.alert = alert;
+      Object.defineProperty(pre,'alert',setDescriptor(pre.alert,true,false,true));
 
       /* whether to attempt to store data in sessionStorage */
       if(typeof pre.sessionStorage === 'string') pre.sessionStorage = (pre.sessionStorage === 'true');
@@ -363,7 +381,45 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
           /* add to component tree and search for inner unkown components */
           __mappedAttrs.wrapper.__kbcomponenttree.push(name);
           __mappedAttrs.wrapper.className += (" "+__mappedAttrs.wrapper.kb_viewmodel.local);
+          __mappedAttrs.wrapper.className += (" "+__mappedAttrs.wrapper.kb_viewmodel.id);
           __mappedAttrs.wrapper.className += (!!__mappedAttrs.wrapper.kb_viewmodel.loopid ? " "+__mappedAttrs.wrapper.kb_viewmodel.loopid : "");
+          /* watch for changes to alert any scope messages */
+          __mappedAttrs.wrapper.kb_viewmodel.subscribeDeep('*',function(e){
+              var local = this.__kbref.local,
+                  id = this.__kbref.id,
+                  loopid = this.__kbref.loopid,
+                  key = this.__kbscopeString+(this.__kbscopeString.length !== 0 ? '.' : '')+e.key;
+              if(_scopemessages[local])
+              {
+                if(_scopemessages[local][key])
+                {
+                  for(var x=0,len=_scopemessages[local][key].length;x<len;x++)
+                  {
+                    _scopemessages[local][key][x](e);
+                  }
+                }
+              }
+              if(_scopemessages[id])
+              {
+                if(_scopemessages[id][key])
+                {
+                  for(var x=0,len=_scopemessages[id][key].length;x<len;x++)
+                  {
+                    _scopemessages[id][key][x](e);
+                  }
+                }
+              }
+              if(_scopemessages[loopid])
+              {
+                if(_scopemessages[loopid][key])
+                {
+                  for(var x=0,len=_scopemessages[loopid][key].length;x<len;x++)
+                  {
+                    _scopemessages[loopid][key][x](e);
+                  }
+                }
+              }
+          });
           getInnerComponents(__mappedAttrs.wrapper);
         }
         else
@@ -466,6 +522,87 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         onload(name,component);
       });
       Konnekt.loadWaitList(name,'clear');
+    }
+    
+    function sub(e)
+    {
+      var listeners = _scopemessages[this.query][this.key];
+      for(var x=0,len=listeners.length;x<len;x++)
+      {
+        listeners[x](e);
+      }
+    }
+    
+    function unlisten(query,key,func)
+    {
+      /* standard message listener */
+      if(arguments.length === 2)
+      {
+        func = key.bind(this);
+        key = query;
+        if(_messages[key])
+        {
+          for(var x=0,len=_messages[key].length;x<len;x++)
+          {
+            if(_messages[key][x].toString() === func.toString())
+            {
+              _messages[key].splice(x,1);
+            }
+          }
+        }
+        else
+        {
+          console.error('no listeners exists by key %o',key);
+        }
+      }
+      else
+      {
+        func = func.bind(this);
+        if(_scopemessages[query] && _scopemessages[query][key])
+        {
+          for(var x=0,len=_scopemessages[query][key].length;x<len;x++)
+          {
+            if(_scopemessages[query][key].toString() === func.toString())
+            {
+              _scopemessages[query][key].splice(x,1);
+            }
+          }
+        }
+      }
+      return this;
+    }
+    
+    /* messaging commands */
+    function listen(query,key,func)
+    {
+      /* standard message listener */
+      if(arguments.length === 2)
+      {
+        func = key.bind(this);
+        key = query;
+        if(!_messages[key]) _messages[key] = [];
+        _messages[key].push(func);
+      }
+      else
+      {
+        func = func.bind(this);
+        if(!_scopemessages[query]) _scopemessages[query] = {};
+        if(!_scopemessages[query][key]) _scopemessages[query][key] = [];
+        _scopemessages[query][key].push(func);
+      }
+      return this;
+    }
+    
+    function alert(key,e)
+    {
+      if(_messages[key])
+      {
+        for(var x=0,len=_messages[key].length;x<len;x++)
+        {
+          _messages[key][x](e);
+        }
+      }
+      return this;
     }
 
     /* Registers name to a component */
