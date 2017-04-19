@@ -9,6 +9,7 @@ function navitem()
   var self = this;
 
   this.link = "";
+  this.left = 0;
 
   /* ATTRIBUTES */
   this.onclick = function()

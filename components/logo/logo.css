@@ -20,9 +20,9 @@
 
 .logo__text {
     position: absolute;
-    left: 64px;
-    top: 6px;
+    left: 62px;
+    top: -1px;
     font-family: 'wolf_in_the_cityregular';
-    font-size: 58px;
+    font-size: 60px;
     color: #87cefa;
 }
