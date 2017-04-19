@@ -11,10 +11,10 @@ function navitem()
   this.link = "";
   this.left = 0;
   this.title = "";
-  this.isActive = false;
+  this.active = false;
   
   /* Filters */
-  this.filters.active = function(v)
+  this.filters.isActive = function(v)
   {
     return (v ? 'navitem--active' : '');
   }
