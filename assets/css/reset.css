@@ -38,7 +38,6 @@ ol, ul {
 * {
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
   user-select: none;
-  cursor:default;
 }
 
 p, input, textarea {

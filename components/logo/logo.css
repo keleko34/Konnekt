@@ -5,7 +5,10 @@
  ********************************/
 
 .logo {
-  position: relative;
+  position: absolute;
+  height: 60px;
+  width: 190px;
+  cursor: pointer;
 }
 
 .logo__container {

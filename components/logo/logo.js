@@ -7,7 +7,10 @@
 function logo()
 {
   /* ATTRIBUTES */
-
+  this.onclick = function()
+  {
+    this.alert('page','intro');
+  }
 }
 
 /* PROTOTYPES */
