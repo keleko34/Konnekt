@@ -19,7 +19,5 @@
   "dependencies": {
     "konnekt": "^0.4.9"
   },
-  "devDependencies": {
-    "K_Tasks": "^0.8.1"
-  }
+  "devDependencies": {}
 }
