@@ -8,12 +8,17 @@ function intro()
 {
   var self = this;
   
-  this.offset = 0;
   /* ATTRIBUTES */
-  this.height = (window.innerHeight-this.offset);
+  this.offset = 0;
+  
+  /* FILTERS */
+  this.filters.offsetHeight = function(v)
+  {
+    return (window.innerHeight-parseInt(v,10));
+  }
   
   window.addEventListener('resize',function(){
-    self.height = (window.innerHeight-self.offset);
+    self.offset = self.offset;
   });
 }
 

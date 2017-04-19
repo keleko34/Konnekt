@@ -6,7 +6,7 @@
 
 .intro {
   overflow:hidden;
-  height:{{height}}px;
+  height:{{offset | offsetHeight}}px;
   width:100%;
   background:#1D1F21;
 }
