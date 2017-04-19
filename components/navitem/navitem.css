@@ -33,4 +33,5 @@
   text-align: center;
   line-height: 60px;
   padding: 0px 10px;
+  white-space: nowrap;
 }
