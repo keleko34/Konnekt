@@ -56,11 +56,7 @@ This libray can be installed directly using [NPM](https://www.npmjs.com) or [Bow
 
   - `npm i konnekt --save`
 
-It is highly suggested to use the bundable [K_Tasks](https://www.npmjs.com/package/K_Tasks) library as well as this will simplify the development process using gulp automated tasks
-
-- Second step:
-
-  - `npm i K_Tasks --save-dev`
+All cli commands come packaged along with konnekt.
 
 ## Usage
 These chapters are meant to be useful in learning more about how to work with the different powerful functionalities that konnekt provides
@@ -228,12 +224,12 @@ filters allow changing of a value/syntax prior to being placed on the page.
 
 ### Gulp tools
 
-There are 3 main tools for working with konnekt components when using the [K_Tasks](https://github.com/keleko34/k_tasks) module.
+There are 3 main tools for working with konnekt components the built in cli commands.
 
 Each command has built in prompts in cmd that are easy to follow, You can also use shorthand to skip the prompts
 
-1. Create Tool `gulp create` (select component option)
-2. Build Tool `gulp build` (select component option)
+1. Create Tool `gulp create` (used fo rcreating components)
+2. Build Tool `gulp build` (used for building components to different environments)
 3. Local Server `gulp server` (used for easy local environment testing)
 
 Shorthand example: `gulp server --port=8080 --root=(folderpath or . for local directory)`
