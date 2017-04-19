@@ -7,7 +7,6 @@
 .{{local}} .navitem {
   position: absolute;
   height: 100%;
-  left:25%;
   margin-left:{{left}}px
 }
 
