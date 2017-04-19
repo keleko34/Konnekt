@@ -21,7 +21,7 @@ function todoapp()
   }
   
   this.listen('todoapp__todolist','complete',function(e){
-    this.flash(e); 
+    if(!e.initial) this.flash(e); 
   });
 }
 

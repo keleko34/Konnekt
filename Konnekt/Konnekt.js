@@ -419,7 +419,9 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
                   }
                 }
               }
-          });
+          })
+          .callAllSubscribers();
+          
           getInnerComponents(__mappedAttrs.wrapper);
         }
         else
