@@ -13,6 +13,7 @@ function logo()
   this.onclick = function()
   {
     self.alert('page','intro');
+    self.alert('navitem','intro');
   }
 }
 
