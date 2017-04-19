@@ -7,7 +7,6 @@ support
 test
 examples
 *.sock
-.gulp
 app
 compiler.jar
 components
