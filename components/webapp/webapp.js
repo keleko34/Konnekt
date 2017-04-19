@@ -8,6 +8,11 @@ function webapp()
 {
   /* ATTRIBUTES */
   this.page = "";
+  
+  this.listen('page',function(value){
+    this.page = value;
+    console.log(value);
+  });
 }
 
 /* PROTOTYPES */

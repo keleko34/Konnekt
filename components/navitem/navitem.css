@@ -20,6 +20,11 @@
   box-shadow: 0px -2px 16px -4px #000 inset;
 }
 
+.{{local}} .navitem--active {
+  background: #1b1a1a;
+  box-shadow: 0px -2px 16px -4px #000 inset;
+}
+
 .{{local}} .navitem_text {
   cursor: pointer;
   color: #F1F1F1;

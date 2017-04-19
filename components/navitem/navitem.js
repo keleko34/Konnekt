@@ -10,11 +10,25 @@ function navitem()
 
   this.link = "";
   this.left = 0;
-
+  this.title = "";
+  this.isActive = false;
+  
+  /* Filters */
+  this.filters.active = function(v)
+  {
+    return (v ? 'navitem--active' : '');
+  }
+  
+  /* listeners */
+  this.listen('navitem',function(value){
+    this.active = (this.title === value);
+  });
+  
   /* ATTRIBUTES */
   this.onclick = function()
   {
-    /* This is where we use listener to push to changes: container link */
+    self.alert('page',self.link);
+    self.alert('navitem',self.title);
   }
 }
 

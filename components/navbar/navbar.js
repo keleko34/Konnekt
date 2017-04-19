@@ -7,7 +7,7 @@
 function navbar()
 {
   /* ATTRIBUTES */
-
+  
 }
 
 /* PROTOTYPES */
