@@ -3,7 +3,7 @@
 var local = process.cwd().replace(/(\\)/g,'/'),
     fs = require('fs');
 
-var stream = fs.createWriteStream(local+"/gulpfile.js");
+var stream = fs.createWriteStream(local+"/../../gulpfile.js");
 stream.once('open', function(fd) {
   stream.write("require('konnekt')();\n");
   stream.end();
