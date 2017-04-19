@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/keleko34/Konnekt#readme",
   "dependencies": {
-    "konnekt": "^0.5.3"
+    "konnekt": "^0.5.4"
   },
   "devDependencies": {}
 }
