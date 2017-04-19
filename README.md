@@ -24,6 +24,7 @@
     - [Loops](#loops)
   - [Viewmodel](#viewmodel)
     - [Built in Properties](#built-in-proprties)
+    - [Listeners](#listeners)
 - [Examples](#examples)
 - [Development](#development)
 - [Changelog](#changelog)
@@ -645,6 +646,92 @@ There are a few built in properties that have extra uses when dealing with Your 
 
 - **localStorage(boolean)** Similiar to sessionStorage but persists even when the browser is closed and reopened.
 
+#### Listeners
+
+Listeners are great add ons that allow You to listen for alerts or changes of data in other components in the page.
+
+- **listen @Params((id|local|loopid),key,function) or @Params(key,function)** 
+
+This method allows listening for key alerts or for listening to specific components data changes
+
+Example:
+
+Foo
+```html
+  <div>
+    <bar id="foobar"></bar>
+  </div>
+```
+
+```js
+  function foo()
+  {
+    /* key alerts */
+    this.listen('key',function(e){
+      /* fires when another component alerts with this key */
+    });
+    
+    /* specific component data */
+    this.listen('foobar','key',function(e){
+      /* fires when this components data with the property 'key' changes */
+    })
+  }
+```
+
+- **unlisten @Params((id|local|loopid),key,function) or @Params(key,function)** 
+
+This method removes listeners that were attached, **note: just like events you must pass in the original method that was used with the listener for removal**
+
+```js
+  function foo()
+  {
+    function listenToKey(e)
+    {
+    
+    }
+  
+    /* Example of key version */
+    this.listen('key',listenToKey);
+    this.unlisten('key',listenToKey);
+    
+    /* Example of component id version */
+    this.listen('foobar','key',listenToKey);
+    this.unlisten('foobar','key',listenToKey);
+  }
+```
+
+- **alert @Params(key,value)** 
+
+This method allows You to alert any listening components of that key and pass them a value
+
+```js
+  function foo()
+  {
+    var self = this;
+    /* an example using a click event */
+    this.onclick = function()
+    {
+      /* Alert with a value */
+      self.alert('key',500);
+    }
+  }
+```
+
+The passed objects into the listen methods that are passed are represented in two forms,
+
+- **listen(key,function)** only a value is passed
+
+- **listen((id|local|loopid),key,function)** The following object is pass:
+
+  - key: The key that changed
+  - value: the current value set
+  - oldValue: the old value that was set
+  - stopChange: whether a stopChange was applied on this value change or not
+  - local: the local based object layer
+  - kbref: the base object of the entire data set
+  - initial: Whether this is an initial data fetch
+  
+**note: when add a listen that connects to a component, that listen will be fired immediately containing the current value that is set, You can filter these out by reading the event.initial property that is passed when your function is fired**
 
 ## Examples
 
