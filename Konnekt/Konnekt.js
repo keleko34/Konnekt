@@ -90,7 +90,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
       
       if(predt) passKeys(predt,pre);
       
-      Object.defineProperty(pre,'local',setDescriptor(pre.local || (__name+"-"+Date.now()),true,false,true));
+      Object.defineProperty(pre,'local',setDescriptor(pre.local || (__name+"-"+(Math.floor(Math.random() * Date.now()) + 1)),true,false,true));
       
       /* base core filters usable in all components */
       
