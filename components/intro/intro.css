@@ -1,0 +1,12 @@
+/*********************************
+ *  intro
+ *  Created by keleko34
+ *  This is an introductory page that shows some basic info about the konnekt library and its cool benifits
+ ********************************/
+
+.intro {
+  overflow:hidden;
+  height:{{height}}px;
+  width:100%;
+  background:#1D1F21;
+}

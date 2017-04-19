@@ -1,0 +1,13 @@
+/*********************************
+ *  intro_cms
+ *  Created by keleko34
+ *  This is an introductory page that shows some basic info about the konnekt library and its cool benifits
+ ********************************/
+
+function intro()
+{
+  /* ATTRIBUTES */
+
+}
+
+/* PROTOTYPES */

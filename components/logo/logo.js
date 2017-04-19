@@ -6,10 +6,11 @@
 
 function logo()
 {
+  var self = this;
   /* ATTRIBUTES */
   this.onclick = function()
   {
-    this.alert('page','intro');
+    self.alert('page','intro');
   }
 }
 
