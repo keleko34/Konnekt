@@ -25,6 +25,8 @@
   - [Viewmodel](#viewmodel)
     - [Built in Properties](#built-in-proprties)
     - [Listeners](#listeners)
+  - [Built Ins](#built-ins)
+    - [Device Detection](#device-detection)
 - [Examples](#examples)
 - [Development](#development)
 - [Changelog](#changelog)
@@ -732,6 +734,78 @@ The passed objects into the listen methods that are passed are represented in tw
   - initial: Whether this is an initial data fetch
   
 **note: when add a listen that connects to a component, that listen will be fired immediately containing the current value that is set, You can filter these out by reading the event.initial property that is passed when your function is fired**
+
+## Built Ins
+
+Built ins are extra functionality that can be used inside of components that are not necessariliy part of html or vm functionality
+
+### Device Detection
+
+You can use some simple properties and css classes to help with device detection in your styling or code
+
+Type of device being used:
+
+- Device
+  - mobile
+  - tablet
+  - desktop
+  
+Orientation of the device:
+
+- Orientation
+  - portrait
+  - landscape
+  
+Type of browser being used:
+
+- Browser
+  - ie
+  - chrome
+  - firefox
+  - safari
+  - unknown
+  
+if not a desktop, if the keyboard is open:
+
+- Keyboard
+  - true/false
+
+The actual window size of the current app, can differ when user resizes window say on a desktop:
+
+- ScreenSize
+  - mobile-size
+  - tablet-size
+  - desktop-size
+  
+The actual window orientation of the current app, can differ when user resizes window say on a desktop:
+
+- OrientationSize
+  - portrait-size
+  - landscape-size
+  
+  
+CSS:
+```css
+  .desktop .foo {
+    width:60px;
+  }
+  .mobile .foo {
+    width:20px;
+  }
+  
+  .keyboard .foo {
+    width:100%;
+  }
+```
+
+The JS based version can be retrieved off the base `Konnekt` method like via the `device` property:
+
+JS:
+```js
+  var device = Konnekt.device.type; //"mobile"
+  var isKeyboard = Konnekt.device.keyboard; //true/false
+  var screenSize = Konnekt.device.screenSize; //"mobile-size"
+```
 
 ## Examples
 

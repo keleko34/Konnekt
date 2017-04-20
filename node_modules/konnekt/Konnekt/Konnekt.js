@@ -625,6 +625,140 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
       }
       return this;
     }
+    
+    /* environment detection */
+    Konnekt.detectDevice = function()
+    {
+      var mobile = /(mobi|ipod|phone|blackberry|opera mini|fennec|minimo|symbian|psp|nintendo ds|archos|skyfire|puffin|blazer|bolt|gobrowser|iris|maemo|semc|teashark|uzard|[^a-z]rim[^a-z]|sonyericsson|nokia|[^a-z]mib[^a-z])/,
+          tablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/;
+      
+      if(navigator.userAgent.toLowerCase().match(mobile)) return 'mobile';
+      
+      if(navigator.userAgent.toLowerCase().match(tablet)) return 'tablet';
+      
+      return 'desktop';
+    }
+    
+    Konnekt.detectBrowser = function()
+    {
+      // Opera 8.0+
+      var isOpera = ((!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0);
+
+      // Firefox 1.0+
+      var isFirefox = (typeof InstallTrigger !== 'undefined');
+
+      // Safari 3.0+ "[object HTMLElementConstructor]" 
+      var isSafari = (/constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification));
+
+      // Internet Explorer 6-11
+      var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+      // Edge 20+
+      var isEdge = !isIE && !!window.StyleMedia;
+
+      // Chrome 1+
+      var isChrome = !!window.chrome && !!window.chrome.webstore;
+      
+      return isOpera ? 'opera' :
+        isFirefox ? 'firefox' :
+        isSafari ? 'safari' :
+        isChrome ? 'chrome' :
+        isIE ? 'ie' :
+        isEdge ? 'edge' :
+        "unknown";
+    }
+    
+    Konnekt.detectOrientation = function()
+    {
+      if(screen.width > screen.height)
+      {
+        return 'landscape';
+      }
+      else if(screen.height > screen.width)
+      {
+        return 'portrait';
+      }
+      else
+      {
+        return 'square';
+      }
+    }
+    
+    Konnekt.detectScreenOrientation = function()
+    {
+      if(window.innerWidth > window.innerHeight)
+      {
+        return 'landscape-size';
+      }
+      else if(window.innerHeight > window.innerWidth)
+      {
+        return 'portrait-size';
+      }
+      else
+      {
+        return 'square-size';
+      }
+    }
+    
+    Konnekt.detectScreenSize = function()
+    {
+      if((this.detectOrientation() === 'landscape' ? window.innerWidth : window.innerHeight) < 1280)
+      {
+        if((this.detectOrientation() === 'landscape' ? window.innerWidth : window.innerHeight) < 750)
+        {
+          return 'mobile-size';
+        }
+        return 'tablet-size';
+      }
+      else
+      {
+        return 'desktop-size';
+      }
+    }
+    
+    function detectKeyboard()
+    {
+      /* detect if the current window size is smaller than 60% of the original device size */
+      return (window.innerHeight < screen.height-(screen.height*0.40));
+    }
+    
+    function setBaseClasses()
+    {
+      if(!document.querySelector('meta[name="viewport"]'))
+      {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, initial-scale=1.0';
+        document.head.appendChild(meta);
+      }
+      
+      if(!Konnekt.device) Konnekt.device = {};
+      Konnekt.device.type = Konnekt.detectDevice();
+      Konnekt.device.orientation = Konnekt.detectOrientation();
+      Konnekt.device.browser = Konnekt.detectBrowser();
+      Konnekt.device.screenSize = Konnekt.detectScreenSize();
+      Konnekt.device.orientationSize = Konnekt.detectScreenOrientation();
+      Konnekt.device.keyboard = (Konnekt.device.type !== 'desktop' ? (detectKeyboard()) : false);
+      
+      document.body.className = Konnekt.device.type
+      +" "+Konnekt.device.orientation
+      +(Konnekt.device.keyboard ? ' keyboard' : '')
+      +" "+Konnekt.device.browser
+      +" "+Konnekt.device.screenSize
+      +" "+Konnekt.device.orientationSize;
+    }
+    
+    window.addEventListener('resize',setBaseClasses);
+    if(document.body)
+    {
+      setBaseClasses();
+    }
+    else
+    {
+      document.addEventListener("DOMContentLoaded",function(){
+        setBaseClasses();
+      })
+    }
 
     /* Registers name to a component */
     Konnekt.register = function(name,vm,template,cms)
