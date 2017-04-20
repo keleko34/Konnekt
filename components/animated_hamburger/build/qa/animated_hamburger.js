@@ -118,6 +118,10 @@ animated_hamburger.prototype.animate = function(open)
 
 animated_hamburger.prototype.toggle = function()
 {
+  this.bars = [
+    document.querySelector('.animated_hamburger__bar_1'),
+    document.querySelector('.animated_hamburger__bar_2')
+  ];
   this.animate(!this.isOpen);
 }
 animated_hamburger.prototype.k_html = "<!-- animated_hamburger Created by keleko34, A mobile device menu bar that animates when in a open toggled state --><div class='animated_hamburger' onclick='{{onclick}}'>  <div class='animated_hamburger__bar animated_hamburger__bar_1'></div>  <div class='animated_hamburger__bar animated_hamburger__bar_2'></div>  <div class='animated_hamburger__bar animated_hamburger__bar_3'></div></div>";

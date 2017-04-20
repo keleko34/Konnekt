@@ -116,5 +116,9 @@ animated_hamburger.prototype.animate = function(open)
 
 animated_hamburger.prototype.toggle = function()
 {
+  this.bars = [
+    document.querySelector('.animated_hamburger__bar_1'),
+    document.querySelector('.animated_hamburger__bar_2')
+  ];
   this.animate(!this.isOpen);
 }
