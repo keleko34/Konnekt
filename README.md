@@ -813,6 +813,41 @@ You can view an example implementation of an app using all the different types o
 
 - [Todo App](https://github.com/keleko34/konnekt_todo_app_example)
 
+###### Adding Device detection throughout the app from the base component
+
+Base
+```js
+  function base()
+  {
+    var self = this;
+    
+    /* add a resize listener to send out alerts for media device changes */
+    window.addEventListener('resize',function(){
+      self.alert('app_width',window.innerWidth);
+      self.alert('app_height',window.innerHeight);
+      self.alert('app_device',Konnekt.device.type);
+      self.alert('app_orientation',Konnekt.device.orientation);
+      self.alert('app_browser',Konnekt.device.browser);
+      self.alert('app_keyboard',Konnekt.device.keyboard);
+    });
+  }
+```
+
+Another component
+```js
+  function anothercomponent()
+  {
+    /* use initial value */
+    this.showKeyboardInput = Konnekt.device.keyboard;
+    
+    /* listen for future updates */
+    this.listen('app_keyboard',function(value){
+      this.showKeyboardInput = value;
+    });
+  }
+```
+
+
 ## Development
 
 If You would like to keep track of what is currently being developped on this framework, You can look at our [Trello](https://trello.com/b/X55aqPpM/konnektjs)
