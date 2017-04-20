@@ -16,6 +16,7 @@
   position: absolute;
   height:4px;
   border-radius: 2px;
+  width:100%;
 }
 
 .animated_hamburger__bar_1 {
