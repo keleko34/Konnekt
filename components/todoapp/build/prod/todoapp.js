@@ -20,16 +20,17 @@ function todoapp()
     return v.toUpperCase();
   }
   
-  this.listen('.todoapp__todolist','complete',function(e){
-    this.flash();
+  this.listen('todoapp__todolist','complete',function(e){
+    if(!e.initial) this.flash(e);
   });
 }
 
-todoapp.prototype.flash = function(){
-  this.color = "rgba(125, 183, 112, 1)"; //endresult = rgb(200, 200, 200)
-  (function rec()
+todoapp.prototype.flash = function(e){
+  this.color = (parseInt(e.oldValue,10) < parseInt(e.value,10) ? "rgba(125, 183, 112, 1)" : "rgba(251, 127, 127, 1)"); //endresult = rgb(200, 200, 200)
+  var self = this;
+  function rec()
   {
-    var curColors = (this.color).replace(/[rgba\(\)\s]/g,'').split(',');
+    var curColors = (self.color).replace(/[rgba\(\)\s]/g,'').split(',');
     curColors.splice(3,1);
     var allFinished = 0;
     curColors = curColors.map(function(x){
@@ -38,11 +39,12 @@ todoapp.prototype.flash = function(){
       {
         allFinished += 1;
       }
-      return (x < 200 ? (x+1) : 200);
+      return (x < 200 ? (x+1) : (x > 200 ? (x-1) : 200));
     });
-    if(allFinished !== 3) setTimeout(function(){rec();},5);
-  }).bind(this);
-  setTimeout(function(){rec();},5);
+    self.color = "rgba("+curColors.join(",")+", 1)"
+    if(allFinished !== 3) setTimeout(function(){rec();},15);
+  };
+  rec();
 }
 
 /* PROTOTYPES */

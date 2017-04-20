@@ -421,7 +421,9 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
                   }
                 }
               }
-          });
+          })
+          .callAllSubscribers();
+          
           getInnerComponents(__mappedAttrs.wrapper);
         }
         else
@@ -591,6 +593,25 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         if(!_scopemessages[query]) _scopemessages[query] = {};
         if(!_scopemessages[query][key]) _scopemessages[query][key] = [];
         _scopemessages[query][key].push(func);
+        
+        /* if this happens to be a parent component we immediately retrieve the value, if not then callAllSubscribers will fire initial */
+        if(document.querySelector('.'+query))
+        {
+          var scopeMessages = _scopemessages[query][key],
+              data = document.querySelector('.'+query).kb_mapper.kb_viewmodel,
+              local = data.getLayer(key),
+              localKey = key.split('.').pop(),
+              val = local[localKey];
+          scopeMessages[(scopeMessages.length-1)]({
+            key:localKey,
+            value:val,
+            oldValue:val,
+            local:local,
+            kbref:data,
+            onChange:false,
+            initial:true
+          });
+        }
       }
       return this;
     }
