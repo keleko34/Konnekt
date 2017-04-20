@@ -21,15 +21,12 @@
 
 .animated_hamburger__bar_1 {
   top:0px;
-  left:{{barOffsets.0}}px;
 }
 
 .animated_hamburger__bar_2 {
   top:10px;
-  left:{{barOffsets.1}}px;
 }
 
 .animated_hamburger__bar_3 {
   top:20px;
-  left:{{barOffsets.3}}px;
 }
