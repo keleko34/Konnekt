@@ -846,7 +846,7 @@ Another component
   function anothercomponent()
   {
     /* use initial value */
-    this.showKeyboardInput = Konnekt.device.keyboard;
+    this.showKeyboardInput = konnektjs.device.keyboard;
     
     /* listen for future updates */
     this.listen('app_keyboard',function(value){
