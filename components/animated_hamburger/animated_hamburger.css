@@ -1,0 +1,34 @@
+/*********************************
+ *  animated_hamburger
+ *  Created by keleko34
+ *  A mobile device menu bar that animates when in a open toggled state
+ ********************************/
+
+.animated_hamburger {
+  position:absolute;
+  height:50px;
+  width:50px;
+  cursor:pointer;
+}
+
+.animated_hamburger__bar {
+  background:#D9D9D9;
+  position: absolute;
+  height:10px;
+  border-radius: 3px;
+}
+
+.animated_hamburger__bar_1 {
+  top:0px;
+  left:{{barOffsets.0}}px;
+}
+
+.animated_hamburger__bar_1 {
+  top:20px;
+  left:{{barOffsets.1}}px;
+}
+
+.animated_hamburger__bar_1 {
+  top:40px;
+  left:{{barOffsets.3}}px;
+}
