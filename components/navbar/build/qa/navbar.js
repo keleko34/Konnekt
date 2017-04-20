@@ -16,7 +16,7 @@ function navbar()
   });
   
     
-  this.filters.notHidden = function(v)
+  this.filters.isNotHidden = function(v)
   {
     return (!v ? 'none' : 'block');
   }
