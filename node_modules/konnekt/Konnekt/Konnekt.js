@@ -847,6 +847,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
           _hashrouter(window.location.hash.replace('#',''));
         }
       }
+      return this;
     }
 
     return Konnekt;
