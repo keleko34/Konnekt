@@ -100,6 +100,8 @@ animated_hamburger.prototype.animate = function(open)
     }
     if(self.barOffsets[0] !== offset && self.barOffsets[1] !== offsetmid) setTimeout(function(){animate();},self.animation_speed);
   }
+  
+  this.isOpen = open;
   animate();
 }
 

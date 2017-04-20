@@ -15,7 +15,7 @@
   background:#D9D9D9;
   position: absolute;
   height:4px;
-  border-radius: 2px;
+  border-radius: 1px;
   width:100%;
 }
 
@@ -25,11 +25,11 @@
 }
 
 .animated_hamburger__bar_2 {
-  top:11px;
+  top:10px;
   left:{{barOffsets.1}}px;
 }
 
 .animated_hamburger__bar_3 {
-  top:22px;
+  top:20px;
   left:{{barOffsets.3}}px;
 }
