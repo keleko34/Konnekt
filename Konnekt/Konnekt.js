@@ -6,6 +6,8 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
   {
     if(!window.K_Components) window.K_Components = {};
     
+    /* User Agent Parsing */
+    
     /* main loader for loading files */
     var _Loader = CreateLoader().onLoad(onComponentLoad),
         
@@ -603,6 +605,97 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         }
       }
       return this;
+    }
+    
+    /* environment detection */
+    function detectDevice()
+    {
+      var mobile = /(mobi|ipod|phone|blackberry|opera mini|fennec|minimo|symbian|psp|nintendo ds|archos|skyfire|puffin|blazer|bolt|gobrowser|iris|maemo|semc|teashark|uzard|[^a-z]rim[^a-z]|sonyericsson|nokia|[^a-z]mib[^a-z])/,
+          tablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/;
+      
+      if(navigator.userAgent.toLowerCase().match(mobile)) return 'mobile';
+      
+      if(navigator.userAgent.toLowerCase().match(tablet)) return 'tablet';
+      
+      return 'desktop';
+    }
+    
+    function detectBrowser()
+    {
+      // Opera 8.0+
+      var isOpera = ((!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0);
+
+      // Firefox 1.0+
+      var isFirefox = (typeof InstallTrigger !== 'undefined');
+
+      // Safari 3.0+ "[object HTMLElementConstructor]" 
+      var isSafari = (/constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification));
+
+      // Internet Explorer 6-11
+      var isIE = /*@cc_on!@*/false || !!document.documentMode;
+
+      // Edge 20+
+      var isEdge = !isIE && !!window.StyleMedia;
+
+      // Chrome 1+
+      var isChrome = !!window.chrome && !!window.chrome.webstore;
+      
+      return isOpera ? 'opera' :
+        isFirefox ? 'firefox' :
+        isSafari ? 'safari' :
+        isChrome ? 'chrome' :
+        isIE ? 'ie' :
+        isEdge ? 'edge' :
+        "unknown";
+    }
+    
+    function detectOrientation()
+    {
+      if(window.innerWidth > window.innerHeight)
+      {
+        return 'landscape';
+      }
+      else if(window.innerHeight > window.innerWidth)
+      {
+        return 'portrait';
+      }
+      else
+      {
+        return 'square';
+      }
+    }
+    
+    function detectScreenSize()
+    {
+      if((detectOrientation() === 'landscape' ? window.innerWidth : window.innerHeight) < 1280)
+      {
+        if((detectOrientation() === 'landscape' ? window.innerWidth : window.innerHeight) < 750)
+        {
+          return 'mobile-size';
+        }
+        return 'tablet-size';
+      }
+      else
+      {
+        return 'desktop-size';
+      }
+    }
+    
+    function setBaseClasses()
+    {
+      document.body.className = detectScreenSize()+" "+detectOrientation()+" "+detectDevice()+" "+detectBrowser();
+    }
+    
+    window.addEventListener('resize',setBaseClasses);
+    if(document.body)
+    {
+      setBaseClasses();
+    }
+    else
+    {
+      document.addEventListener("DOMContentLoaded",function(){
+        setBaseClasses();
+      })
     }
 
     /* Registers name to a component */
