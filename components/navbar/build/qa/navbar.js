@@ -15,6 +15,6 @@ function navbar()
 /* PROTOTYPES */
 
 navbar.prototype.k_html = "<!-- navbar Created by keleko34, the header navbar for the site --><div class='navbar'>  <logo></logo>  <navitem link='documentation' left='190' title='Documentation'></navitem>  <navitem link='get_started' left='313' title='Get Started'></navitem>  <navitem link='download' left='408' title='Download'></navitem>  <navitem link='playground' left='495' title='Playground'></navitem>  <animated_hamburger></animated_hamburger></div>";
-navbar.prototype.k_css = "/********************************* *  navbar *  Created by keleko34 *  the header navbar for the site ********************************/.navbar {  position: relative;  height:60px;  background:#333;  border-bottom: 2px solid #000;  box-shadow: 0px 0px 8px -2px #000;}.navbar .animated_hamburger {  right:20px;}";
+navbar.prototype.k_css = "/********************************* *  navbar *  Created by keleko34 *  the header navbar for the site ********************************/.navbar {  position: relative;  height:60px;  background:#333;  border-bottom: 2px solid #000;  box-shadow: 0px 0px 8px -2px #000;}.navbar .animated_hamburger {  top:16px;  right:20px;}";
 return navbar;
 }());

@@ -6,16 +6,16 @@
 
 .animated_hamburger {
   position:absolute;
-  height:50px;
-  width:50px;
+  height: 30px;
+  width: 33px;
   cursor:pointer;
 }
 
 .animated_hamburger__bar {
   background:#D9D9D9;
   position: absolute;
-  height:10px;
-  border-radius: 3px;
+  height:4px;
+  border-radius: 2px;
 }
 
 .animated_hamburger__bar_1 {
@@ -23,12 +23,12 @@
   left:{{barOffsets.0}}px;
 }
 
-.animated_hamburger__bar_1 {
-  top:20px;
+.animated_hamburger__bar_2 {
+  top:11px;
   left:{{barOffsets.1}}px;
 }
 
-.animated_hamburger__bar_1 {
-  top:40px;
+.animated_hamburger__bar_3 {
+  top:22px;
   left:{{barOffsets.3}}px;
 }
