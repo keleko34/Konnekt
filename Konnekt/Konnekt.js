@@ -6,8 +6,6 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
   {
     if(!window.K_Components) window.K_Components = {};
     
-    /* User Agent Parsing */
-    
     /* main loader for loading files */
     var _Loader = CreateLoader().onLoad(onComponentLoad),
         
@@ -629,7 +627,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
     }
     
     /* environment detection */
-    function detectDevice()
+    Konnekt.detectDevice = function()
     {
       var mobile = /(mobi|ipod|phone|blackberry|opera mini|fennec|minimo|symbian|psp|nintendo ds|archos|skyfire|puffin|blazer|bolt|gobrowser|iris|maemo|semc|teashark|uzard|[^a-z]rim[^a-z]|sonyericsson|nokia|[^a-z]mib[^a-z])/,
           tablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/;
@@ -641,7 +639,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
       return 'desktop';
     }
     
-    function detectBrowser()
+    Konnekt.detectBrowser = function()
     {
       // Opera 8.0+
       var isOpera = ((!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0);
@@ -670,13 +668,13 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         "unknown";
     }
     
-    function detectOrientation()
+    Konnekt.detectOrientation = function()
     {
-      if(window.innerWidth > window.innerHeight)
+      if(screen.width > screen.height)
       {
         return 'landscape';
       }
-      else if(window.innerHeight > window.innerWidth)
+      else if(screen.height > screen.width)
       {
         return 'portrait';
       }
@@ -686,11 +684,27 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
       }
     }
     
-    function detectScreenSize()
+    Konnekt.detectScreenOrientation = function()
     {
-      if((detectOrientation() === 'landscape' ? window.innerWidth : window.innerHeight) < 1280)
+      if(window.innerWidth > window.innerHeight)
       {
-        if((detectOrientation() === 'landscape' ? window.innerWidth : window.innerHeight) < 750)
+        return 'landscape-size';
+      }
+      else if(window.innerHeight > window.innerWidth)
+      {
+        return 'portrait-size';
+      }
+      else
+      {
+        return 'square-size';
+      }
+    }
+    
+    Konnekt.detectScreenSize = function()
+    {
+      if((this.detectOrientation() === 'landscape' ? window.innerWidth : window.innerHeight) < 1280)
+      {
+        if((this.detectOrientation() === 'landscape' ? window.innerWidth : window.innerHeight) < 750)
         {
           return 'mobile-size';
         }
@@ -702,9 +716,36 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
       }
     }
     
+    function detectKeyboard()
+    {
+      /* detect if the current window size is smaller than 60% of the original device size */
+      return (window.innerHeight < screen.height-(screen.height*0.40));
+    }
+    
     function setBaseClasses()
     {
-      document.body.className = detectScreenSize()+" "+detectOrientation()+" "+detectDevice()+" "+detectBrowser();
+      if(!document.querySelector('meta[name="viewport"]'))
+      {
+        var meta = document.createElement('meta');
+        meta.name = 'viewport';
+        meta.content = 'width=device-width, initial-scale=1.0';
+        document.head.appendChild(meta);
+      }
+      
+      if(!Konnekt.device) Konnekt.device = {};
+      Konnekt.device.type = Konnekt.detectDevice();
+      Konnekt.device.orientation = Konnekt.detectOrientation();
+      Konnekt.device.browser = Konnekt.detectBrowser();
+      Konnekt.device.screenSize = Konnekt.detectScreenSize();
+      Konnekt.device.orientationSize = Konnekt.detectScreenOrientation();
+      Konnekt.device.keyboard = (Konnekt.device.type !== 'desktop' ? (detectKeyboard()) : false);
+      
+      document.body.className = Konnekt.device.type
+      +" "+Konnekt.device.orientation
+      +(Konnekt.device.keyboard ? ' keyboard' : '')
+      +" "+Konnekt.device.browser
+      +" "+Konnekt.device.screenSize
+      +" "+Konnekt.device.orientationSize;
     }
     
     window.addEventListener('resize',setBaseClasses);
