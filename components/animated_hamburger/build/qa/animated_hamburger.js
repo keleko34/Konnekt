@@ -6,7 +6,7 @@ K_Components["animated_hamburger"] = (function(){
  *  A mobile device menu bar that animates when in a open toggled state
  ********************************/
 
-function animated_hamburger()
+function animated_hamburger(node)
 {
   var self = this;
   /* ATTRIBUTES */
@@ -25,6 +25,11 @@ function animated_hamburger()
   {
     self.toggle();
   }
+  
+  this.bars = [
+    node.querySelector('.animated_hamburger__bar_1'),
+    node.querySelector('.animated_hamburger__bar_2')
+  ];
 }
 
 /* PROTOTYPES */
@@ -54,6 +59,8 @@ animated_hamburger.prototype.animate = function(open)
     {
       self.barOffsets[1] = offsetmid;
     }
+    self.bars[0].style.left = self.barOffsets[0]+"px";
+    self.bars[1].style.left = self.barOffsets[1]+"px";
   }
   
   function goRight()
@@ -74,6 +81,8 @@ animated_hamburger.prototype.animate = function(open)
     {
       self.barOffsets[1] = offsetmid;
     }
+    self.bars[0].style.left = self.barOffsets[0]+"px";
+    self.bars[1].style.left = self.barOffsets[1]+"px";
   }
   
   function animate()
@@ -111,7 +120,7 @@ animated_hamburger.prototype.toggle = function()
 {
   this.animate(!this.isOpen);
 }
-animated_hamburger.prototype.k_html = "<!-- animated_hamburger Created by keleko34, A mobile device menu bar that animates when in a open toggled state --><div class='animated_hamburger' onclick='{{onclick}}'>  <div class='animated_hamburger__bar animated_hamburger__bar_1' style='left:{{barOffsets.0}}px;'></div>  <div class='animated_hamburger__bar animated_hamburger__bar_2' style='left:{{barOffsets.1}}px;'></div>  <div class='animated_hamburger__bar animated_hamburger__bar_3'></div></div>";
+animated_hamburger.prototype.k_html = "<!-- animated_hamburger Created by keleko34, A mobile device menu bar that animates when in a open toggled state --><div class='animated_hamburger' onclick='{{onclick}}'>  <div class='animated_hamburger__bar animated_hamburger__bar_1'></div>  <div class='animated_hamburger__bar animated_hamburger__bar_2'></div>  <div class='animated_hamburger__bar animated_hamburger__bar_3'></div></div>";
 animated_hamburger.prototype.k_css = "/********************************* *  animated_hamburger *  Created by keleko34 *  A mobile device menu bar that animates when in a open toggled state ********************************/.animated_hamburger {  position:absolute;  height: 30px;  width: 33px;  cursor:pointer;}.animated_hamburger__bar {  background:#D9D9D9;  position: absolute;  height:4px;  border-radius: 1px;  width:100%;}.animated_hamburger__bar_1 {  top:0px;}.animated_hamburger__bar_2 {  top:10px;}.animated_hamburger__bar_3 {  top:20px;}";
 return animated_hamburger;
 }());

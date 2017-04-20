@@ -4,7 +4,7 @@
  *  A mobile device menu bar that animates when in a open toggled state
  ********************************/
 
-function animated_hamburger()
+function animated_hamburger(node)
 {
   var self = this;
   /* ATTRIBUTES */
@@ -23,6 +23,11 @@ function animated_hamburger()
   {
     self.toggle();
   }
+  
+  this.bars = [
+    node.querySelector('.animated_hamburger__bar_1'),
+    node.querySelector('.animated_hamburger__bar_2')
+  ];
 }
 
 /* PROTOTYPES */
@@ -52,6 +57,8 @@ animated_hamburger.prototype.animate = function(open)
     {
       self.barOffsets[1] = offsetmid;
     }
+    self.bars[0].style.left = self.barOffsets[0]+"px";
+    self.bars[1].style.left = self.barOffsets[1]+"px";
   }
   
   function goRight()
@@ -72,6 +79,8 @@ animated_hamburger.prototype.animate = function(open)
     {
       self.barOffsets[1] = offsetmid;
     }
+    self.bars[0].style.left = self.barOffsets[0]+"px";
+    self.bars[1].style.left = self.barOffsets[1]+"px";
   }
   
   function animate()
