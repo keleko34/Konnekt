@@ -815,6 +815,14 @@ You can view an example implementation of an app using all the different types o
 
 ###### Adding Device detection throughout the app from the base component
 
+Init
+```js
+  var konnektjs = Konnekt({
+    base:'base'
+  })
+  .hasRouting(true);
+```
+
 Base
 ```js
   function base()
@@ -825,10 +833,10 @@ Base
     window.addEventListener('resize',function(){
       self.alert('app_width',window.innerWidth);
       self.alert('app_height',window.innerHeight);
-      self.alert('app_device',Konnekt.device.type);
-      self.alert('app_orientation',Konnekt.device.orientation);
-      self.alert('app_browser',Konnekt.device.browser);
-      self.alert('app_keyboard',Konnekt.device.keyboard);
+      self.alert('app_device',konnektjs.device.type);
+      self.alert('app_orientation',konnektjs.device.orientation);
+      self.alert('app_browser',konnektjs.device.browser);
+      self.alert('app_keyboard',konnektjs.device.keyboard);
     });
   }
 ```
