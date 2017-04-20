@@ -21,13 +21,10 @@ function animated_hamburger(node)
   
   this.onclick = function()
   {
+    self.alert('menu_open',!self.isOpen);
     self.toggle();
   }
   
-  this.bars = [
-    node.querySelector('.animated_hamburger__bar_1'),
-    node.querySelector('.animated_hamburger__bar_2')
-  ];
 }
 
 /* PROTOTYPES */
