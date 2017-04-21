@@ -38,6 +38,8 @@ ol, ul {
 * {
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
   user-select: none;
+  -webkit-tap-highlight-color:transparent;
+  -moz-tap-highlight-color:transparent;
 }
 
 p, input, textarea {
