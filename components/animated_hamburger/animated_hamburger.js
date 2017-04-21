@@ -24,7 +24,10 @@ function animated_hamburger(node)
     self.alert('menu_open',!self.isOpen);
     self.toggle();
   }
-  
+  this.bars = [
+    document.querySelector('.animated_hamburger__bar_1'),
+    document.querySelector('.animated_hamburger__bar_2')
+  ];
 }
 
 /* PROTOTYPES */
@@ -113,9 +116,5 @@ animated_hamburger.prototype.animate = function(open)
 
 animated_hamburger.prototype.toggle = function()
 {
-  this.bars = [
-    document.querySelector('.animated_hamburger__bar_1'),
-    document.querySelector('.animated_hamburger__bar_2')
-  ];
   this.animate(!this.isOpen);
 }

@@ -314,9 +314,6 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         /* attaches viewmodel to wrapper */
         target.kb_viewmodel = vm;
         
-        /* do a replace for simple initial replacements inside binds */
-        mappedAttrs.wrapper.innerHTML = _mapper.insert(mappedAttrs.template,vm);
-        
         /* map nodes with their bindings */
         var maps = mappedAttrs.maps = mappedAttrs.map(mappedAttrs.wrapper);
 
@@ -362,6 +359,9 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
       {
         /* Create node template and map the inner nodes of the template */
         __mappedAttrs = new _mapper(node,true);
+        
+        /* do a replace for simple initial replacements inside binds */
+        __mappedAttrs.wrapper.innerHTML = __mappedAttrs.template;
         
         /* define component tree for multiples later */
         Object.defineProperty(__mappedAttrs.wrapper,'__kbcomponenttree',setDescriptor(node.kb_mapper ? node.kb_mapper.__kbcomponenttree.slice() : []));
