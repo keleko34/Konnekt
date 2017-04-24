@@ -158,12 +158,6 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
       {
         /* creates blank observable data set */
         var obsv = _mixed({},name);
-        
-        /* if there are any prototypes on this component they are added to the Data sets prototype */
-        for(var x=0,keys=Object.keys(component.prototype),len=keys.length;x<len;x++)
-        {
-          obsv.__proto__[keys[x]] = component.prototype[keys[x]];
-        }
 
         /* Attach Pre properties, or pre designed attachments for every Data set */
         for(var x=0,keys=Object.keys(pre),len=keys.length;x<len;x++)
@@ -198,6 +192,12 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         /* we then apply the component constructor to the data set in order to add the 'this' properties from it and pass in the params */
         component.apply(obsv,params);
 
+        /* if there are any prototypes on this component they are added to the Data sets prototype */
+        for(var x=0,keys=Object.keys(component.prototype),len=keys.length;x<len;x++)
+        {
+          Object.defineProperty(obsv,[keys[x]],setDescriptor(component.prototype[keys[x]],true));
+        }
+        
         /* Post attachments, overwritables, for data or pointers */
         for(var x=0,keys=Object.keys(post),len=keys.length;x<len;x++)
         {
@@ -363,6 +363,8 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         /* do a replace for simple initial replacements inside binds */
         __mappedAttrs.wrapper.innerHTML = __mappedAttrs.template;
         
+        __mappedAttrs.wrapper.kb_mapper = __mappedAttrs.wrapper;
+        
         /* define component tree for multiples later */
         Object.defineProperty(__mappedAttrs.wrapper,'__kbcomponenttree',setDescriptor(node.kb_mapper ? node.kb_mapper.__kbcomponenttree.slice() : []));
         
@@ -383,44 +385,10 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
           __mappedAttrs.wrapper.className += (" "+__mappedAttrs.wrapper.kb_viewmodel.local);
           __mappedAttrs.wrapper.className += (" "+__mappedAttrs.wrapper.kb_viewmodel.id);
           __mappedAttrs.wrapper.className += (!!__mappedAttrs.wrapper.kb_viewmodel.loopid ? " "+__mappedAttrs.wrapper.kb_viewmodel.loopid : "");
+          
           /* watch for changes to alert any scope messages */
-          __mappedAttrs.wrapper.kb_viewmodel.subscribeDeep('*',function(e){
-              var local = this.__kbref.local,
-                  id = this.__kbref.id,
-                  loopid = this.__kbref.loopid,
-                  key = this.__kbscopeString+(this.__kbscopeString.length !== 0 ? '.' : '')+e.key;
-              if(_scopemessages[local])
-              {
-                if(_scopemessages[local][key])
-                {
-                  for(var x=0,len=_scopemessages[local][key].length;x<len;x++)
-                  {
-                    _scopemessages[local][key][x](e);
-                  }
-                }
-              }
-              if(_scopemessages[id])
-              {
-                if(_scopemessages[id][key])
-                {
-                  for(var x=0,len=_scopemessages[id][key].length;x<len;x++)
-                  {
-                    _scopemessages[id][key][x](e);
-                  }
-                }
-              }
-              if(_scopemessages[loopid])
-              {
-                if(_scopemessages[loopid][key])
-                {
-                  for(var x=0,len=_scopemessages[loopid][key].length;x<len;x++)
-                  {
-                    _scopemessages[loopid][key][x](e);
-                  }
-                }
-              }
-          })
-          .callAllSubscribers();
+          __mappedAttrs.wrapper.kb_viewmodel.subscribeDeep('*',scopesubscription).callAllSubscribers();
+          __mappedAttrs.wrapper.kb_viewmodel.kbnode = __mappedAttrs.wrapper;
           
           getInnerComponents(__mappedAttrs.wrapper);
         }
@@ -446,6 +414,44 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
       else
       {
         if(Konnekt.isRegistered(__name)) init(__name,node);
+      }
+    }
+    
+    function scopesubscription(e)
+    {
+      var local = this.__kbref.local,
+          id = this.__kbref.id,
+          loopid = this.__kbref.loopid,
+          key = this.__kbscopeString+(this.__kbscopeString.length !== 0 ? '.' : '')+e.key;
+      if(_scopemessages[local])
+      {
+        if(_scopemessages[local][key])
+        {
+          for(var x=0,len=_scopemessages[local][key].length;x<len;x++)
+          {
+            _scopemessages[local][key][x](e);
+          }
+        }
+      }
+      if(_scopemessages[id])
+      {
+        if(_scopemessages[id][key])
+        {
+          for(var x=0,len=_scopemessages[id][key].length;x<len;x++)
+          {
+            _scopemessages[id][key][x](e);
+          }
+        }
+      }
+      if(_scopemessages[loopid])
+      {
+        if(_scopemessages[loopid][key])
+        {
+          for(var x=0,len=_scopemessages[loopid][key].length;x<len;x++)
+          {
+            _scopemessages[loopid][key][x](e);
+          }
+        }
       }
     }
     
@@ -848,6 +854,29 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         }
       }
       return this;
+    }
+    
+    if(!_mixed.prototype._parse) _mixed.prototype._parse = _mixed.prototype.parse;
+    _mixed.prototype.parse = function()
+    {
+      if(this.__kbref.kbnode)
+      {
+        var maps = this.__kbref.kbnode.kb_mapper.kb_maps,
+            parsed = this._parse.apply(this,arguments);
+        
+        this.unsubscribeDeep('*',scopesubscription);
+        this.subscribeDeep('*',scopesubscription).callAllSubscribers();
+        
+        Object.keys(maps).forEach(function(key){
+          maps[key].forEach(function(map){
+            map.reset();
+          });
+        });
+      }
+      else
+      {
+        return this._parse.apply(this,arguments);
+      }
     }
 
     return Konnekt;

@@ -141,12 +141,26 @@ function todolist(node)
   {
     return (!v ? 'none' : 'inherit');
   }
+  
+  
+  this.completeclick = function()
+  {
+    self.getdata();
+  }
 }
 
 /* PROTOTYPES */
 
 /* runs when All sortitem is clicked, resets all hide to false */
 todolist.prototype.All = function(items)
+{
+  for(var x=0,len=this.items.length;x<len;x++)
+  {
+    this.items[x].hide = false;
+  }
+}
+
+todolist.prototype.Cool = function(items)
 {
   for(var x=0,len=this.items.length;x<len;x++)
   {
@@ -179,6 +193,14 @@ todolist.prototype.Todo = function(items)
   }
 }
 
+todolist.prototype.Something = function(items)
+{
+  for(var x=0,len=this.items.length;x<len;x++)
+  {
+    this.items[x].hide = (!!(typeof this.items[x].complete === 'string' ? (this.items[x].complete === 'true') : !!this.items[x].complete));
+  }
+}
+
 /* runs when Completed sortitem is clicked, hides all non completed items */
 todolist.prototype.Completed = function(items)
 {
@@ -195,4 +217,14 @@ todolist.prototype.Favorites = function(items)
   {
     this.items[x].hide = (!this.items[x].favorite);
   }
+}
+
+todolist.prototype.getdata = function()
+{
+  var json = JSON.stringify([
+    {title:'Cool',active:true},
+    {title:'Something',active:false}
+  ]);
+  
+  this.sorters.parse(json);
 }

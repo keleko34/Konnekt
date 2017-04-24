@@ -21,6 +21,11 @@ function todoapp()
   this.listen('todoapp__todolist','complete',function(e){
     if(!e.initial) this.flash(e);
   });
+  
+  this.titleclick = function(e)
+  {
+    self.getdata();
+  }
 }
 
 todoapp.prototype.flash = function(e){
@@ -43,6 +48,12 @@ todoapp.prototype.flash = function(e){
     if(allFinished !== 3) setTimeout(function(){rec();},15);
   };
   rec();
+}
+
+todoapp.prototype.getdata = function()
+{
+  var json = JSON.stringify({title:"something else",subinfo:"Some extra info"});
+  this.parse(json);
 }
 
 /* PROTOTYPES */

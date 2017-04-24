@@ -695,6 +695,33 @@ There are a few built in properties that have extra uses when dealing with Your 
 
 - **localStorage(boolean)** Similiar to sessionStorage but persists even when the browser is closed and reopened.
 
+- **parse(Function)(@Params json(string))** Allows You to parse a json string directly to the vm data model
+
+Examples:
+
+- **parse**
+
+```js
+  function foo()
+  {
+    var self = this;
+    /* on click fetch your data */
+    this.onclick = function()
+    {
+      self.getdata();
+    }
+  }
+  
+  foo.prototype.getdata = function()
+  {
+    var self = this;
+    /* fetch your data somehow */
+    ajaxrequest(function(jsondata){
+      self.parse(jsondata);
+    });
+  }
+```
+
 #### Listeners
 
 Listeners are great add ons that allow You to listen for alerts or changes of data in other components in the page.
