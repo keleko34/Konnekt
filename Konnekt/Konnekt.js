@@ -976,17 +976,17 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
     
     function checkNode_config(cb)
     {
-      createScript('/node_modules/Konnekt/configs/config.js',cb);
+      createScript('/node_modules/Konnekt/config/config.js',cb);
     }
     
     function checkBower_config(cb)
     {
-      createScript('/bower_components/Konnekt/configs/config.js',cb);
+      createScript('/bower_components/Konnekt/config/config.js',cb);
     }
     
     function checkLocal_config(cb)
     {
-      createScript('/configs/config.js',cb);
+      createScript('/config/config.js',cb);
     }
     
     function callWaitConfigMethods()

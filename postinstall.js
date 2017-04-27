@@ -9,7 +9,8 @@ stream.once('open', function(fd) {
   stream.end();
 });
 
-var config = fs.createWriteStream(local+"/../../configs/config.js");
+fs.mkdirSync(local+'/../../config');
+var config = fs.createWriteStream(local+"/../../config/config.js");
 config.once('open', function(fd) {
   config.write("Konnekt.configs({\r\n\r\n});\n");
   config.end();
