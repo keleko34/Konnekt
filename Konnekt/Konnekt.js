@@ -90,7 +90,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
           }),
           
           /* Pre -- all about built in data this will be allocated later to seperate file */ /* Note** we may need to take another look at this as mixed pointers are being double processed */
-          pre = _config || {},
+          pre = passKeys(_config,{}),
           
           /* post all about post set data and pointers */ /* Note** we may need to take another look at this as mixed pointers are being double processed */
           post = {};
@@ -502,6 +502,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         {
           if(_mixed.prototype.isObject(obj[keys[x]]))
           {
+            if(obj2[keys[x]] === undefined) obj2[keys[x]] = {};
             for(var i=0,keysI=Object.keys(obj[keys[x]]),lenI=keysI.length;i<len;i++)
             {
               obj2[keys[x]][keysI[i]] = obj[keys[x]][keysI[i]];
@@ -520,6 +521,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
           }
         }
       }
+      return obj2;
     }
 
     function setDescriptor(value,writable,redefinable,enumerable)
@@ -566,6 +568,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
             onload(name,component);
           });
           Konnekt.loadWaitList(name,'clear');
+          
         });
       }
     }
