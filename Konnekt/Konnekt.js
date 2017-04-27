@@ -108,7 +108,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
       
       
       if(typeof pre.onFinish !== 'function') pre.onFinish = function(){};
-      Object.defineProperty(pre,'onFinish',setDescriptor(pre.onFinish,true,false,true));
+      Object.defineProperty(pre,'onGlobalFinish',setDescriptor(pre.onFinish,true,false,true));
       
       /* add listen method */
       pre.listen = listen;
@@ -123,20 +123,16 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
       Object.defineProperty(pre,'alert',setDescriptor(pre.alert,true,false,true));
 
       /* whether to attempt to store data in sessionStorage */
-      if(typeof pre.sessionStorage === 'string') pre.sessionStorage = (pre.sessionStorage === 'true');
-      Object.defineProperty(pre,'sessionStorage',setDescriptor((pre.sessionStorage !== undefined ? pre.sessionStorage : false),true,false,true));
+      Object.defineProperty(pre,'sessionStorage',setDescriptor((false),true,false,true));
 
       /* whether to attempt to store data in localStorage */
-      if(typeof pre.localStorage === 'string') pre.localStorage = (pre.localStorage === 'true');
-      Object.defineProperty(pre,'localStorage',setDescriptor((pre.localStorage !== undefined ? pre.localStorage : false),true,false,true));
+      Object.defineProperty(pre,'localStorage',setDescriptor((false),true,false,true));
 
       /* whether to attempt to store data in the model */
-      if(typeof pre.store === 'string') pre.store = (pre.store === 'true');
-      Object.defineProperty(pre,'store',setDescriptor((pre.store !== undefined ? pre.store : false),true,false,true));
+      Object.defineProperty(pre,'store',setDescriptor((false),true,false,true));
 
       /* if this component can have children components of the same type, to prevent recursion */
-      if(typeof pre.multiple === 'string') pre.multiple = (pre.multiple === 'true');
-      Object.defineProperty(pre,'multiple',setDescriptor((pre.multiple !== undefined ? pre.multiple : false),true,false,true));
+      Object.defineProperty(pre,'multiple',setDescriptor((false),true,false,true));
       
       if(postdt) passKeys(postdt,post);
       
@@ -345,6 +341,10 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         });
         
         mappedAttrs.wrapper.kb_viewmodel.onFinish.call(mappedAttrs.wrapper.kb_viewmodel,mappedAttrs.wrapper);
+        if(mappedAttrs.wrapper.kb_viewmodel.onGlobalFinish)
+        {
+          mappedAttrs.wrapper.kb_viewmodel.onGlobalFinish.call(mappedAttrs.wrapper.kb_viewmodel,mappedAttrs.wrapper);
+        }
       }
 
       function getInnerComponents(node)
@@ -903,12 +903,30 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         if(!document.body)
         {
           document.addEventListener('DOMContentLoaded',function(){
-            _hashrouter(window.location.hash.replace('#',''));
+            if(!_fetchedConfigs)
+            {
+              _onConfigsFetched.push(function(){
+                _hashrouter(window.location.hash.replace('#',''));
+              });
+            }
+            else
+            {
+              _hashrouter(window.location.hash.replace('#',''));
+            }
           });
         }
         else
         {
-          _hashrouter(window.location.hash.replace('#',''));
+          if(!_fetchedConfigs)
+          {
+            _onConfigsFetched.push(function(){
+              _hashrouter(window.location.hash.replace('#',''));
+            });
+          }
+          else
+          {
+            _hashrouter(window.location.hash.replace('#',''));
+          }
         }
       }
       return this;

@@ -19,6 +19,7 @@
     - [Standard Bind](#standard-bind)
     - [Built in binds](#built-in-binds)
     - [Filters](#filters)
+      - [Built in filters](#built-infilters)
     - [Events](#events)
     - [Passing](#passing)
     - [Loops](#loops)
@@ -28,6 +29,7 @@
     - [Listeners](#listeners)
   - [Built Ins](#built-ins)
     - [Device Detection](#device-detection)
+- [Configs](#configs)
 - [Examples](#examples)
 - [Development](#development)
 - [Changelog](#changelog)
@@ -460,6 +462,15 @@ Each of these three filters use the named string as their storage point, so keep
 
 inside filter methods `this` refers the vm data :)
 
+##### Built in filters
+
+- **toUpperCase** Capitalize all letters
+- **toLowerCase** lowercase all letters, no caps
+- **toFirstUpperCase** Capitalize first letter only
+- **toEveryUpperCase** Capitalize first letter of every word
+- **isHidden** returns `hide` or `block` based on true for `display` styles
+- **isNotHidden** Opposite logic for `isHidden` same functionality
+
 #### Events
 
 Events can also be used as binds inside a component, to use an event bind You must bind the method to the appropriate attribute.
@@ -691,11 +702,21 @@ There are a few built in properties that have extra uses when dealing with Your 
 
 - **model(boolean)** the model property tells whether to store this entire vm in the model data set for use on other pages, this stores by `id` on the vm
 
+(WIP cant save functions, only data)
 - **sessionStorage(boolean)** This property tells to attempt to store the entire vm in session storage, though only data is stored and not any methods.
 
+(WIP cant save functions, only data)
 - **localStorage(boolean)** Similiar to sessionStorage but persists even when the browser is closed and reopened.
 
 - **parse(Function)(@Params json(string))** Allows You to parse a json string directly to the vm data model
+
+- **listen(Function)(@Params localid|id|loopid(string), key(string), callback(function))** Allows listeneing to a key on a specific component based with an id
+
+- **listen(Function)(@Params key(string), callback(Function))** Allows listeneing to a key, requires another component calling `alert` method with desired key
+
+- **alert(Function)(@Params key(string), value(Any))** Allows firing all listeners attached to that key
+
+- **filters(Object)** Where all filter methods are attached including pre defined ones
 
 Examples:
 
@@ -880,6 +901,14 @@ JS:
   var isKeyboard = Konnekt.device.keyboard; //true/false
   var screenSize = Konnekt.device.screenSize; //"mobile-size"
 ```
+
+## Configs
+
+You can set config data that is shared among all components inside your `configs/config.js` file, some examples of things You can set:
+
+- **filters(Object)** You can set default filters for every component
+- **base(String)** You can set the name of the base component that is loaded for default homepage
+- **onFinish(Function)(@Params callback(function))** You can set a onFinish for all components
 
 ## Examples
 
