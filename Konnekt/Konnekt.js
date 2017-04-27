@@ -1023,6 +1023,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
       })
     }())
     
+    window.Konnekt = Konnekt;
     return Konnekt;
   }
   return CreateKonnekt;
