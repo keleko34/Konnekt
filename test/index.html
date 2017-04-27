@@ -4,8 +4,9 @@
     <title>Testing</title>
     <script type="text/javascript" src="requirejs"></script>
     <script type="text/javascript">
-      require(['Konnekt'],function(Konnekt){
-        var konnektjs = Konnekt({
+      var Konnekt;
+      require(['Konnekt'],function(Konnektjs){
+        Konnekt = Konnektjs({
           base:'todoapp'
         })
         .hashRouting(true);

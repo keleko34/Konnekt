@@ -12,12 +12,6 @@ function todoapp()
   this.fontSize = 40;
   this.color = "#c8c8c8";
   
-  /* a simple filter that returns uppercase string */
-  this.filters.toUpperCase = function(v)
-  {
-    return v.toUpperCase();
-  }
-  
   this.listen('todoapp__todolist','complete',function(e){
     if(!e.initial) this.flash(e);
   });
