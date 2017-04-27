@@ -19,25 +19,9 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         _onConfigsFetched = [],
         
         /* mapping library, for mapping new component: new _mapper(componentNode) */
-        _mapper = CreateMapping().addEventListener('loopitem',function(e){
-          var name = e.node.tagName.toLowerCase();
-          if(!Konnekt.isRegistered(name) && !e.node.kb_isLoading)
-          {
-            e.node.kb_isLoading = true;
-            Konnekt.loadWaitList(name,function(n,c){
-              Konnekt(e.node);
-            });
-            if(!Konnekt.loadWaitList(name).loading) 
-            {
-              Konnekt.loadWaitList(name).loading = true;
-              _Loader(name);
-            }
-          }
-          else
-          {
-            if(Konnekt.isRegistered(name)) Konnekt(e.node);
-          }
-        }),
+        _mapper = CreateMapping()
+        .addEventListener('loopitem',buildNode)
+        .addEventListener('replaceNode',buildNode),
         
         /* routes components based on the current url hash, config.base sets the default route of '/' */
         _hashrouter = CreateHashRouting()
@@ -74,7 +58,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         _baserouter;
 
     /* This method will Create page, Create Viewmodel, attach binds, check children, load files, rinse, repeat */
-    function Konnekt(node,params,predt,postdt)
+    function Konnekt(node,params,predt,postdt,cb)
     {
       /* name of the component */
       var __name = node.tagName.toLowerCase(),
@@ -332,6 +316,9 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
                 /* connects viewmodel updates value and then deletes map as it won't be used again */
                 map.connect(vm).unsync();
               break;
+              case 'node':
+                map.connect(vm).replaceNode();
+              break;
               default:
                 /* standard data connection and value set */
                 map.connect(vm);
@@ -344,6 +331,10 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         if(mappedAttrs.wrapper.kb_viewmodel.onGlobalFinish)
         {
           mappedAttrs.wrapper.kb_viewmodel.onGlobalFinish.call(mappedAttrs.wrapper.kb_viewmodel,mappedAttrs.wrapper);
+        }
+        if(mappedAttrs.wrapper.kb_viewmodel.onNodeFinish)
+        {
+          mappedAttrs.wrapper.kb_viewmodel.onNodeFinish.call(mappedAttrs.wrapper.kb_viewmodel,mappedAttrs.wrapper);
         }
       }
 
@@ -411,12 +402,12 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
               e.stopPropagation();
             }
           });
-        __mappedAttrs.wrapper.addChildAttrUpdateListener('html',function(e){
-          if(['appendChild','insertSibling','insertBefore','insertAfter'].indexOf(e.attr) !== -1 && e.arguments[0] instanceof HTMLUnknownElement)
-          {
-            Konnekt(e.arguments[0]);
-          }
-        });
+          __mappedAttrs.wrapper.addChildAttrUpdateListener('html',function(e){
+            if(['appendChild','insertSibling','insertBefore','insertAfter'].indexOf(e.attr) !== -1 && e.arguments[0] instanceof HTMLUnknownElement)
+            {
+              Konnekt(e.arguments[0]);
+            }
+          });
           
           getInnerComponents(__mappedAttrs.wrapper);
         }
@@ -477,6 +468,44 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
           for(var x=0,len=_scopemessages[loopid][key].length;x<len;x++)
           {
             _scopemessages[loopid][key][x](e);
+          }
+        }
+      }
+    }
+    
+    function buildNode(e)
+    {
+      var name = e.node.tagName.toLowerCase();
+      if(!Konnekt.isRegistered(name) && !e.node.kb_isLoading)
+      {
+        e.node.kb_isLoading = true;
+        Konnekt.loadWaitList(name,function(n,c){
+          if(e.event === 'replaceNode')
+          {
+            Konnekt(e.node,[],{onNodeFinish:function(node){e.map.local = node;}});
+          }
+          else
+          {
+            Konnekt(e.node);
+          }
+        });
+        if(!Konnekt.loadWaitList(name).loading) 
+        {
+          Konnekt.loadWaitList(name).loading = true;
+          _Loader(name);
+        }
+      }
+      else
+      {
+        if(Konnekt.isRegistered(name))
+        {
+          if(e.event === 'replaceNode')
+          {
+            Konnekt(e.node,[],{onNodeFinish:function(node){e.map.local = node;}});
+          }
+          else
+          {
+            Konnekt(e.node);
           }
         }
       }
