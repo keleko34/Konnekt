@@ -23,6 +23,7 @@
     - [Events](#events)
     - [Passing](#passing)
     - [Loops](#loops)
+    - [Elements](#elements)
     - [Logic](#logic)
   - [Viewmodel](#viewmodel)
     - [Built in Properties](#built-in-proprties)
@@ -599,6 +600,55 @@ HTML (after)
 ```
 
 One of the great things about looped items is that the data acts as a pointer between the parent array list and the child data points, by changing `this.type` the reflected change is shown in the list. The sme applies for array changes, by simplying `array.sort`ing a list the order of Your elements will change.
+
+#### Elements
+
+You also have the ability to bind to element tag names as well, featuring the ability to hot swap out components based on a binding
+
+Example
+
+HTML
+```html
+  <div>
+    <{{foocomponent}}>
+  </div>
+```
+
+JS
+```js
+  function foo()
+  {
+    this.foocomponent = 'name of the component';
+  }
+```
+
+this is a simple version that allows you to place a component by the name specified by `foocomponent` property, if `foocomponent` property is updated with a new value it will attempt to fetch that component and swap out the current component with the new one.
+
+filters and inner elements as well as other binds can also be placed on these hot swappable components as well, beware though that these binds and inner elements will be applied to any component that is ever swapped in as well.
+
+Example:
+
+HTML
+```html
+  <div>
+    <{{foocomponent | isAllowed}} bar="{{fooname}}">
+      <div>inner text></div>
+    </{{foocomponent | isAllowed}}>
+  </div>
+```
+
+JS
+```js
+  function foo()
+  {
+    this.foocomponent = 'bar';
+    this.fooname = 'foobar';
+  }
+```
+
+this will pass the property and value of `this.bar = 'foobar';` into any component that is swapped, as well as `<div>inner text</div>` will be the values placed to any bindings of `{{innerHTML}}`.
+
+**note** Please note that the ending 
 
 #### Logic
 
