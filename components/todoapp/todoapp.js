@@ -12,6 +12,8 @@ function todoapp()
   this.fontSize = 40;
   this.color = "#c8c8c8";
   
+  this.swappable = 'hello';
+  
   this.listen('todoapp__todolist','complete',function(e){
     if(!e.initial) this.flash(e);
   });
@@ -19,6 +21,14 @@ function todoapp()
   this.titleclick = function(e)
   {
     self.getdata();
+    if(self.swappable === 'hello')
+    {
+      self.swappable = 'goodbye';
+    }
+    else
+    {
+      self.swappable = 'hello';
+    }
   }
 }
 
