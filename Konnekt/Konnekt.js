@@ -369,7 +369,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         Object.defineProperty(__mappedAttrs.wrapper,'__kbcomponenttree',setDescriptor(node.kb_mapper ? node.kb_mapper.__kbcomponenttree.slice() : []));
         
         /* replace original node with new templated node */
-        node.parentElement.replaceChild(__mappedAttrs.fragment,node);
+        node.parentElement.stopChange().replaceChild(__mappedAttrs.fragment,node);
         
         /* add new nodes to params for passing to viewmodels */
         params.unshift(__mappedAttrs.wrapper);
@@ -390,13 +390,36 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
           __mappedAttrs.wrapper.kb_viewmodel.subscribeDeep('*',scopesubscription).callAllSubscribers();
           __mappedAttrs.wrapper.kb_viewmodel.kbnode = __mappedAttrs.wrapper;
           
+          /* stop any html updates */
+          __mappedAttrs.wrapper.addChildAttrListener('html',function(e){
+            if(!e.stopChange)
+            {
+              /* check if its a new component being appended or check if its a single bind */
+              if(['appendChild','insertSibling','insertBefore','insertAfter'].indexOf(e.attr) !== -1 && (e.arguments[0] instanceof HTMLUnknownElement || e.arguments[0] instanceof HTMLScriptElement))
+              {
+                return true;
+              }
+              else if(['innerHTML','textContent'].indexOf(e.attr) !== -1 && e.target.__kbhtmllistener)
+              {
+                return true;
+              }
+              e.preventDefault();
+              e.stopPropagation();
+            }
+          });
+        __mappedAttrs.wrapper.addChildAttrUpdateListener('html',function(e){
+          if(['appendChild','insertSibling','insertBefore','insertAfter'].indexOf(e.attr) !== -1 && e.arguments[0] instanceof HTMLUnknownElement)
+          {
+            Konnekt(e.arguments[0]);
+          }
+        });
+          
           getInnerComponents(__mappedAttrs.wrapper);
         }
         else
         {
           console.error("Warning!! You are attempting to make a recursive component %o, recursive components can lead to memory stack overflows unless properly handled, Please check your components html for use of this component, if You want this to be a recursive component please set `this.multiple = true;`",name);
           console.error("Recursive Component %o on %o",__mappedAttrs.wrapper,__mappedAttrs.wrapper.parentElement);
-          __mappedAttrs.wrapper.parentElement.removeChild(__mappedAttrs.wrapper);
         }
       }
 
@@ -735,7 +758,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         var meta = document.createElement('meta');
         meta.name = 'viewport';
         meta.content = 'width=device-width, initial-scale=1.0';
-        document.head.appendChild(meta);
+        document.head.stopChange().appendChild(meta);
       }
       
       if(!Konnekt.device) Konnekt.device = {};
