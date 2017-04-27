@@ -14,6 +14,10 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         
         _config = config || {},
         
+        _fetchedConfigs = false,
+        
+        _onConfigsFetched = [],
+        
         /* mapping library, for mapping new component: new _mapper(componentNode) */
         _mapper = CreateMapping().addEventListener('loopitem',function(e){
           var name = e.node.tagName.toLowerCase();
@@ -86,7 +90,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
           }),
           
           /* Pre -- all about built in data this will be allocated later to seperate file */ /* Note** we may need to take another look at this as mixed pointers are being double processed */
-          pre = {},
+          pre = _config || {},
           
           /* post all about post set data and pointers */ /* Note** we may need to take another look at this as mixed pointers are being double processed */
           post = {};
@@ -107,15 +111,15 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
       Object.defineProperty(pre,'onFinish',setDescriptor(pre.onFinish,true,false,true));
       
       /* add listen method */
-      if(typeof pre.listen !== 'function') pre.listen = listen;
+      pre.listen = listen;
       Object.defineProperty(pre,'listen',setDescriptor(pre.listen,true,false,true));
       
       /* add unlisten method */
-      if(typeof pre.unlisten !== 'function') pre.unlisten = unlisten;
+      pre.unlisten = unlisten;
       Object.defineProperty(pre,'unlisten',setDescriptor(pre.unlisten,true,false,true));
       
       /* add alert method */
-      if(typeof pre.alert !== 'function') pre.alert = alert;
+      pre.alert = alert;
       Object.defineProperty(pre,'alert',setDescriptor(pre.alert,true,false,true));
 
       /* whether to attempt to store data in sessionStorage */
@@ -548,11 +552,22 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         _Loader(u);
       });*/
       
-      
-      Konnekt.loadWaitList(name).forEach(function(onload){
-        onload(name,component);
-      });
-      Konnekt.loadWaitList(name,'clear');
+      if(_fetchedConfigs)
+      {
+        Konnekt.loadWaitList(name).forEach(function(onload){
+          onload(name,component);
+        });
+        Konnekt.loadWaitList(name,'clear');
+      }
+      else
+      {
+        _onConfigsFetched.push(function(){
+          Konnekt.loadWaitList(name).forEach(function(onload){
+            onload(name,component);
+          });
+          Konnekt.loadWaitList(name,'clear');
+        });
+      }
     }
     
     function sub(e)
@@ -745,6 +760,26 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
       }
     }
     
+    Konnekt.config = function(v){
+      function recSet(from,to)
+      {
+        for(var x=0,keys=Object.keys(from),len=keys.length;x<len;x++)
+        {
+          if(typeof from[keys[x]] === 'object')
+          {
+            if(to[keys[x]] === undefined) to[keys[x]] = {};
+            recSet(from[keys[x]],to[keys[x]]);
+          }
+          else if(to[keys[x]] !== 'object')
+          {
+            to[keys[x]] = from[keys[x]];
+          }
+        }
+      }
+      recSet(v,_config);
+      return Konnekt;
+    };
+    
     function detectKeyboard()
     {
       /* detect if the current window size is smaller than 60% of the original device size */
@@ -901,7 +936,72 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         return this._parse.apply(this,arguments);
       }
     }
-
+    
+    /* bring in Konnekt config */
+    function createScript(url,cb)
+    {
+      var sc = document.createElement('script');
+      sc.src = url;
+      sc.onerror = function()
+      {
+        cb(null,true);
+      }
+      sc.onload = function()
+      {
+        cb(_config);
+      }
+      document.head.stopChange().appendChild(sc);
+    }
+    
+    function checkNode_config(cb)
+    {
+      createScript('/node_modules/Konnekt/configs/config.js',cb);
+    }
+    
+    function checkBower_config(cb)
+    {
+      createScript('/bower_components/Konnekt/configs/config.js',cb);
+    }
+    
+    function checkLocal_config(cb)
+    {
+      createScript('/configs/config.js',cb);
+    }
+    
+    function callWaitConfigMethods()
+    {
+      for(var x=0,len=_onConfigsFetched.length;x<len;x++)
+      {
+        _onConfigsFetched[x]();
+      }
+    }
+    
+    (function(){
+      checkNode_config(function(config,err){
+        if(err)
+        {
+          checkBower_config(function(config,err){
+            if(err) console.error("the Konnekt local config was not found, this issue happens when You do not have Konnekt isntalled via th standard node_modules or bower_components module directories");
+            checkLocal_config(function(cofig,err){
+              
+              /* this is the finish of the chain */
+              _fetchedConfigs = true;
+              callWaitConfigMethods();
+            });
+          });
+        }
+        else
+        {
+          checkLocal_config(function(cofig,err){
+            
+            /* this is the finish of the chain */
+            _fetchedConfigs = true;
+            callWaitConfigMethods();
+          });
+        }
+      })
+    }())
+    
     return Konnekt;
   }
   return CreateKonnekt;
