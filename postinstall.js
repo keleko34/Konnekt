@@ -9,9 +9,13 @@ stream.once('open', function(fd) {
   stream.end();
 });
 
-fs.mkdirSync(local+'/../../config');
-var config = fs.createWriteStream(local+"/../../config/config.js");
-config.once('open', function(fd) {
-  config.write("Konnekt.configs({\r\n\r\n});\n");
-  config.end();
-});
+if(!fs.existsSync(local+'/../../config')) fs.mkdirSync(local+'/../../config');
+
+if(!fs.existsSync(local+'/../../config/config.js'))
+{
+  var config = fs.createWriteStream(local+"/../../config/config.js");
+  config.once('open', function(fd) {
+    config.write("Konnekt.configs({\r\n\r\n});\n");
+    config.end();
+  });
+}
