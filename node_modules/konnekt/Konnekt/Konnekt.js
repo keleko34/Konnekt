@@ -966,13 +966,13 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
     
     Konnekt.addHashRouter = function(func)
     {
-      _hasher.addHashListener(func);
+      _hashrouter.addHashListener(func);
       return Konnekt;
     }
     
     Konnekt.removeHashRouter = function(func)
     {
-      _hasher.removeHashListener(func);
+      _hashrouter.removeHashListener(func);
       return Konnekt;
     }
     
