@@ -11,17 +11,17 @@ function intro()
   var self = this;
   
   /* ATTRIBUTES */
-  this.offset = 0;
+  this.offsettop = 0;
   this.height = 0;
   
   
   this.listen('app_height',function(value){
-    this.height = (value-this.offset);
+    this.height = (value-this.offsettop);
   });
   
   this.onFinish = function()
   {
-    this.height = (window.innerHeight-this.offset);
+    this.height = (window.innerHeight-this.offsettop);
   }
 }
 

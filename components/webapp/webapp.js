@@ -27,8 +27,7 @@ function webapp()
   
   Konnekt.addHashRouter(function(e){
     e.preventDefault();
-    //self.page = e.hash;
-    console.log(e.hash);
+    self.page = e.hash;
   });
 }
 

@@ -29,14 +29,13 @@ function webapp()
   
   Konnekt.addHashRouter(function(e){
     e.preventDefault();
-    //self.page = e.hash;
-    console.log(e.hash);
+    self.page = e.hash;
   });
 }
 
 /* PROTOTYPES */
 
-webapp.prototype.k_html = "<!-- webapp Created by keleko34, The main entry point for the konnekt web app --><div class='webapp'>  <navbar></navbar>  <div class='webapp__content'>    <{{page}} offset='62'></{{page}}>  </div></div>";
+webapp.prototype.k_html = "<!-- webapp Created by keleko34, The main entry point for the konnekt web app --><div class='webapp'>  <navbar></navbar>  <div class='webapp__content'>    <{{page}} offsettop='62'></{{page}}>  </div></div>";
 webapp.prototype.k_css = "/********************************* *  webapp *  Created by keleko34 *  The main entry point for the konnekt web app ********************************/.webapp {}";
 return webapp;
 }());
