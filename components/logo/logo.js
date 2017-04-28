@@ -8,10 +8,15 @@ function logo()
 {
   var self = this;
   /* ATTRIBUTES */
-  this.onclick = function()
+  this.navigateHome = function()
   {
-    self.alert('page','intro');
+    self.alert('page','info');
     self.alert('navitem','intro');
+  }
+  
+  this.navigateMain = function()
+  {
+    window.location.href = window.location.origin;
   }
 }
 

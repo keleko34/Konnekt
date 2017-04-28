@@ -7,12 +7,28 @@
     <link rel="stylesheet" href="assets/css/open-sans.css" />
     <script type="text/javascript" src="node_modules/konnekt/Konnekt/Build/Konnekt.js"></script>
     <script type="text/javascript">
-        Konnekt({
+        
+        var config = {
           base:'webapp',
           prefix:'./'
-        })
+        };
+      
+        function routeBaseHashes(e)
+        {
+          if(!Konnekt.isRegistered(Konnekt.config().base))
+          {
+            console.log('not base');
+          }
+          else
+          {
+            Konnekt.removeHashRouter(routeBaseHashes);
+          }
+        }
+      
+        Konnekt(config)
         .localRouting(true)
-        .hashRouting(true);
+        .hashRouting(true)
+        .addHashRouter(routeBaseHashes);
     </script>
   </head>
   <body></body>

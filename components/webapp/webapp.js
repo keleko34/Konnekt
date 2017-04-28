@@ -11,7 +11,7 @@ function webapp()
   this.page = "intro";
   
   this.listen('page',function(value){
-    window.location.hash = "#"+value;
+      window.location.hash = "#"+value;
   });
   
   window.addEventListener('resize',function(){
