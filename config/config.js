@@ -1,3 +1,3 @@
-Konnekt.configs({
+Konnekt.config({
 
 });
