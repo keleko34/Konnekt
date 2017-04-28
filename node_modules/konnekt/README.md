@@ -1082,6 +1082,7 @@ You can set config data that is shared among all components inside your `configs
 
 - **filters(Object)** You can set default filters for every component
 - **base(String)** You can set the name of the base component that is loaded for default homepage
+- **prefix(String)** a prefix to place in front of all url requests
 - **onFinish(Function)(@Params callback(function))** You can set a onFinish for all components
 
 ## Examples
