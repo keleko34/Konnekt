@@ -18,12 +18,8 @@
           if(e.hash !== config.base)
           {
             e.hash = config.base;
-            console.log('not base');
           }
-          else
-          {
-            Konnekt.removeHashRouter(routeBaseHashes);
-          }
+          Konnekt.removeHashRouter(routeBaseHashes);
         }
       
         Konnekt(config)
