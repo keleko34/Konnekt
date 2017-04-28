@@ -1017,12 +1017,12 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
     
     function checkNode_config(cb)
     {
-      createScript((_config.prefix !== undefined ? _config.prefix : '')+'/node_modules/Konnekt/config/config.js',cb);
+      createScript((_config.prefix !== undefined ? _config.prefix : '')+'/node_modules/konnekt/config/config.js',cb);
     }
     
     function checkBower_config(cb)
     {
-      createScript((_config.prefix !== undefined ? _config.prefix : '')+'/bower_components/Konnekt/config/config.js',cb);
+      createScript((_config.prefix !== undefined ? _config.prefix : '')+'/bower_components/konnekt/config/config.js',cb);
     }
     
     function checkLocal_config(cb)
