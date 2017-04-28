@@ -30,6 +30,10 @@
     - [Listeners](#listeners)
   - [Built Ins](#built-ins)
     - [Device Detection](#device-detection)
+    - [Routing](#routing)
+      - [File Routing](#file-routing)
+      - [Hash Routing](#file-routing)
+    - [Environments](#environments)
 - [Configs](#configs)
 - [Examples](#examples)
 - [Development](#development)
@@ -951,6 +955,126 @@ JS:
   var isKeyboard = Konnekt.device.keyboard; //true/false
   var screenSize = Konnekt.device.screenSize; //"mobile-size"
 ```
+
+### Routing
+
+#### File Routing
+
+Component routing is handled in two ways:
+
+- backend Nodejs based routing, allows `dev` environment
+- frontend based routing, does not allow `dev` environment
+
+To turn on front end routing You must use the `localRouting(true)` method from Konnekt
+
+Example:
+
+JS
+```js
+  var konnektjs = Konnekt()
+  .localRouting(true);
+```
+
+**note** local routing is unable to provide the `dev` environment cause it requires concatinating files on the backend which is not possible in the front end, use `qa` env for debugging and building.
+
+Backend routing uses the `konnektrt` module that can be installed via `npm install konnektrt --save`
+
+then inside your nodejs router you can require it, it accepts, `res,req,next`
+
+Example:
+
+JS
+```js
+  var konnektrt = require('konnektrt');
+
+  module.exports = {
+    Routes:[
+  
+      /* just call it wherever You want the method to be placed as a route, it accepts 3 params, res,req,next */
+      konnektrt(),
+
+      //other routes...
+    ]};
+```
+
+#### Hash Routing
+
+Konnekt also comes packed also with a hash router but by default this is turned off, a hash router means it routes components based on any `#hash` in the url bar
+
+Example: `http://yourwebsite.com/#componentname`
+
+to enable hash routing just simply call the `hashRouting` method on the main konnekt object
+
+JS
+```js
+  var konnektjs = Konnekt().hashRouting(true);
+```
+
+Hash routing requires a `base` to be specified in the config, this can either be in your local config, passed to the library constructor
+
+Base component for base `/` url
+
+Your config
+```js
+  Konnekt.config({
+    base:'foo'
+  });
+```
+
+In constructor
+```js
+  var konnektjs = Konnekt({
+    base:'foo'
+  })
+  .hashRouting(true);
+```
+
+**setting up custom routes:**
+
+setting up custom routes is easy as simply listening for a hash change on konnekt
+
+Example:
+
+JS
+```js
+  var konnektjs = Konnekt({
+    base:'foo'
+  })
+  .hashRouting(true)
+  .addHashRouter(function(e){
+    /* control hash or prevent default here */
+    e.preventDefault();
+  });
+```
+
+The event object for the hashrouter contains the following properties:
+
+- **preventDefault(Function)** this prevents the base swapper that repalces body tag content with the component refrenced by the hash
+- **stopPropogation(Function)** this prevents any future added routes from firing
+- **hash(String)** this is the hash name that was entered
+- **url(String)** this is the current full url that is being used in the url header
+
+### Environments
+
+Konnekt alsow comes with built in environment levels, for proper production deployment. by default the prod environment is always loaded, this is what the end user will see
+
+to access different environments You must pass queries in the url.
+
+- **env**
+  - **dev** the base development environment, **note** doesnt work when using `localRouting`
+  - **qa** the unit testing environment
+  - **stage** the staged user testing environment
+  - **prod** the end product
+  
+The debug option allows loading non minified versions of your components for easier debugging
+  
+- **debug**
+  - **true**
+  - **false**
+  
+Example urls:
+
+`http://yoursite.com/?env=dev&debug=true`
 
 ## Configs
 
