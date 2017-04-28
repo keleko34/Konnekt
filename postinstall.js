@@ -15,7 +15,7 @@ if(!fs.existsSync(local+'/../../config/config.js'))
 {
   var config = fs.createWriteStream(local+"/../../config/config.js");
   config.once('open', function(fd) {
-    config.write("Konnekt.configs({\r\n\r\n});\n");
+    config.write("Konnekt.config({\r\n\r\n});\n");
     config.end();
   });
 }
