@@ -10,7 +10,7 @@ function logo()
   /* ATTRIBUTES */
   this.navigateHome = function()
   {
-    self.alert('page','info');
+    self.alert('page','intro');
     self.alert('navitem','intro');
   }
   
