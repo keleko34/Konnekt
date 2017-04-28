@@ -5,5 +5,38 @@
  ********************************/
 
 .slideoutnavmenu {
+  position: absolute;
+  width: 100%;
+}
 
+.slideoutnavmenu__hamburger {
+  position: absolute;
+  left: 0px;
+  z-index: 1;
+  top: 0px;
+  height: 25px;
+  width: 100%;
+  padding: 17px 30px;
+  background: #333333;
+}
+
+.slideoutnavmenu__bar {
+  height:{{barheight}}px;
+  width:{{barwidth}}px;
+  background: #1b1a1a;
+  position: absolute;
+  top: 60px;
+}
+
+.slideoutnavmenu__bar .navitem {
+  height: 62px !important;
+  width: 100%;
+}
+
+.slideoutnavmenu__bar .navitem--active {
+  border-top: 2px solid #000;
+}
+
+.slideoutnavmenu__bar .navitem_text {
+  font-size:18px !important;
 }

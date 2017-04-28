@@ -173,14 +173,14 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
           }
         }
         
-        /* we then apply the component constructor to the data set in order to add the 'this' properties from it and pass in the params */
-        component.apply(obsv,params);
-
         /* if there are any prototypes on this component they are added to the Data sets prototype */
         for(var x=0,keys=Object.keys(component.prototype),len=keys.length;x<len;x++)
         {
           Object.defineProperty(obsv,[keys[x]],setDescriptor(component.prototype[keys[x]],true));
         }
+        
+        /* we then apply the component constructor to the data set in order to add the 'this' properties from it and pass in the params */
+        component.apply(obsv,params);
         
         /* Post attachments, overwritables, for data or pointers */
         for(var x=0,keys=Object.keys(post),len=keys.length;x<len;x++)

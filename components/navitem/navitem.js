@@ -10,6 +10,7 @@ function navitem()
 
   this.link = "";
   this.left = 0;
+  this.top = 0;
   this.title = "";
   this.active = false;
   

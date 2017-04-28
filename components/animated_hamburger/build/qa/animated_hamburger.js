@@ -12,12 +12,15 @@ function animated_hamburger(node)
   /* ATTRIBUTES */
   this.isOpen = false;
   
+  this.hamburger = node.querySelector('.animated_hamburger');
+  
   this.offset = 20;
   
   this.side = 'left';
   
   this.animation_change = 1;
   this.animation_speed = 10;
+  this.timer = null;
   
   this.barOffsets = [0,0,0];
   
@@ -30,6 +33,24 @@ function animated_hamburger(node)
     document.querySelector('.animated_hamburger__bar_1'),
     document.querySelector('.animated_hamburger__bar_2')
   ];
+  
+  this.ontouch = function(){};
+  
+  this.touchstart = function(){};
+  this.touchend = function(){
+    self.toggle();
+    self.ontouch(self.isOpen);
+  };
+  
+  this.addDataListener('touchstart',function(e){
+    self.setTouchEvents(e.key,e.value,e.oldValue);
+  })
+  .addDataListener('touchend',function(e){
+    self.setTouchEvents(e.key,e.value,e.oldValue);
+  });
+  
+  this.setTouchEvents('touchstart',this.touchstart);
+  this.setTouchEvents('touchend',this.touchend);
 }
 
 /* PROTOTYPES */
@@ -109,7 +130,7 @@ animated_hamburger.prototype.animate = function(open)
         goLeft();
       }
     }
-    if(self.barOffsets[0] !== offset && self.barOffsets[1] !== offsetmid) setTimeout(function(){animate();},self.animation_speed);
+    if(self.barOffsets[0] !== offset && self.barOffsets[1] !== offsetmid) self.timer = setTimeout(function(){animate();},self.animation_speed);
   }
   
   this.isOpen = open;
@@ -118,9 +139,23 @@ animated_hamburger.prototype.animate = function(open)
 
 animated_hamburger.prototype.toggle = function()
 {
+  if(this.timer)
+  {
+    clearTimeout(this.timer);
+    this.timer = null;
+  }
   this.animate(!this.isOpen);
 }
-animated_hamburger.prototype.k_html = "<!-- animated_hamburger Created by keleko34, A mobile device menu bar that animates when in a open toggled state --><div class='animated_hamburger' onclick='{{onclick}}'>  <div class='animated_hamburger__bar animated_hamburger__bar_1'></div>  <div class='animated_hamburger__bar animated_hamburger__bar_2'></div>  <div class='animated_hamburger__bar animated_hamburger__bar_3'></div></div>";
+
+animated_hamburger.prototype.setTouchEvents = function(type,func,oldFunc)
+{
+  if(oldFunc)
+  {
+    this.hamburger.removeEventListener(type,oldFunc);
+  }
+  this.hamburger.addEventListener(type,func);
+}
+animated_hamburger.prototype.k_html = "<!-- animated_hamburger Created by keleko34, A mobile device menu bar that animates when in a open toggled state --><div class='animated_hamburger'>  <div class='animated_hamburger__bar animated_hamburger__bar_1'></div>  <div class='animated_hamburger__bar animated_hamburger__bar_2'></div>  <div class='animated_hamburger__bar animated_hamburger__bar_3'></div></div>";
 animated_hamburger.prototype.k_css = "/********************************* *  animated_hamburger *  Created by keleko34 *  A mobile device menu bar that animates when in a open toggled state ********************************/.animated_hamburger {  position:absolute;  height: 30px;  width: 33px;  cursor:pointer;}.animated_hamburger__bar {  background:#D9D9D9;  position: absolute;  height:4px;  border-radius: 1px;  width:100%;}.animated_hamburger__bar_1 {  top:0px;}.animated_hamburger__bar_2 {  top:10px;}.animated_hamburger__bar_3 {  top:20px;}";
 return animated_hamburger;
 }());

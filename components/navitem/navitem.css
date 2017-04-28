@@ -7,7 +7,8 @@
 .{{local}} .navitem {
   position: absolute;
   height: 100%;
-  margin-left:{{left}}px
+  margin-left:{{left}}px;
+  top:{{top}}px;
 }
 
 .{{local}} .navitem:hover {

@@ -10,12 +10,15 @@ function animated_hamburger(node)
   /* ATTRIBUTES */
   this.isOpen = false;
   
+  this.hamburger = node.querySelector('.animated_hamburger');
+  
   this.offset = 20;
   
   this.side = 'left';
   
   this.animation_change = 1;
   this.animation_speed = 10;
+  this.timer = null;
   
   this.barOffsets = [0,0,0];
   
@@ -28,6 +31,24 @@ function animated_hamburger(node)
     document.querySelector('.animated_hamburger__bar_1'),
     document.querySelector('.animated_hamburger__bar_2')
   ];
+  
+  this.ontouch = function(){};
+  
+  this.touchstart = function(){};
+  this.touchend = function(){
+    self.toggle();
+    self.ontouch(self.isOpen);
+  };
+  
+  this.addDataListener('touchstart',function(e){
+    self.setTouchEvents(e.key,e.value,e.oldValue);
+  })
+  .addDataListener('touchend',function(e){
+    self.setTouchEvents(e.key,e.value,e.oldValue);
+  });
+  
+  this.setTouchEvents('touchstart',this.touchstart);
+  this.setTouchEvents('touchend',this.touchend);
 }
 
 /* PROTOTYPES */
@@ -107,7 +128,7 @@ animated_hamburger.prototype.animate = function(open)
         goLeft();
       }
     }
-    if(self.barOffsets[0] !== offset && self.barOffsets[1] !== offsetmid) setTimeout(function(){animate();},self.animation_speed);
+    if(self.barOffsets[0] !== offset && self.barOffsets[1] !== offsetmid) self.timer = setTimeout(function(){animate();},self.animation_speed);
   }
   
   this.isOpen = open;
@@ -116,5 +137,19 @@ animated_hamburger.prototype.animate = function(open)
 
 animated_hamburger.prototype.toggle = function()
 {
+  if(this.timer)
+  {
+    clearTimeout(this.timer);
+    this.timer = null;
+  }
   this.animate(!this.isOpen);
+}
+
+animated_hamburger.prototype.setTouchEvents = function(type,func,oldFunc)
+{
+  if(oldFunc)
+  {
+    this.hamburger.removeEventListener(type,oldFunc);
+  }
+  this.hamburger.addEventListener(type,func);
 }
