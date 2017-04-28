@@ -8,10 +8,10 @@ function webapp()
 {
   var self = this;
   /* ATTRIBUTES */
-  this.page = "";
+  this.page = "intro";
   
   this.listen('page',function(value){
-    this.page = value;
+    window.location.hash = "#"+value;
   });
   
   window.addEventListener('resize',function(){
@@ -23,6 +23,11 @@ function webapp()
     self.alert('app_keyboard',Konnekt.device.keyboard);
     self.alert('app_screensize',Konnekt.device.screenSize);
     self.alert('app_orientationsize',Konnekt.device.orientationSize);
+  });
+  
+  Konnekt.addHashRouter(function(e){
+    e.preventDefault();
+    self.page = e.hash;
   });
 }
 
