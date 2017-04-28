@@ -15,8 +15,9 @@
       
         function routeBaseHashes(e)
         {
-          if(!Konnekt.isRegistered(config.base))
+          if(e.hash !== config.base)
           {
+            e.hash = config.base;
             console.log('not base');
           }
           else
@@ -27,8 +28,8 @@
       
         Konnekt(config)
         .localRouting(true)
-        .hashRouting(true)
-        .addHashRouter(routeBaseHashes);
+        .addHashRouter(routeBaseHashes)
+        .hashRouting(true);
     </script>
   </head>
   <body></body>
