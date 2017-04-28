@@ -1,13 +1,13 @@
 /*********************************
- *  navbar
+ *  slideoutnavmenu
  *  Created by keleko34
- *  the header navbar for the site
+ *  a touch slide out nav menu
  ********************************/
 
-function navbar()
+function slideoutnavmenu()
 {
   /* ATTRIBUTES */
-    
+
 }
 
 /* PROTOTYPES */

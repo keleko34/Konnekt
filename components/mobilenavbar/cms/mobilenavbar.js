@@ -1,13 +1,13 @@
 /*********************************
- *  navbar
+ *  mobilenavbar_cms
  *  Created by keleko34
- *  the header navbar for the site
+ *  a navbar for mobile only
  ********************************/
 
-function navbar()
+function mobilenavbar()
 {
   /* ATTRIBUTES */
-    
+
 }
 
 /* PROTOTYPES */

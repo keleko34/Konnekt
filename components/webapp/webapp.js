@@ -9,6 +9,7 @@ function webapp()
   var self = this;
   /* ATTRIBUTES */
   this.page = "intro";
+  this.nav = this.getNav();
   
   this.listen('page',function(value){
       window.location.hash = "#"+value;
@@ -23,6 +24,7 @@ function webapp()
     self.alert('app_keyboard',Konnekt.device.keyboard);
     self.alert('app_screensize',Konnekt.device.screenSize);
     self.alert('app_orientationsize',Konnekt.device.orientationSize);
+    self.nav = self.getNav();
   });
   
   Konnekt.addHashRouter(function(e){
@@ -32,3 +34,18 @@ function webapp()
 }
 
 /* PROTOTYPES */
+webapp.prototype.getNav = function()
+{
+  if(['mobile','tablet'].indexOf(Konnekt.device.type) !== -1)
+  {
+    if(Konnekt.device.type === 'tablet' && Konnekt.device.orientation === 'landscape')
+    {
+      return 'navbar';
+    }
+    return 'mobilenavbar';
+  }
+  else
+  {
+    return 'navbar';
+  }
+}

@@ -1,10 +1,10 @@
 /*********************************
- *  navbar
+ *  mobilenavbar
  *  Created by keleko34
- *  the header navbar for the site
+ *  a navbar for mobile only
  ********************************/
 
-.navbar {
+.mobilenavbar {
   position: relative;
   height:60px;
   background:#333;
