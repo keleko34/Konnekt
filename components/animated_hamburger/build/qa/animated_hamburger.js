@@ -41,6 +41,10 @@ function animated_hamburger(node)
     self.toggle();
     self.ontouch(self.isOpen);
   };
+  
+  this.addDataUpdateListener('isOpen',function(e){
+    self.animate(e.value);
+  });
 }
 
 /* PROTOTYPES */
@@ -123,7 +127,7 @@ animated_hamburger.prototype.animate = function(open)
     if(self.barOffsets[0] !== offset && self.barOffsets[1] !== offsetmid) self.timer = setTimeout(function(){animate();},self.animation_speed);
   }
   
-  this.isOpen = open;
+  this.stopChange().isOpen = open;
   animate();
 }
 
