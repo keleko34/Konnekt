@@ -12,17 +12,6 @@ module.exports = {
         message: "Please enter a port for the server to use"
       },
       action:'Root'
-    },
-    Root: {
-      cmd: {
-        short: "-r",
-        long: "--root"
-      },
-      prompt: {
-        type: "input",
-        message: "Please specify a root filepath"
-      },
-      action:'end'
     }
   },
   routes:fs.readdirSync(global.gulp.global+"/routes")
