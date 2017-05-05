@@ -100,7 +100,7 @@ slideoutnavmenu.prototype.animate = function(dir)
     
     menu.style.left = leftMenu+'px';
     bar.style.left = leftBar+'px';
-    if(!finished) self.timer = setTimeout(function(){
+    if(finished !== 2) self.timer = setTimeout(function(){
       animate(dir);
     },15)
   }
