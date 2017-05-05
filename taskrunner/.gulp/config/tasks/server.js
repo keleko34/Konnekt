@@ -11,7 +11,7 @@ module.exports = {
         type: "input",
         message: "Please enter a port for the server to use"
       },
-      action:'Root'
+      action:'end'
     }
   },
   routes:fs.readdirSync(global.gulp.global+"/routes")
