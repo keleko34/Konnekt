@@ -10,7 +10,7 @@ module.exports = function()
   {
     console.info("\033[36mPress ctrl + o to quickly open the default web page in your default browser\033[37m");
     connect.server({
-        root: (res.Root && res.Root.length !== 0 ? res.Root : '.'),
+        root: '.',
         livereload: false,
         port:(res.Port && res.Port.length !== 0 ? parseInt(res.Port) : 8080),
         middleware:function(connect, opt){

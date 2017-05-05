@@ -898,7 +898,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
 
     Konnekt.localRouting = function(isRouting)
     {
-      if(isRouting)
+      if(isRouting && _query.env !== 'dev')
       {
         _baserouter = Node.prototype.appendChild;
         Node.prototype.appendChild = function(node)
