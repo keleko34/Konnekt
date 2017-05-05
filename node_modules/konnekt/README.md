@@ -240,9 +240,9 @@ Each command has built in prompts in cmd that are easy to follow, You can also u
 
 1. Create Tool `gulp create` (used fo rcreating components)
 2. Build Tool `gulp build` (used for building components to different environments)
-3. Local Server `gulp server` (used for easy local environment testing)
+3. Local Server `gulp server` (used for easy local environment development in `dev` environment, see: [Environments](#environments))
 
-Shorthand example: `gulp server --port=8080 --root=(folderpath or . for local directory)`
+Shorthand example: `gulp server --port 8080` or `gulp server -p 8080`
 
 ### Bindings
 
@@ -1090,7 +1090,7 @@ Konnekt alsow comes with built in environment levels, for proper production depl
 to access different environments You must pass queries in the url.
 
 - **env**
-  - **dev** the base development environment, **note** doesnt work when using `localRouting`
+  - **dev** the base development environment, **note** reverts to no `localRouting`
   - **qa** the unit testing environment
   - **stage** the staged user testing environment
   - **prod** the end product
@@ -1104,6 +1104,8 @@ The debug option allows loading non minified versions of your components for eas
 Example urls:
 
 `http://yoursite.com/?env=dev&debug=true`
+
+To speed up your development using the `dev` environment you must use your local environment, this is done through the `gulp server` command
 
 ## Configs
 
