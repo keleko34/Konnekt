@@ -8,7 +8,7 @@ function webapp()
 {
   var self = this;
   /* ATTRIBUTES */
-  this.page = "intro";
+  this.page = window.location.hash.replace('#','') || "intro";
   this.nav = this.getNav();
   
   this.listen('page',function(value){
