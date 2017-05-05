@@ -8,7 +8,7 @@ function slideoutnavmenu(node)
 {
   var self = this;
   /* ATTRIBUTES */
-  this.isOpen = false;
+  this.isopen = false;
   
   this.timer = null;
   
@@ -40,7 +40,7 @@ function slideoutnavmenu(node)
   
   this.onChoice = function()
   {
-    self.isOpen = false;
+    self.isopen = false;
     self.touch(false);
   }
 }

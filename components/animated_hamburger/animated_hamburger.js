@@ -8,11 +8,12 @@ function animated_hamburger(node)
 {
   var self = this;
   /* ATTRIBUTES */
-  this.isOpen = false;
+  this.isopen = false;
   
   this.filters.toggled = function(v)
   {
     this.animate(v);
+    return v;
   }
   
   this.hamburger = node.querySelector('.animated_hamburger');
@@ -29,7 +30,7 @@ function animated_hamburger(node)
   
   this.onclick = function()
   {
-    self.alert('menu_open',!self.isOpen);
+    self.alert('menu_open',!self.isopen);
     self.toggle();
   }
   this.bars = [
@@ -42,14 +43,13 @@ function animated_hamburger(node)
   this.touchstart = function(){};
   this.touchend = function(){
     self.toggle();
-    self.ontouch(self.isOpen);
+    self.ontouch(self.isopen);
   };
 }
 
 /* PROTOTYPES */
 animated_hamburger.prototype.animate = function(open)
 {
-  if(this.isOpen === open) return;
   
   var self = this,
       offset = (!open ? 0 : this.offset * (this.side === 'left' ? -1 : 1)),
@@ -125,8 +125,6 @@ animated_hamburger.prototype.animate = function(open)
     }
     if(self.barOffsets[0] !== offset && self.barOffsets[1] !== offsetmid) self.timer = setTimeout(function(){animate();},self.animation_speed);
   }
-  
-  this.stopChange().isOpen = open;
   animate();
 }
 
@@ -137,5 +135,5 @@ animated_hamburger.prototype.toggle = function()
     clearTimeout(this.timer);
     this.timer = null;
   }
-  this.isOpen = !this.isOpen;
+  this.isopen = !this.isopen;
 }
