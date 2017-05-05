@@ -49,7 +49,8 @@ slideoutnavmenu.prototype.animate = function(dir)
       finishBar = (dir ? this.barend : this.barstart),
       barFinished = false,
       menu = this.menu,
-      bar = this.bar;
+      bar = this.bar,
+      speed = 13;
   
   function animate(dir)
   {
@@ -60,9 +61,9 @@ slideoutnavmenu.prototype.animate = function(dir)
     {
       if(barFinished)
       {
-        if(leftMenu > finish)
+        if(leftMenu + (-speed) > finish)
         {
-          leftMenu += (-5);
+          leftMenu += (-speed);
         }
         else
         {
@@ -70,9 +71,9 @@ slideoutnavmenu.prototype.animate = function(dir)
           finished = true;
         }
       }
-      if(leftBar > finishBar)
+      if(leftBar + (-speed) > finishBar)
       {
-        leftBar += (-5);
+        leftBar += (-speed);
       }
       else
       {
@@ -87,9 +88,9 @@ slideoutnavmenu.prototype.animate = function(dir)
     }
     else
     {
-      if(leftMenu < finish)
+      if(leftMenu + (speed) < finish)
       {
-        leftMenu += (5);
+        leftMenu += (speed);
       }
       else
       {
@@ -99,9 +100,9 @@ slideoutnavmenu.prototype.animate = function(dir)
       
       if(finished)
       {
-        if(leftBar < finishBar)
+        if(leftBar + (speed) < finishBar)
         {
-          leftBar += (5);
+          leftBar += (speed);
         }
         else
         {
