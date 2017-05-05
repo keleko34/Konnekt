@@ -50,14 +50,14 @@ Each file is comprised in the given way:
 - CSS (the css just for that component)
 - JS (the data, methods, and events associated with that component)
 
-Each component is comprised in a way to allow for easy and friendly development by using an MVVM modular binding approach so components can be plug and play independent of everything else. This allows easy reusability throught the entire app.
+Each component is comprised in a way to allow for easy and friendly development by using an MVVM modular binding approach so components can be plug and play and independent of everything else. This allows easy reusability through out the entire app.
 
 ## Why you should use it?
 
-- **Simple** Provides many built in functionality that allows youto create an app quickly and efficiently
-- **Modular** By splitting up the app into components You can reuse them across the app and which saves you development time
+- **Simple** Provides many built in functionality that allows you to create an app quickly and efficiently
+- **Modular** By splitting up the app into components You can reuse them across the app, which saves you development time
 - **Designer Friendly** This framework has been created with designers in mind to allow easy and friendly development
-- **Two Way Binding** One of the few frameworks to have true two way binding with the dom
+- **Two Way Binding** One of the few frameworks to have true two way bindings with the dom
 
 ## Installation
 
@@ -73,7 +73,7 @@ All cli commands come packaged along with konnekt.
 These chapters are meant to be useful in learning more about how to work with the different powerful functionalities that konnekt provides
 
 ### Getting started
-Creating a component is as simple as using the K_Tasks built in `create` command
+Creating a component is as simple as using the built in `gulp create` command
 
 - First step: (using cmd prompt)
 
@@ -93,7 +93,7 @@ There are two ways to get started using your components
 
 - First choice (using built in hashrouting)
 
-This automatically replaces \<body> content with your desired component
+This automatically replaces `\<body>` content with your desired component
 
 ```js
 var konnektjs = Konnekt({
@@ -105,7 +105,7 @@ konnektjs.hashRouting(true);
   
 - Second choice (using konnekt built in parser)
 
-The element will be replaced with your desired component, this can be used as much as you want
+The element will be replaced with your desired component, this can be used multiple times
 
 ```js
 <body>
@@ -116,10 +116,10 @@ The element will be replaced with your desired component, this can be used as mu
 </body>
 ``` 
 
-**Now go make Your App!**
+**Now Go Make Your App!**
 
 ### File structure
-The file structure of a konnekt app can be comprised of a single html entry point, your pre-installed libraries and a components folder to house all your components. Each component houses three main files, an **HTML**,**CSS**, and **JS** file, the build folder houses compiled files of your component to be loaded using different environments in a production scenario.
+The file structure of a konnekt app can be comprised of a single html entry point, your pre-installed libraries and a components folder to house all your components. Each component houses three main files, a **HTML**,**CSS**, and **JS** file, the build folder houses compiled files of your component to be loaded using different environments in a production scenario.
 
 ```
 ├── components/
@@ -135,7 +135,6 @@ The file structure of a konnekt app can be comprised of a single html entry poin
 │   │   ├── component.js
 ├── node_modules/
 │   │   ├── konnekt
-│   │   ├── K_Tasks
 ├── index.html
 ```
 
@@ -345,6 +344,34 @@ this changes the html of the foo div to `something else` and in doing so the bin
 
 in this case You will be unable to change the html via your click event because your bind is polluted by other text.
 
+Another scenario is passing binds to another component, these act as pointers to the original data.
+
+Example:
+
+HTML
+```html
+  <div>
+    <bar onbarclick="{{onFooClick}}"></bar>
+  </div>
+```
+
+JS
+```js
+  function foo()
+  {
+    var self = this;
+    
+    this.foobar = 'test';
+    
+    this.onFooClick = function(e)
+    {
+      console.log(self.foobar);
+    }
+  }
+```
+
+if the original onFooClick is changed this change will be reflected inside bar as well, same goes for changing it in bar as well.
+
 #### Built in Binds
 
 There are some built in binds that can be used throughout any component automatically, such examples are:
@@ -434,6 +461,8 @@ function foo()
   }
 }
 ```
+
+**Note** filters that are attached to binds on a component will also be passed to the child component for you.
 
 2. Data based filter in the case of non polluted binds: *p.s. notice the '()' around the filter name*
 
