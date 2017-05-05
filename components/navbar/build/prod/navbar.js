@@ -9,7 +9,7 @@ K_Components["navbar"] = (function(){
 function navbar()
 {
   /* ATTRIBUTES */
-  
+    
 }
 
 /* PROTOTYPES */

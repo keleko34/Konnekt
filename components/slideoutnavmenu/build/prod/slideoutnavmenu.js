@@ -49,6 +49,7 @@ slideoutnavmenu.prototype.animate = function(dir)
       startBar = parseInt(this.bar.style.left),
       finish = (dir ? this.menuend : this.menustart),
       finishBar = (dir ? this.barend : this.barstart),
+      barFinished = false,
       menu = this.menu,
       bar = this.bar;
   
@@ -56,27 +57,35 @@ slideoutnavmenu.prototype.animate = function(dir)
   {
      var leftMenu = parseInt(menu.style.left),
          leftBar = parseInt(bar.style.left),
-         finished = 0;
+         finished = false;
     if(dir)
     {
-      if(leftMenu > finish)
+      if(barFinished)
       {
-        leftMenu += (-5);
-      }
-      else
-      {
-        leftMenu = finish;
-        finished += 1;
+        if(leftMenu > finish)
+        {
+          leftMenu += (-5);
+        }
+        else
+        {
+          leftMenu = finish;
+          finished = true;
+        }
       }
       if(leftBar > finishBar)
       {
-        leftBar += (-2);
+        leftBar += (-5);
       }
       else
       {
         leftBar = finishBar;
-        finished += 1;
+        barFinished = true;
       }
+      menu.style.left = leftMenu+'px';
+      bar.style.left = leftBar+'px';
+      if(!finished) self.timer = setTimeout(function(){
+        animate(dir);
+      },10)
     }
     else
     {
@@ -87,24 +96,27 @@ slideoutnavmenu.prototype.animate = function(dir)
       else
       {
         leftMenu = finish;
-        finished += 1;
+        finished = true;
       }
-      if(leftBar < finishBar)
+      
+      if(finished)
       {
-        leftBar += (2);
+        if(leftBar < finishBar)
+        {
+          leftBar += (5);
+        }
+        else
+        {
+          leftBar = finishBar;
+          barFinished = true;
+        }
       }
-      else
-      {
-        leftBar = finishBar;
-        finished += 1;
-      }
+      menu.style.left = leftMenu+'px';
+      bar.style.left = leftBar+'px';
+      if(!barFinished) self.timer = setTimeout(function(){
+        animate(dir);
+      },10)
     }
-    
-    menu.style.left = leftMenu+'px';
-    bar.style.left = leftBar+'px';
-    if(!finished) self.timer = setTimeout(function(){
-      animate(dir);
-    },15)
   }
   animate(dir);
 }

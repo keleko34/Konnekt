@@ -11,9 +11,10 @@ function webapp()
   var self = this;
   /* ATTRIBUTES */
   this.page = "intro";
+  this.nav = this.getNav();
   
   this.listen('page',function(value){
-    window.location.hash = "#"+value;
+      window.location.hash = "#"+value;
   });
   
   window.addEventListener('resize',function(){
@@ -25,6 +26,7 @@ function webapp()
     self.alert('app_keyboard',Konnekt.device.keyboard);
     self.alert('app_screensize',Konnekt.device.screenSize);
     self.alert('app_orientationsize',Konnekt.device.orientationSize);
+    self.nav = self.getNav();
   });
   
   Konnekt.addHashRouter(function(e){
@@ -34,8 +36,22 @@ function webapp()
 }
 
 /* PROTOTYPES */
-
-webapp.prototype.k_html = "<!-- webapp Created by keleko34, The main entry point for the konnekt web app --><div class='webapp'>  <navbar></navbar>  <div class='webapp__content'>    <{{page}} offsettop='62'></{{page}}>  </div></div>";
+webapp.prototype.getNav = function()
+{
+  if(['mobile','tablet'].indexOf(Konnekt.device.type) !== -1)
+  {
+    if(Konnekt.device.type === 'tablet' && Konnekt.device.orientation === 'landscape')
+    {
+      return 'navbar';
+    }
+    return 'mobilenavbar';
+  }
+  else
+  {
+    return 'navbar';
+  }
+}
+webapp.prototype.k_html = "<!-- webapp Created by keleko34, The main entry point for the konnekt web app --><div class='webapp'>  <{{nav}}></{{nav}}>  <div class='webapp__content'>    <{{page}} offsettop='62'></{{page}}>  </div></div>";
 webapp.prototype.k_css = "/********************************* *  webapp *  Created by keleko34 *  The main entry point for the konnekt web app ********************************/.webapp {}";
 return webapp;
 }());
