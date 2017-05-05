@@ -39,16 +39,6 @@ function animated_hamburger(node)
     self.toggle();
     self.ontouch(self.isOpen);
   };
-  
-  this.addDataListener('touchstart',function(e){
-    self.setTouchEvents(e.key,e.value,e.oldValue);
-  })
-  .addDataListener('touchend',function(e){
-    self.setTouchEvents(e.key,e.value,e.oldValue);
-  });
-  
-  this.setTouchEvents('touchstart',this.touchstart);
-  this.setTouchEvents('touchend',this.touchend);
 }
 
 /* PROTOTYPES */
@@ -143,13 +133,4 @@ animated_hamburger.prototype.toggle = function()
     this.timer = null;
   }
   this.animate(!this.isOpen);
-}
-
-animated_hamburger.prototype.setTouchEvents = function(type,func,oldFunc)
-{
-  if(oldFunc)
-  {
-    this.hamburger.removeEventListener(type,oldFunc);
-  }
-  this.hamburger.addEventListener(type,func);
 }

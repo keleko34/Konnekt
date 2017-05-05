@@ -527,6 +527,10 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         {
           obj2.pointers[keys[x]] = {key:obj[keys[x]].__kbscopeString.split('.').pop(),point:obj[keys[x]].__kbImmediateParent};
         }
+        else if(_mixed.prototype.isObject(obj[keys[x]]) && obj[keys[x]].pointer)
+        {
+          obj2.pointers[keys[x]] = {filters:obj[keys[x]].filters,key:obj[keys[x]].key,point:obj[keys[x]].pointer};
+        }
         else
         {
           if(_mixed.prototype.isObject(obj[keys[x]]))
