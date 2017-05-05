@@ -72,44 +72,49 @@ slideoutnavmenu.prototype.animate = function(dir)
       }
       if(leftBar > finishBar)
       {
-        leftBar += (-2);
+        leftBar += (-5);
       }
       else
       {
         leftBar = finishBar;
         barFinished = true;
       }
+      menu.style.left = leftMenu+'px';
+      bar.style.left = leftBar+'px';
+      if(!finished) self.timer = setTimeout(function(){
+        animate(dir);
+      },10)
     }
     else
     {
-      if(barFinished)
+      if(leftMenu < finish)
       {
-        if(leftMenu < finish)
-        {
-          leftMenu += (5);
-        }
-        else
-        {
-          leftMenu = finish;
-          finished = true;
-        }
-      }
-      if(leftBar < finishBar)
-      {
-        leftBar += (2);
+        leftMenu += (5);
       }
       else
       {
-        leftBar = finishBar;
-        barFinished = true;
+        leftMenu = finish;
+        finished = true;
       }
+      
+      if(finished)
+      {
+        if(leftBar < finishBar)
+        {
+          leftBar += (5);
+        }
+        else
+        {
+          leftBar = finishBar;
+          barFinished = true;
+        }
+      }
+      menu.style.left = leftMenu+'px';
+      bar.style.left = leftBar+'px';
+      if(!barFinished) self.timer = setTimeout(function(){
+        animate(dir);
+      },10)
     }
-    
-    menu.style.left = leftMenu+'px';
-    bar.style.left = leftBar+'px';
-    if(!finished) self.timer = setTimeout(function(){
-      animate(dir);
-    },15)
   }
   animate(dir);
 }
