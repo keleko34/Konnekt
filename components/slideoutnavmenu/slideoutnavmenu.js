@@ -38,6 +38,11 @@ function slideoutnavmenu(node)
     }
     self.animate(isOpen);
   }
+  
+  this.onChoice = function()
+  {
+    self.touch(false);
+  }
 }
 
 slideoutnavmenu.prototype.animate = function(dir)

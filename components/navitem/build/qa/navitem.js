@@ -15,6 +15,7 @@ function navitem()
   this.top = 0;
   this.title = "";
   this.active = false;
+  this.onActive = function(){};
   
   /* Filters */
   this.filters.isActive = function(v)
@@ -32,6 +33,7 @@ function navitem()
   {
     self.alert('page',self.link);
     self.alert('navitem',self.title);
+    self.onActive(self.title,self.link);
   }
 }
 
