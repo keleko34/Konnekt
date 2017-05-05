@@ -10,6 +10,11 @@ function animated_hamburger(node)
   /* ATTRIBUTES */
   this.isOpen = false;
   
+  this.filters.toggled = function(v)
+  {
+    this.animate(v);
+  }
+  
   this.hamburger = node.querySelector('.animated_hamburger');
   
   this.offset = 20;
@@ -39,10 +44,6 @@ function animated_hamburger(node)
     self.toggle();
     self.ontouch(self.isOpen);
   };
-  
-  this.addDataUpdateListener('isOpen',function(e){
-    self.animate(e.value);
-  });
 }
 
 /* PROTOTYPES */
@@ -136,5 +137,5 @@ animated_hamburger.prototype.toggle = function()
     clearTimeout(this.timer);
     this.timer = null;
   }
-  this.animate(!this.isOpen);
+  this.isOpen = !this.isOpen;
 }

@@ -12,6 +12,11 @@ function animated_hamburger(node)
   /* ATTRIBUTES */
   this.isOpen = false;
   
+  this.filters.toggled = function(v)
+  {
+    this.animate(v);
+  }
+  
   this.hamburger = node.querySelector('.animated_hamburger');
   
   this.offset = 20;
@@ -41,10 +46,6 @@ function animated_hamburger(node)
     self.toggle();
     self.ontouch(self.isOpen);
   };
-  
-  this.addDataUpdateListener('isOpen',function(e){
-    self.animate(e.value);
-  });
 }
 
 /* PROTOTYPES */
@@ -138,9 +139,9 @@ animated_hamburger.prototype.toggle = function()
     clearTimeout(this.timer);
     this.timer = null;
   }
-  this.animate(!this.isOpen);
+  this.isOpen = !this.isOpen;
 }
-animated_hamburger.prototype.k_html = "<!-- animated_hamburger Created by keleko34, A mobile device menu bar that animates when in a open toggled state --><div class='animated_hamburger' ontouchstart='{{touchstart}}' ontouchend='{{touchend}}'>  <div class='animated_hamburger__bar animated_hamburger__bar_1'></div>  <div class='animated_hamburger__bar animated_hamburger__bar_2'></div>  <div class='animated_hamburger__bar animated_hamburger__bar_3'></div></div>";
+animated_hamburger.prototype.k_html = "<!-- animated_hamburger Created by keleko34, A mobile device menu bar that animates when in a open toggled state --><div class='animated_hamburger' data-open='{{isOpen | toggled}}' ontouchstart='{{touchstart}}' ontouchend='{{touchend}}'>  <div class='animated_hamburger__bar animated_hamburger__bar_1'></div>  <div class='animated_hamburger__bar animated_hamburger__bar_2'></div>  <div class='animated_hamburger__bar animated_hamburger__bar_3'></div></div>";
 animated_hamburger.prototype.k_css = "/********************************* *  animated_hamburger *  Created by keleko34 *  A mobile device menu bar that animates when in a open toggled state ********************************/.animated_hamburger {  position:absolute;  height: 30px;  width: 33px;  cursor:pointer;}.animated_hamburger__bar {  background:#D9D9D9;  position: absolute;  height:4px;  border-radius: 1px;  width:100%;}.animated_hamburger__bar_1 {  top:0px;}.animated_hamburger__bar_2 {  top:10px;}.animated_hamburger__bar_3 {  top:20px;}";
 return animated_hamburger;
 }());

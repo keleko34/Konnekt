@@ -30,7 +30,6 @@ function slideoutnavmenu(node)
   
   this.touch = function(isOpen)
   {
-    self.stopChange().isOpen = isOpen;
     if(self.timer)
     {
       clearTimeout(self.timer);
