@@ -241,3 +241,35 @@
   color: #1d1f21 !important;
   line-height:20px !important;
 }
+
+.intro__uses {
+  width: 100%;
+  background: #333;
+  position: absolute;
+  top: 600px;
+  border-bottom: solid 4px #87cefa;
+}
+
+.desktop .intro__uses {
+  height: 160px;
+}
+
+.mobile .intro__uses {
+  height: 300px;
+}
+
+.intro__platform {
+  width:100%;
+  position: absolute;
+  background:#F1F1F1;
+}
+
+.desktop .intro__platform {
+  top: 764px;
+  height:900px;
+}
+
+.mobile .intro__platform {
+  top: 904px;
+  height:900px;
+}
