@@ -8,18 +8,18 @@ function logo()
 {
   var self = this;
   /* ATTRIBUTES */
+  this.size = 'small';
+  
+  this.islinked = true;
+  
   this.navigateHome = function()
   {
-    self.alert('page','intro');
-    self.alert('navitem','intro');
+    if(self.isLinked)
+    {
+      self.alert('page','intro');
+      self.alert('navitem','intro');
+    }
   }
-  
-  this.navigateMain = function()
-  {
-    window.location.href = window.location.origin;
-  }
-  
-  this.size = 'small';
   
   this.filters.toFontSize = function(v)
   {
