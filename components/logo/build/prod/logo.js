@@ -16,7 +16,7 @@ function logo()
   
   this.navigateHome = function()
   {
-    if(self.isLinked)
+    if(self.islinked)
     {
       self.alert('page','intro');
       self.alert('navitem','intro');

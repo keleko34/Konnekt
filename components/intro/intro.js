@@ -11,6 +11,7 @@ function intro()
   /* ATTRIBUTES */
   this.offsettop = 0;
   this.height = 0;
+  this.falsey = false;
   
   this.size = (Konnekt.device.type === 'desktop' ? 'large' : 'medium');
   

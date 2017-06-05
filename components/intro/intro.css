@@ -27,7 +27,7 @@
   background-size: contain;
 }
 
-.desktop .intro__arrow {
+.desktop .intro__arrow, .tablet .intro__arrow {
   top: 420px;
   margin-left: -16px;
 }
@@ -47,7 +47,7 @@
   background-size: contain;
 }
 
-.desktop .intro__content {
+.desktop .intro__content, .tablet .intro__content {
   width:800px;
   height:400px;
   position: absolute;
@@ -60,7 +60,7 @@
   width: 100%;
 }
 
-.desktop .intro__content__left {
+.desktop .intro__content__left, .tablet .intro__content__left {
   float: left;
   height: 220px;
   width: 348px;
@@ -86,7 +86,7 @@
   position: relative;
 }
 
-.desktop .intro__content__right {
+.desktop .intro__content__right, .tablet .intro__content__right {
   float: left;
   width: 300px;
   height: 250px;
@@ -111,7 +111,7 @@
   margin-top: 15px;
 }
 
-.desktop .intro__content__list {
+.desktop .intro__content__list, .tablet .intro__content__list {
   font-size: 14px;
   margin-top: 20px;
   font-weight: 600;
@@ -147,7 +147,7 @@
   width: 300px;
 }
 
-.desktop .intro__content__install {
+.desktop .intro__content__install, .tablet .intro__content__install {
   bottom: 20px;
   left: 30px;
   background: #333;
@@ -168,7 +168,7 @@
   color: #888;
 }
 
-.desktop .intro__content__install__inner {
+.desktop .intro__content__install__inner, .tablet .intro__content__install__inner {
   margin: 10px;
   background: #1d1f21;
 }
@@ -191,15 +191,15 @@
   cursor:text;
 }
 
-.desktop .intro__content__install__text__1 {
+.desktop .intro__content__install__text__1, .tablet .intro__content__install__text__1 {
   color: #84a2ea;
 }
 
-.desktop .intro__content__install__text__2 {
+.desktop .intro__content__install__text__2, .tablet .intro__content__install__text__2 {
   color: #bc68d6;
 }
 
-.desktop .intro__content__install__text__3 {
+.desktop .intro__content__install__text__3, .tablet .intro__content__install__text__3 {
   color: #F1F1F1;
 }
 
