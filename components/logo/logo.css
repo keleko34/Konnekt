@@ -17,15 +17,38 @@
   top: 10px;
 }
 
-.logo__container__img {
+.{{local}} .logo--small .logo__container__img {
   height: 34px;
+}
+
+.{{local}} .logo--medium .logo__container__img {
+  height: 58px;
+}
+
+.{{local}} .logo--large .logo__container__img {
+  height: 64px;
 }
 
 .logo__text {
     position: absolute;
+    font-family: 'wolf_in_the_cityregular';
+    color: #87cefa;
+}
+
+.{{local}} .logo--small .logo__text {
     left: 62px;
     top: -1px;
-    font-family: 'wolf_in_the_cityregular';
     font-size: 60px;
-    color: #87cefa;
+}
+
+.{{local}} .logo--medium .logo__text {
+    left: 88px;
+    top: -8px;
+    font-size: 100px;
+}
+
+.{{local}} .logo--large .logo__text {
+    left: 107px;
+    top: -14px;
+    font-size: 120px;
 }

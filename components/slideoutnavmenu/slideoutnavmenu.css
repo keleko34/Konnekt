@@ -26,6 +26,7 @@
   background: #1b1a1a;
   position: absolute;
   top: 60px;
+  z-index: 1;
 }
 
 .slideoutnavmenu__bar .navitem {

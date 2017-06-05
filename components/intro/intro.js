@@ -12,6 +12,7 @@ function intro()
   this.offsettop = 0;
   this.height = 0;
   
+  this.size = (Konnekt.device.type === 'desktop' ? 'large' : 'medium');
   
   this.listen('app_height',function(value){
     this.height = (value-this.offsettop);
