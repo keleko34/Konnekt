@@ -2,13 +2,13 @@ var fs = require('fs');
 
 module.exports = {
   commands:{
-    Name:{
+    Names:{
       cmd:{
         short:'-n',
         long:'--name'
       },
       prompt:{
-        type:'list',
+        type:'checkbox',
         message:'What is the name of the component you would like to build?',
         choices:function(){
           try{
