@@ -255,7 +255,7 @@
 }
 
 .mobile .intro__uses {
-  height: 300px;
+  height: 240px;
 }
 
 .intro__platform {
@@ -270,6 +270,62 @@
 }
 
 .mobile .intro__platform {
-  top: 904px;
+  top: 844px;
   height:900px;
+}
+
+
+/* intro uses */
+.intro__uses__container {
+  margin:0 auto;
+  padding-top:20px;
+}
+
+.desktop .intro__uses__container {
+  width:640px;
+}
+
+.mobile .intro__uses__container {
+  width:300px;
+}
+
+.intro__uses__title {
+  color: #F1F1F1;
+  font-family: 'open sans';
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.desktop .intro__uses__title {
+  font-size: 18px;
+}
+
+.mobile .intro__uses__title {
+  font-size: 28px;
+  text-align: center;
+}
+
+.mobile .intro__uses__logos {
+  width: 200px;
+  margin: 0 auto;
+}
+
+.intro__uses__logo__nodejs {
+  width:200px;
+}
+
+.desktop .intro__uses__logo__nodejs {
+  margin-right: 40px;
+}
+
+.mobile .intro__uses__logo__nodejs {
+  margin-bottom: 30px;
+}
+
+.intro__uses__logo__npm {
+  width:100px;
+}
+
+.mobile .intro__uses__logo__npm {
+  margin-left:50px; 
 }

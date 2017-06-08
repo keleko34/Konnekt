@@ -41,9 +41,9 @@ function intro(node)
       function getPercent()
       {
         var perc = ((currentScroll/offset)*100);
-        if(perc >= 60)
+        if(perc >= 65)
         {
-          var currPerc = ((perc - 60) * 100) / (100 - 60);
+          var currPerc = ((perc - 65) * 100) / (100 - 65);
               currAnim = startAnim - (startAnim * (currPerc/100));
           if(currAnim < 1) currAnim = 1;
           
