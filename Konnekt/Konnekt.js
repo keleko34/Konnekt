@@ -1,9 +1,25 @@
 /* Build */
 /* End Build */
+
+/* KonnektDT
+   :handles vm data
+   
+   KonnektL
+   :handles loading of the components
+   
+   kb
+   :handles the binding events of the entire dom
+   
+   KonnektMP
+   :handles the creation of mapping objects
+   
+   KonnektRTF
+   :handles frontend routing system and backend file routing if specified*/
 define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateData,CreateLoader,kb,CreateMapping,CreateHashRouting){
 
   function CreateKonnekt(config)
   {
+    /* holds all base components for loading */
     if(!window.K_Components) window.K_Components = {};
     
     /* main loader for loading files */
@@ -31,7 +47,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
           Konnekt(document.querySelector(name));
         }),
         
-        /* this is a main model, data sets will be stored here for sharing between components and other libraries through this.store = true attribute */
+        /* this is a main model, data sets will be stored here for sharing between components and other libraries through this.store = true attribute or a user specifying [~name] filter option */
         _model = _mixed({},"Model"),
         
         /* the current loaded viewmodels */
