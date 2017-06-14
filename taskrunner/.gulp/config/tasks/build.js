@@ -8,7 +8,7 @@ module.exports = {
         long:'--name'
       },
       prompt:{
-        type:'checkbox',
+        type:'list',
         message:'What is the name of the component you would like to build?',
         choices:function(){
           try{
