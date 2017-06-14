@@ -410,7 +410,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
               {
                 return true;
               }
-              else if(['innerHTML','textContent'].indexOf(e.attr) !== -1 && e.target.__kbhtmllistener)
+              else if(['innerHTML','textContent'].indexOf(e.attr) !== -1 && (e.child ? !!e.child.__kbhtmllistener : !!e.target.__kbhtmllistener))
               {
                 return true;
               }
