@@ -1,6 +1,6 @@
 {
   "name": "konnekt",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "A library that allows to deploy component based bindable apps",
   "keywords": [
     "library",
@@ -40,15 +40,13 @@
     "i": "npm run install_devlibs && bower i",
     "install_devlibs": "npm run install_KonnektDT && npm run install_KonnektMP && npm run install_KonnektL && npm run install_KonnektRT && npm run install_KonnektRTF && npm run install_KB && npm run install_KonnektS",
     "update_repos": "cd KonnektDT && git pull && cd ../KonnektMP && git pull && cd ../KonnektL && git pull && cd ../KonnektRT && git pull && cd ../KB && git pull origin konnektjs && cd ../konnekt-streams && git pull",
-    
-    "install_KonnektDT" : "git clone https://github.com/keleko34/KonnektDT.git && cd KonnektDT && npm link --production && cd .. && npm link konnektdt --production",
-    "install_KonnektMP" : "git clone https://github.com/keleko34/KonnektMP.git && cd KonnektMP && npm link --production && cd .. && npm link konnektmp --production",
-    "install_KonnektL"  : "git clone https://github.com/keleko34/KonnektL.git && cd KonnektL && npm link --production && cd .. && npm link konnektl --production",
-    "install_KonnektRT" : "git clone https://github.com/keleko34/KonnektRT.git && cd KonnektRT && npm link --production && cd .. && npm link konnektrt --production",
+    "install_KonnektDT": "git clone https://github.com/keleko34/KonnektDT.git && cd KonnektDT && npm link --production && cd .. && npm link konnektdt --production",
+    "install_KonnektMP": "git clone https://github.com/keleko34/KonnektMP.git && cd KonnektMP && npm link --production && cd .. && npm link konnektmp --production",
+    "install_KonnektL": "git clone https://github.com/keleko34/KonnektL.git && cd KonnektL && npm link --production && cd .. && npm link konnektl --production",
+    "install_KonnektRT": "git clone https://github.com/keleko34/KonnektRT.git && cd KonnektRT && npm link --production && cd .. && npm link konnektrt --production",
     "install_KonnektRTF": "git clone https://github.com/keleko34/KonnektRTF.git && cd KonnektRTF && npm link --production && cd .. && npm link konnektrtf --production",
-    "install_KB"        : "git clone https://github.com/keleko34/KB.git --branch konnektjs && cd KB && npm link --production && cd .. && npm link KB --production",
-    "install_KonnektS"  : "git clone https://github.com/keleko34/konnekt-streams.git && cd konnekt-streams && npm link --production && cd .. && npm link konnekt-streams --production",
-    
+    "install_KB": "git clone https://github.com/keleko34/KB.git --branch konnektjs && cd KB && npm link --production && cd .. && npm link KB --production",
+    "install_KonnektS": "git clone https://github.com/keleko34/konnekt-streams.git && cd konnekt-streams && npm link --production && cd .. && npm link konnekt-streams --production",
     "status": "cd KonnektDT && git status && cd ../KonnektMP && git status && cd ../KonnektL && git status && cd ../KonnektRT && git status && cd ../KB && git status && cd ../K_Tasks && git status",
     "postinstall": "node ./postinstall.js"
   },
