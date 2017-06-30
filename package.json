@@ -36,18 +36,19 @@
     "konnektmp": "file://konnektmp"
   },
   "scripts": {
-    "installer": "npm run Check_Repo_KonnektDT && npm i git+https://github.com/keleko34/gulp.git -g && bower i",
-    "i": "npm run Check_Repo_KonnektDT && npm i git+https://github.com/keleko34/gulp.git -g && npm i K_Tasks && bower i",
-    "update_repos": "cd KonnektDT && git pull && cd ../KonnektMP && git pull && cd ../KonnektL && git pull && cd ../KonnektRT && git pull && cd ../KB && git pull origin konnektjs",
-    "Check_Repo_KonnektDT": "cd KonnektDT && npm link  --production && cd .. && npm link konnektdt --production && npm run Check_Repo_KonnektMP || git clone https://github.com/keleko34/KonnektDT.git && cd KonnektDT && npm link --production && cd .. && npm link konnektdt --production && npm run Check_Repo_KonnektMP",
-    "Check_Repo_KonnektMP": "cd KonnektMP && npm link --production && cd .. && npm link konnektmp --production && npm run Check_Repo_KonnektL || git clone https://github.com/keleko34/KonnektMP.git && cd KonnektMP && npm link --production && cd .. && npm link konnektmp --production && npm run Check_Repo_KonnektL",
-    "Check_Repo_KonnektL": "cd KonnektL && npm link --production && cd .. && npm link konnektl --production && npm run Check_Repo_KonnektRT || git clone https://github.com/keleko34/KonnektL.git && cd KonnektL && npm link --production && cd .. && npm link konnektl --production && npm run Check_Repo_KonnektRT",
-    "Check_Repo_KonnektRT": "cd KonnektRT && npm link --production && cd .. && npm link konnektrt --production npm run Check_Repo_KonnektRTF || git clone https://github.com/keleko34/KonnektRT.git && npm run Check_Repo_KonnektRTF",
-    "Check_Repo_KonnektRTF": "cd KonnektRTF && npm run Check_Repo_KB || git clone https://github.com/keleko34/KonnektRTF.git && cd KonnektRTF && npm link --production && cd .. && npm link konnektrtf --production && npm run Check_Repo_KB",
-    "Check_Repo_KB": "cd KB && npm link --production && cd .. && npm link KB --production && npm run Check_Repo_K_Tasks || git clone https://github.com/keleko34/KB.git --branch konnektjs && cd KB && npm link --production && cd .. && npm link KB --production && npm run Check_Repo_K_Tasks",
-    "Check_Repo_K_Tasks": "git clone https://github.com/keleko34/K_Tasks.git && npm i K_Tasks",
+    "installer": "npm run install_devlibs && bower i",
+    "i": "npm run install_devlibs && bower i",
+    "install_devlibs": "npm run install_KonnektDT && npm run install_KonnektMP && npm run install_KonnektL && npm run install_KonnektRT && npm run install_KonnektRTF && npm run install_KB && npm run install_KonnektS",
+    "update_repos": "cd KonnektDT && git pull && cd ../KonnektMP && git pull && cd ../KonnektL && git pull && cd ../KonnektRT && git pull && cd ../KB && git pull origin konnektjs && cd ../konnekt-streams && git pull",
+    "install_KonnektDT": "git clone https://github.com/keleko34/KonnektDT.git && cd KonnektDT && npm link --production && cd .. && npm link konnektdt --production",
+    "install_KonnektMP": "git clone https://github.com/keleko34/KonnektMP.git && cd KonnektMP && npm link --production && cd .. && npm link konnektmp --production",
+    "install_KonnektL": "git clone https://github.com/keleko34/KonnektL.git && cd KonnektL && npm link --production && cd .. && npm link konnektl --production",
+    "install_KonnektRT": "git clone https://github.com/keleko34/KonnektRT.git && cd KonnektRT && npm link --production && cd .. && npm link konnektrt --production",
+    "install_KonnektRTF": "git clone https://github.com/keleko34/KonnektRTF.git && cd KonnektRTF && npm link --production && cd .. && npm link konnektrtf --production",
+    "install_KB": "git clone https://github.com/keleko34/KB.git --branch konnektjs && cd KB && npm link --production && cd .. && npm link KB --production",
+    "install_KonnektS": "git clone https://github.com/keleko34/konnekt-streams.git && cd konnekt-streams && npm link --production && cd .. && npm link konnekt-streams --production",
     "status": "cd KonnektDT && git status && cd ../KonnektMP && git status && cd ../KonnektL && git status && cd ../KonnektRT && git status && cd ../KB && git status && cd ../K_Tasks && git status",
-    "postinstall": "npm i git+https://github.com/keleko34/gulp.git -g && node ./postinstall.js"
+    "postinstall": "node ./postinstall.js"
   },
   "maintainers": [
     {
@@ -57,16 +58,7 @@
   ],
   "directories": {},
   "dependencies": {
-    "commander": "^2.9.0",
-    "google-closure-compiler-js": "^20170409.0.0",
-    "gulp": "^3.9.1",
-    "gulp-append-prepend": "^1.0.3",
-    "gulp-clean": "^0.3.2",
-    "gulp-connect": "^5.0.0",
-    "gulp-prompt": "^0.1.2",
-    "gulp-rename": "^1.2.2",
-    "gulp-replace": "^0.5.4",
-    "konnektrt": "^0.2.0",
-    "open": "0.0.5"
+    "konnekt-streams": "^0.0.8",
+    "konnektrt": "^0.2.0"
   }
 }
