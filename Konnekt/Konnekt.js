@@ -831,6 +831,9 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         }
       }
       recSet(v,_config);
+      
+      _hashrouter.base((_config.base !== undefined ? _config.base : 'default'));
+      
       return Konnekt;
     };
     
@@ -1065,7 +1068,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         if(err)
         {
           checkBower_config(function(config,err){
-            if(err) console.error("The Konnekt local config was not found, this issue happens when You do not have Konnekt isntalled via the standard node_modules or bower_components module directories");
+            if(err) console.error("The Konnekt local config was not found, this issue happens when You do not have Konnekt installed via the standard node_modules or bower_components module directories");
             checkLocal_config(function(config,err){
               
               /* this is the finish of the chain */
