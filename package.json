@@ -58,7 +58,6 @@
   ],
   "directories": {},
   "dependencies": {
-    "konnekt-streams": "^0.0.8",
-    "konnektrt": "^0.2.0"
+    "konnekt-streams": "^0.1.0"
   }
 }
