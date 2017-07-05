@@ -5,5 +5,5 @@
 Konnekt.config({
     base:   'hello_world'
     
-  $helpers
+  
 });

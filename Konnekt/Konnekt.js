@@ -813,6 +813,8 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
     }
     
     Konnekt.config = function(v){
+      if(v === undefined) return _config;
+      
       function recSet(from,to)
       {
         for(var x=0,keys=Object.keys(from),len=keys.length;x<len;x++)
@@ -1063,8 +1065,8 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         if(err)
         {
           checkBower_config(function(config,err){
-            if(err) console.error("the Konnekt local config was not found, this issue happens when You do not have Konnekt isntalled via th standard node_modules or bower_components module directories");
-            checkLocal_config(function(cofig,err){
+            if(err) console.error("The Konnekt local config was not found, this issue happens when You do not have Konnekt isntalled via the standard node_modules or bower_components module directories");
+            checkLocal_config(function(config,err){
               
               /* this is the finish of the chain */
               _fetchedConfigs = true;
@@ -1074,7 +1076,7 @@ define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateDat
         }
         else
         {
-          checkLocal_config(function(cofig,err){
+          checkLocal_config(function(config,err){
             
             /* this is the finish of the chain */
             _fetchedConfigs = true;

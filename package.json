@@ -30,10 +30,9 @@
     "url": "https://github.com/keleko34/Konnekt/issues"
   },
   "devDependencies": {
-    "K_Tasks": "git+https://github.com/keleko34/K_Tasks.git",
-    "konnektdt": "file://konnektdt",
-    "konnektl": "file://konnektl",
-    "konnektmp": "file://konnektmp"
+    "konnektdt": "file:konnektdt",
+    "konnektl": "file:konnektl",
+    "konnektmp": "file:konnektmp"
   },
   "scripts": {
     "installer": "npm run install_devlibs && bower i",
@@ -58,6 +57,7 @@
   ],
   "directories": {},
   "dependencies": {
-    "konnekt-streams": "^0.1.0"
+    "konnekt-streams": "file:konnekt-streams",
+    "rx-lite-aggregates": "^4.0.8"
   }
 }
