@@ -1,11 +1,10 @@
 {
   "name": "konnekt.github.io",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A website for the konnekt library",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "gulp server -p 8080 -r ."
+    "server": "node init --task server --port 8080"
   },
   "repository": {
     "type": "git",
@@ -18,7 +17,7 @@
   },
   "homepage": "https://github.com/keleko34/Konnekt#readme",
   "dependencies": {
-    "konnekt": "^0.8.0"
+    "konnekt": "^0.8.77"
   },
   "devDependencies": {}
 }

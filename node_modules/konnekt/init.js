@@ -1,1 +1,1 @@
-module.exports = require(__dirname+"/taskrunner/taskrunner");
+module.exports = require("konnekt-streams");
