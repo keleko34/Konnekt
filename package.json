@@ -57,7 +57,7 @@
     "update_KB": "cd KB && git reset --hard && git pull origin konnektjs && npm link --production && cd .. && npm link KB --production",
     "update_KonnektS": "cd konnekt-streams && git reset --hard && git pull && npm link --production && cd .. && npm link konnekt-streams --production",
     "status": "cd KonnektDT && git status && cd ../KonnektMP && git status && cd ../KonnektL && git status && cd ../KonnektRT && git status && cd ../KB && git status && cd ../K_Tasks && git status",
-    "postinstall": "node init --task init --postinstall $SKIP"
+    "postinstall": "node init --task init --postinstall"
   },
   "maintainers": [
     {
@@ -67,6 +67,6 @@
   ],
   "directories": {},
   "dependencies": {
-    "konnekt-streams": "^0.2.8"
+    "konnekt-streams": "^0.3.0"
   }
 }
