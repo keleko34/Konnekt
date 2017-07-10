@@ -24,7 +24,6 @@
 .slideoutnavmenu__bar {
   height:{{barheight}}px;
   width:{{barwidth}}px;
-  left:{{bar_left}}px;
   background: #1b1a1a;
   position: absolute;
   top: 60px;
