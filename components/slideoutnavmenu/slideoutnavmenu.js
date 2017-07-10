@@ -24,9 +24,8 @@ function slideoutnavmenu(node)
   this.barstart = 80;
   this.barend = 0;
   
-  this.menu.style.left = (this.menustart)+'px';
-  
-  this.bar.style.left = (this.barstart)+'px';
+  this.menu_left = this.menustart;
+  this.bar_left = this.barstart;
   
   this.touch = function(isOpen)
   {
@@ -48,75 +47,70 @@ function slideoutnavmenu(node)
 slideoutnavmenu.prototype.animate = function(dir)
 {
   var self = this,
-      start = parseInt(this.menu.style.left),
-      startBar = parseInt(this.bar.style.left),
       finish = (dir ? this.menuend : this.menustart),
       finishBar = (dir ? this.barend : this.barstart),
       barFinished = false,
-      menu = this.menu,
-      bar = this.bar,
       speed = 13;
   
   function animate(dir)
   {
-     var leftMenu = parseInt(menu.style.left),
-         leftBar = parseInt(bar.style.left),
-         finished = false;
+    if(self.timer)
+    {
+      clearTimeout(self.timer);
+      self.timer = null;
+    }
+    var finished = false;
     if(dir)
     {
       if(barFinished)
       {
-        if(leftMenu + (-speed) > finish)
+        if(self.menu_left + (-speed) > finish)
         {
-          leftMenu += (-speed);
+          self.menu_left += (-speed);
         }
         else
         {
-          leftMenu = finish;
+          self.menu_left = finish;
           finished = true;
         }
       }
-      if(leftBar + (-speed) > finishBar)
+      if(self.bar_left + (-speed) > finishBar)
       {
-        leftBar += (-speed);
+        self.bar_left  += (-speed);
       }
       else
       {
-        leftBar = finishBar;
+        self.bar_left  = finishBar;
         barFinished = true;
       }
-      menu.style.left = leftMenu+'px';
-      bar.style.left = leftBar+'px';
       if(!finished) self.timer = setTimeout(function(){
         animate(dir);
       },10)
     }
     else
     {
-      if(leftMenu + (speed) < finish)
+      if(self.menu_left + (speed) < finish)
       {
-        leftMenu += (speed);
+        self.menu_left += (speed);
       }
       else
       {
-        leftMenu = finish;
+        self.menu_left = finish;
         finished = true;
       }
       
       if(finished)
       {
-        if(leftBar + (speed) < finishBar)
+        if(self.bar_left + (speed) < finishBar)
         {
-          leftBar += (speed);
+          self.bar_left += (speed);
         }
         else
         {
-          leftBar = finishBar;
+          self.bar_left = finishBar;
           barFinished = true;
         }
       }
-      menu.style.left = leftMenu+'px';
-      bar.style.left = leftBar+'px';
       if(!barFinished) self.timer = setTimeout(function(){
         animate(dir);
       },10)
