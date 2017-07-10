@@ -15,7 +15,7 @@
    
    KonnektRTF
    :handles frontend routing system and backend file routing if specified*/
-define(['KonnektDT','KonnektL','kb','KonnektMP','KonnektRTF'],function(CreateData,CreateLoader,kb,CreateMapping,CreateHashRouting){
+define(['KonnektDT','KonnektL','KB','KonnektMP','KonnektRTF'],function(CreateData,CreateLoader,kb,CreateMapping,CreateHashRouting){
 
   function CreateKonnekt(config)
   {
