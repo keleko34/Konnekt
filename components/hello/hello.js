@@ -7,6 +7,8 @@
 function hello()
 {
   /* ATTRIBUTES */
+  this.coolbeans = 'class';
+  this.something = 'hello-class';
 
 }
 
