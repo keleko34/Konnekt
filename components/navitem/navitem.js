@@ -33,6 +33,10 @@ function navitem()
     self.alert('navitem',self.title);
     self.activated(self.title,self.link);
   }
+  
+  this.onFinish = function(){
+    this.active = (location.hash.replace('#','') === this.link);
+  }
 }
 
 /* PROTOTYPES */
