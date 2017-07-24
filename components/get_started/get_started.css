@@ -5,5 +5,56 @@
  ********************************/
 
 .get_started {
+  font-family: 'open sans';
+}
 
+.get_started__title {
+  text-align: center;
+  font-weight: 600;
+  color: #87cefa;
+  padding: 15px 0px;
+  font-size: 36px;
+}
+
+.get_started__types {
+  text-align: left;
+}
+
+.desktop .get_started__types {
+  width: 800px;
+  margin: 0 auto;
+}
+
+.get_started__types__text {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 30px;
+}
+
+.get_started__types__text a.cli, get_started__types__text a.cli:active {
+  color:#84a2ea;
+  text-decoration: none;
+}
+
+.get_started__types__text a.lib, get_started__types__text a.lib:active {
+  color:#bc68d6;
+  text-decoration: none;
+}
+
+.get_started__steps {
+  width: 800px;
+  margin: 0 auto;
+}
+
+.get_started__step_number {
+  font-family: 'wolf_in_the_cityregular';
+  color: #87cefa;
+  font-size:76px;
+}
+
+.get_started__step_text {
+  font-weight: 300;
+  font-size: 16px;
+  margin-top: -10px;
+  margin-bottom: 20px;
 }

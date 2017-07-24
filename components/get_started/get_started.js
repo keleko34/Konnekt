@@ -7,7 +7,7 @@
 function get_started()
 {
   /* ATTRIBUTES */
-
+  this.step_1 = "npm install --global konnekt-cli";
 }
 
 /* PROTOTYPES */
