@@ -112,9 +112,10 @@
 }
 
 .desktop .intro__content__list, .tablet .intro__content__list {
-  font-size: 14px;
+  font-size: 18px;
   margin-top: 20px;
-  font-weight: 600;
+  font-weight: 300;
+  line-height: 30px;
   color: #888;
 }
 
@@ -278,54 +279,45 @@
 /* intro uses */
 .intro__uses__container {
   margin:0 auto;
-  padding-top:20px;
+  padding-top:28px;
+  clear:both;
 }
 
 .desktop .intro__uses__container {
-  width:640px;
+  width:720px;
 }
 
 .mobile .intro__uses__container {
   width:300px;
 }
 
-.intro__uses__title {
+.desktop .intro__uses__item {
+  float:left;
+  margin-left:50px;
+}
+
+.desktop .intro__uses__image {
+  width: 80px;
+  float: left;
+  margin: 10px 20px;
+}
+
+.desktop .intro__uses__text {
   color: #F1F1F1;
+  font-size: 20px;
+  float: left;
+  margin-top: 18px;
+  width: 60px;
+  font-weight: 300;
   font-family: 'open sans';
-  margin-bottom: 20px;
+}
+
+.desktop .intro__uses__text span {
   font-weight: 500;
+  font-size: 16px;
 }
 
-.desktop .intro__uses__title {
-  font-size: 18px;
-}
-
-.mobile .intro__uses__title {
-  font-size: 28px;
-  text-align: center;
-}
-
-.mobile .intro__uses__logos {
-  width: 200px;
-  margin: 0 auto;
-}
-
-.intro__uses__logo__nodejs {
-  width:200px;
-}
-
-.desktop .intro__uses__logo__nodejs {
-  margin-right: 40px;
-}
-
-.mobile .intro__uses__logo__nodejs {
-  margin-bottom: 30px;
-}
-
-.intro__uses__logo__npm {
-  width:100px;
-}
-
-.mobile .intro__uses__logo__npm {
-  margin-left:50px; 
+.desktop .intro__uses__text a,.desktop .intro__uses__text a:active {
+  color:#F1F1F1;
+  text-decoration: none;
 }
