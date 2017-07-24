@@ -120,15 +120,11 @@
 }
 
 .mobile .intro__content__list {
-  font-size: 16px;
-  font-weight: 400;
+  font-size: 26px;
+  font-weight: 300;
   margin-top: 30px;
-  width: 170px;
+  width: 200px;
   height: 170px;
-  text-align: left;
-  border-left: 1px solid #444;
-  border-right: 1px solid #444;
-  padding-left: 30px;
   position: absolute;
   left: 50%;
   margin-left: -100px;
@@ -256,7 +252,7 @@
 }
 
 .mobile .intro__uses {
-  height: 240px;
+  height: 350px;
 }
 
 .intro__platform {
@@ -271,7 +267,7 @@
 }
 
 .mobile .intro__platform {
-  top: 844px;
+  top: 953px;
   height:900px;
 }
 
@@ -288,21 +284,21 @@
 }
 
 .mobile .intro__uses__container {
-  width:300px;
+  width:350px;
 }
 
-.desktop .intro__uses__item {
+.intro__uses__item {
   float:left;
   margin-left:50px;
 }
 
-.desktop .intro__uses__image {
+.intro__uses__image {
   width: 80px;
   float: left;
   margin: 10px 20px;
 }
 
-.desktop .intro__uses__text {
+.intro__uses__text {
   color: #F1F1F1;
   font-size: 20px;
   float: left;
@@ -312,12 +308,12 @@
   font-family: 'open sans';
 }
 
-.desktop .intro__uses__text span {
+.intro__uses__text span {
   font-weight: 500;
   font-size: 16px;
 }
 
-.desktop .intro__uses__text a,.desktop .intro__uses__text a:active {
+.intro__uses__text a,.desktop .intro__uses__text a:active {
   color:#F1F1F1;
   text-decoration: none;
 }
