@@ -7,7 +7,9 @@
 function get_started()
 {
   /* ATTRIBUTES */
-  this.step_1 = "npm install --global konnekt-cli";
+  this.step_6 = "<div>{{text}}</div>";
+  this.step_7 = "this.text = 'default';";
+  this.step_8 = '<nameofcomponent text="new text"></nameofcomponent>';
 }
 
 /* PROTOTYPES */

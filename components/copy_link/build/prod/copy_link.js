@@ -35,6 +35,6 @@ function copy_link()
 /* PROTOTYPES */
 
 copy_link.prototype.k_html = "<!-- copy_link Created by keleko34, to copy a set of text --><div class='copy_link' onclick='{{click}}'>  <div class='copy_link__content'>{{title}}</div></div>";
-copy_link.prototype.k_css = "/********************************* *  copy_link *  Created by keleko34 *  to copy a set of text ********************************/.copy_link {  width: 75px;  text-align: center;  background: #79b7de;  height: 35px;  border-radius: 5px;  cursor: pointer;  box-shadow: 0px 3px 10px -5px #828282;  border: 1px solid #bababa;}.copy_link:active {  box-shadow: 0px 3px 11px -4px #828282 inset;  border: 1px solid #bababa;}.copy_link__content {  color: #F1F1F1;  line-height: 35px;}";
+copy_link.prototype.k_css = "/********************************* *  copy_link *  Created by keleko34 *  to copy a set of text ********************************/.copy_link {  text-align: center;  background: #79b7de;    border-radius: 5px;  cursor: pointer;  box-shadow: 0px 3px 10px -5px #828282;  border: 1px solid #bababa;}.desktop .copy_link {  width: 75px;  font-size:16px;  height: 35px;}.mobile .copy_link {  width: 100px;  font-size:22px;  height: 43px;}.copy_link:active {  box-shadow: 0px 3px 11px -4px #828282 inset;  border: 1px solid #bababa;}.copy_link__content {  color: #F1F1F1;}.desktop .copy_link__content {  line-height: 35px;}.mobile .copy_link__content {  line-height: 43px;}";
 	return copy_link;
 }());

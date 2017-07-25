@@ -6,6 +6,7 @@
 
 .get_started {
   font-family: 'open sans';
+  padding-bottom: 20px;
 }
 
 .get_started__title {
@@ -36,7 +37,7 @@
 }
 
 .desktop .get_started__types__text {
-  font-size: 14px;
+  font-size: 18px;
 }
 
 .mobile .get_started__types__text {
@@ -54,6 +55,10 @@
   text-decoration: none;
 }
 
+.get_started__steps {
+  margin-top: -40px;
+}
+
 .desktop .get_started__steps {
   width: 800px;
   margin: 0 auto;
@@ -61,6 +66,10 @@
 
 .mobile .get_started__steps {
   padding: 0px 20px;
+}
+
+.get_started__step {
+  margin-top:20px;
 }
 
 .get_started__step_number {
@@ -71,15 +80,29 @@
 
 .get_started__step_text {
   font-weight: 300;
-  font-size: 16px;
   margin-top: -10px;
   margin-bottom: 20px;
 }
 
+.desktop .get_started__step_text {
+  font-size: 16px;
+}
+
+.mobile .get_started__step_text {
+  font-size: 22px;
+}
+
 .desktop .get_started__step_code {
-  width:400px;
+  width:350px;
 }
 
 .mobile .get_started__step_code {
   width:100%;
+}
+
+.get_stated__end {
+  font-size:18px;
+  font-weight: 500;
+  margin: 30px 0px;
+  color: #3a3a3a;
 }

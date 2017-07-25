@@ -18,6 +18,7 @@
   font-size: 14px;
   font-family: 'open sans';
   margin:10px;
+  padding-right: 110px;
 }
 
 .ide_code__code {
@@ -29,10 +30,22 @@
   user-select: text;
 }
 
+.mobile .ide_code__code {
+  font-size:22px;
+}
+
 .ide_code__link {
   position: absolute;
   right: 14px;
-  top: 14px;
+  top: 50%;
+}
+
+.desktop .ide_code__link {
+  margin-top: -18px;
+}
+
+.mobile .ide_code__link {
+  margin-top: -23px;
 }
 
 .ide_code--dark .ide_code__outer {

@@ -1,10 +1,10 @@
 /*********************************
- *  ide_code_line_cms
+ *  app_footer_cms
  *  Created by keleko34
- *  shows a line on the ide code component
+ *  to show footer content on the app
  ********************************/
 
-function ide_code_line()
+function app_footer()
 {
   /* ATTRIBUTES */
 
