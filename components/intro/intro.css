@@ -5,12 +5,12 @@
  ********************************/
 
 .intro {
-  overflow-x:hidden;
-  overflow-y:auto;
   height:{{height}}px;
   width:100%;
   background:#1D1F21;
   position: relative;
+  overflow-y:auto;
+  background:#121212;
 }
 
 .intro .logo {
@@ -263,10 +263,12 @@
 
 .desktop .intro__platform {
   top: 764px;
+  height: 2200px;
 }
 
 .mobile .intro__platform {
   top: 953px;
+  height: 3350px;
 }
 
 
@@ -314,4 +316,16 @@
 .intro__uses__text a,.desktop .intro__uses__text a:active {
   color:#F1F1F1;
   text-decoration: none;
+}
+.intro__footer {
+  position: absolute;
+  width:100%;
+}
+
+.desktop .intro__footer {
+  top: 2960px;
+}
+
+.mobile .intro__footer {
+  top: 4300px;
 }

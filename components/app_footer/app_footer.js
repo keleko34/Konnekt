@@ -7,7 +7,6 @@
 function app_footer()
 {
   /* ATTRIBUTES */
-
 }
 
 /* PROTOTYPES */

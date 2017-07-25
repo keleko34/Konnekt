@@ -1,6 +1,6 @@
-if(!K_Components) K_Components = {};
+if(typeof window.K_Components === 'undefined') window.K_Components = {};
 K_Components["webapp"] = (function(){
-/*********************************
+	/*********************************
  *  webapp
  *  Created by keleko34
  *  The main entry point for the konnekt web app
@@ -52,6 +52,6 @@ webapp.prototype.getNav = function()
   }
 }
 webapp.prototype.k_html = "<!-- webapp Created by keleko34, The main entry point for the konnekt web app --><div class='webapp'>  <{{nav}}></{{nav}}>  <div class='webapp__content'>    <{{page}} offsettop='62'></{{page}}>  </div></div>";
-webapp.prototype.k_css = "/********************************* *  webapp *  Created by keleko34 *  The main entry point for the konnekt web app ********************************/.webapp {}";
-return webapp;
+webapp.prototype.k_css = "/********************************* *  webapp *  Created by keleko34 *  The main entry point for the konnekt web app ********************************/.webapp {  }.webapp__footer {}";
+	return webapp;
 }());

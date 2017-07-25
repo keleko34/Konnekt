@@ -28,7 +28,7 @@ function intro(node)
   
   this.gotoInfo = function(e)
   {
-    var offset = (self.intro.scrollHeight - self.infosection.clientHeight),
+    var offset = (self.infosection.getBoundingClientRect().top - 50),
         currentScroll = self.intro.scrollTop,
         startAnim = 20,
         currAnim = startAnim,
