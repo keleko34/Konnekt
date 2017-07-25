@@ -1,14 +1,13 @@
 /*********************************
- *  link
+ *  copy_link_cms
  *  Created by keleko34
- *  a link to an action
+ *  to copy a set of text
  ********************************/
 
-function link()
+function copy_link()
 {
   /* ATTRIBUTES */
-  this.click = function(){};
-  this.title = "";
+
 }
 
 /* PROTOTYPES */

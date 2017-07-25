@@ -6,6 +6,7 @@
 
 .ide_code {
   width:100%;
+  position: relative;
 }
 
 .ide_code__outer {
@@ -20,7 +21,18 @@
 }
 
 .ide_code__code {
-  
+  -webkit-touch-callout: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+.ide_code__link {
+  position: absolute;
+  right: 14px;
+  top: 14px;
 }
 
 .ide_code--dark .ide_code__outer {
@@ -31,6 +43,7 @@
 
 .ide_code--dark .ide_code__inner {
   color: #888;
+  background: #1d1f21;
 }
 
 .ide_code--dark .ide_code__code {
@@ -38,13 +51,16 @@
 }
 
 .ide_code--light .ide_code__outer {
-  
+  background: #bdbdbd;
+  box-shadow: 0px 0px 8px 0px #a9a8a8 inset;
+  border: 1px solid #a9a8a8;
 }
 
 .ide_code--light .ide_code__inner {
-  
+  color: #888;
+  background: #e4e4e4;
 }
 
 .ide_code--light .ide_code__code {
-  
+  color: #5a5858;
 }

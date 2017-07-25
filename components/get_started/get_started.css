@@ -25,10 +25,23 @@
   margin: 0 auto;
 }
 
+.mobile .get_started__types {
+  padding:10px 20px;
+}
+
 .get_started__types__text {
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 30px;
+}
+
+.desktop .get_started__types__text {
+  font-size: 14px;
+}
+
+.mobile .get_started__types__text {
+  font-size: 20px;
+  font-style: italic;
 }
 
 .get_started__types__text a.cli, get_started__types__text a.cli:active {
@@ -41,9 +54,13 @@
   text-decoration: none;
 }
 
-.get_started__steps {
+.desktop .get_started__steps {
   width: 800px;
   margin: 0 auto;
+}
+
+.mobile .get_started__steps {
+  padding: 0px 20px;
 }
 
 .get_started__step_number {
@@ -57,4 +74,12 @@
   font-size: 16px;
   margin-top: -10px;
   margin-bottom: 20px;
+}
+
+.desktop .get_started__step_code {
+  width:400px;
+}
+
+.mobile .get_started__step_code {
+  width:100%;
 }
